@@ -439,7 +439,17 @@
     var WarDriverComponent = /** @class */ (function () {
         function WarDriverComponent(API) {
             this.API = API;
+            this.apiResponse = 'Unfulfilled Response';
         }
+        WarDriverComponent.prototype.sbaPyModule = function () {
+            var _this = this;
+            this.API.request({
+                module: 'wardriver',
+                action: 'hello_world',
+            }, function (response) {
+                _this.apiResponse = response;
+            });
+        };
         WarDriverComponent.prototype.setToAggro = function () {
             var settingsMap = new Map();
             settingsMap.set('mode', 'advanced');
@@ -475,7 +485,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Welcome to wardriver</mat-card-title>\n    <mat-card-content>\n        <button mat-flat-button color=\"accent\" (click)=\"setToAggro();\">Change Setings to Aggro</button>\n        <br/><span>API Version is: </span><br/>\n    </mat-card-content>\n</mat-card>\n",
+                template: "<mat-card>\n    <mat-card-title>Welcome to wardriver</mat-card-title>\n    <mat-card-content>\n        <button mat-flat-button color=\"accent\" (click)=\"setToAggro();\">console.log</button>\n        <br/><span><button mat-flat-button color=\"accent\" (click)=\"sbaPyModule();\">python backend</button></span><br/>\n    </mat-card-content>\n</mat-card>\n",
                 styles: [""]
             })
         ], WarDriverComponent);

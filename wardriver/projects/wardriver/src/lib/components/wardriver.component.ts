@@ -11,6 +11,16 @@ import { ApiService } from '../services/api.service';
 
 export class WarDriverComponent implements OnInit { 
     constructor(private API: ApiService) { }
+    apiResponse = 'Unfulfilled Response';
+    sbaPyModule(): void {
+        this.API.request({
+            module: 'wardriver',
+            action: 'hello_world',
+        }, (response) => {
+            this.apiResponse = response;
+        })
+    }
+    
     setToAggro(): void {
         let settingsMap = new Map<string,string | Map<string, string | boolean>>();
         settingsMap.set('mode','advanced');
