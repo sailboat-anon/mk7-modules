@@ -4,7 +4,7 @@ import logging
 
 from pineapple.modules import Module, Request
 
-module = Module('wardriver', logging.DEBUG)
+module = Module('custom_module', logging.DEBUG)
 
 @module.handles_action('hello_world')
 def hello_world(request: Request):
