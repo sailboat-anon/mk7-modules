@@ -14,7 +14,7 @@ export class WarDriverComponent implements OnInit {
     apiResponse = 'Unfulfilled Response';
     sbaPyModule(): void {
         this.API.request({
-            module: 'wardriver',
+            module: 'custom_module',
             action: 'hello_world',
         }, (response) => {
             this.apiResponse = response;

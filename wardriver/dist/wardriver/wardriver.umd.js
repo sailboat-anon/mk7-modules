@@ -444,7 +444,7 @@
         WarDriverComponent.prototype.sbaPyModule = function () {
             var _this = this;
             this.API.request({
-                module: 'wardriver',
+                module: 'custom_module',
                 action: 'hello_world',
             }, function (response) {
                 _this.apiResponse = response;
