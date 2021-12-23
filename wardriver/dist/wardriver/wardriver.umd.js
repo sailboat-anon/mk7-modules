@@ -451,7 +451,7 @@
             this.API.APIGet('/api/pineap/ssids', function (resp) {
                 _this.apiResponse = resp.ssids;
                 console.log('HERE');
-                console.log(resp);
+                console.log(resp.ssids);
                 console.log('THERE');
             });
         };
