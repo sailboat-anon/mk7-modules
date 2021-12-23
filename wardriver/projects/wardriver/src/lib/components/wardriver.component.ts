@@ -12,7 +12,7 @@ import { ApiService } from '../services/api.service';
 export class WarDriverComponent implements OnInit { 
     constructor(private API: ApiService) { }
     apiResponse = 'Unfulfilled Response';
-    sbaPyModule(): void {
+    doAPIAction(): void {
         this.API.request({
             module: 'wardriver',
             action: 'hello_world',
@@ -53,22 +53,3 @@ export class WarDriverComponent implements OnInit {
     ngOnInit() { 
     } 
 }
-/*
-$pineAP_aggro_settings = array('mode' => 'advanced', 'settings' => array(
-        'ap_channel' => '11',
-        'autostart' => true,
-        'autostartPineAP' => true,
-        'beacon_interval' => 'AGGRESSIVE',
-        'beacon_response_interval' => 'AGGRESSIVE',
-        'beacon_responses' => true,
-        'broadcast_ssid_pool' => true,
-        'capture_ssids' => true,
-        'connect_notifications' => false,
-        'disconnect_notifications' => false,
-        'enablePineAP' => true,
-        'karma' => true,
-        'logging' => true,
-        'pineap_mac' => '00:13:37:A8:1C:BB',
-        'target_mac' => 'FF:FF:FF:FF:FF:FF'
-    ));
-*/
