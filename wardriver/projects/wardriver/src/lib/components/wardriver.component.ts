@@ -13,16 +13,14 @@ export class WarDriverComponent implements OnInit {
     ap_channel = '11';
     autostart = true;
     autostartPineAP = true;
-    public apiResponse = 'Unfulfilled Response';
+    apiResponse = 'Unfulfilled Response';
     // targetBSSID
     // GET /api/pineap/ssids
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp.ssids;
-            console.log('HERE');
             console.log(resp.ssids);
-            console.log('THERE');
         });
     }
     doAPIAction(): void {
