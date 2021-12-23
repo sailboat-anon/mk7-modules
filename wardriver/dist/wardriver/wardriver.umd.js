@@ -488,7 +488,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card> \n    <mat-card-title>Welcome to MyModule</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\"\n            (click)=\"doAPIAction();\"> \n        Request to Module \n        </button> \n        <br/> \n        <span>The API response was: </span> \n        <br/> \n    </mat-card-content> \n</mat-card>",
+                template: "<mat-card> \n    <mat-card-title>Welcome to MyModule</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\"\n            (click)=\"doAPIAction();\"> \n        Request to Module \n        </button> \n        <br/> \n        <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);
