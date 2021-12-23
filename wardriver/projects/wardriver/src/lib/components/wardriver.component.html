@@ -2,7 +2,7 @@
 <mat-card>
     <mat-card-title>Target SSID(s)</mat-card-title> 
     <mat-card-content> 
-            <textarea ng-model="apiResponse" (change)="populateTargetBSSIDs()"></textarea> 
+            <textarea ng-model="apiResponse" (NavigationStart)="populateTargetBSSIDs();"></textarea> 
     </mat-card-content> 
 </mat-card>
 <!--</div>
