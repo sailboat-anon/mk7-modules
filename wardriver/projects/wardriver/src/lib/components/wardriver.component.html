@@ -1,7 +1,19 @@
-<mat-card> 
-    <mat-card-title>War Driver</mat-card-title> 
+<mat-card>
+    <mat-card-title>Target SSID(s)</mat-card-title> 
     <mat-card-content> 
-            <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> 
+        <mat-form-field> 
+            <textarea [(ngModel)]="populateTargetBSSIDs"></textarea>
+        </mat-form-field> 
+        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> 
+    </mat-card-content> 
+</mat-card>
+<mat-card>
+    <mat-card-title>PyMod Test</mat-card-title> 
+    <mat-card-content> 
+        <mat-form-field> 
+            <mat-label>Message to send to Module</mat-label> 
+        </mat-form-field> 
+        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> 
     </mat-card-content> 
 </mat-card>
 <mat-card> 

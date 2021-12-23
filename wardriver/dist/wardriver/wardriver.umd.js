@@ -444,6 +444,13 @@
             this.autostartPineAP = true;
             this.apiResponse = 'Unfulfilled Response';
         }
+        // targetBSSID
+        // GET /api/pineap/ssids
+        WarDriverComponent.prototype.populateTargetBSSIDs = function () {
+            this.API.APIGet('/api/pineap/ssids', function (resp) {
+                return resp;
+            });
+        };
         WarDriverComponent.prototype.doAPIAction = function () {
             var _this = this;
             this.API.request({
@@ -491,7 +498,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card> \n    <mat-card-title>War Driver</mat-card-title> \n    <mat-card-content> \n            <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <textarea [(ngModel)]=\"populateTargetBSSIDs\"></textarea>\n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>PyMod Test</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <mat-label>Message to send to Module</mat-label> \n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);
