@@ -450,7 +450,9 @@
             var _this = this;
             this.API.APIGet('/api/pineap/ssids', function (resp) {
                 _this.apiResponse = resp;
-                //console.log(resp);
+                console.log('HERE');
+                console.log(resp);
+                console.log('THERE');
             });
         };
         WarDriverComponent.prototype.doAPIAction = function () {

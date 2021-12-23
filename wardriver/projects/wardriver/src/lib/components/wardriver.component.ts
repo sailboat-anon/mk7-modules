@@ -1,6 +1,4 @@
 import { Component, OnInit, NgModule } from '@angular/core'; 
-import { MatOptgroup } from '@angular/material/core';
-import { stringify } from 'querystring';
 import { ApiService } from '../services/api.service'; 
  
 @Component({ 
@@ -15,14 +13,16 @@ export class WarDriverComponent implements OnInit {
     ap_channel = '11';
     autostart = true;
     autostartPineAP = true;
-    public apiResponse = 'Unfulfilled Response';
+    apiResponse = 'Unfulfilled Response';
     // targetBSSID
     // GET /api/pineap/ssids
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp;
-            //console.log(resp);
+            console.log('HERE');
+            console.log(resp);
+            console.log('THERE');
         });
     }
     doAPIAction(): void {
