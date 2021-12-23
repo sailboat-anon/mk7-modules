@@ -10,7 +10,12 @@ import { ApiService } from '../services/api.service';
 }) 
 
 export class WarDriverComponent implements OnInit { 
-    constructor(private API: ApiService) { }
+    constructor(private API: ApiService) { 
+    }
+    ap_channel = '11';
+    autostart = true;
+    autostartPineAP = true;
+
     apiResponse = 'Unfulfilled Response';
     doAPIAction(): void {
         this.API.request({
