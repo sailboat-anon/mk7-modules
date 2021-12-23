@@ -485,7 +485,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Welcome to wardriver</mat-card-title>\n    <mat-card-content>\n        <button mat-flat-button color=\"accent\" (click)=\"setToAggro();\">console.log</button>\n    </mat-card-content>\n    <mat-card-content>\n        <br/><span><button mat-flat-button color=\"accent\" (click)=\"sbaPyModule();\">python backend</button></span><br/>\n    </mat-card-content>\n</mat-card>\n",
+                template: "<mat-card>\n    <mat-card-title>Welcome to wardriver</mat-card-title>\n    <mat-card-content>\n       <!-- <button mat-flat-button color=\"accent\" (click)=\"setToAggro();\">console.log</button> -->\n        <button mat-flat-button color=\"accent\" (click)=\"sbaPyModule();\">python backend</button>\n        <br/><span>API Response: </span><br/>\n    </mat-card-content>\n</mat-card>\n",
                 styles: [""]
             })
         ], WarDriverComponent);
