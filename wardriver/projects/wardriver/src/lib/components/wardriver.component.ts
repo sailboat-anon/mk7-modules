@@ -21,7 +21,8 @@ export class WarDriverComponent implements OnInit {
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
-            this.apiResponse = resp;
+            //this.apiResponse = resp;
+            console.log(resp);
         });
     }
     doAPIAction(): void {

@@ -447,9 +447,9 @@
         // targetBSSID
         // GET /api/pineap/ssids
         WarDriverComponent.prototype.populateTargetBSSIDs = function () {
-            var _this = this;
             this.API.APIGet('/api/pineap/ssids', function (resp) {
-                _this.apiResponse = resp;
+                //this.apiResponse = resp;
+                console.log(resp);
             });
         };
         WarDriverComponent.prototype.doAPIAction = function () {
