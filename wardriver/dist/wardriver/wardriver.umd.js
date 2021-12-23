@@ -441,7 +441,7 @@
             this.API = API;
             this.apiResponse = 'Unfulfilled Response';
         }
-        WarDriverComponent.prototype.sbaPyModule = function () {
+        WarDriverComponent.prototype.doAPIAction = function () {
             var _this = this;
             this.API.request({
                 module: 'wardriver',
@@ -488,31 +488,12 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Welcome to wardriver</mat-card-title>\n    <mat-card-content>\n       <!-- <button mat-flat-button color=\"accent\" (click)=\"setToAggro();\">console.log</button> -->\n        <button mat-flat-button color=\"accent\" (click)=\"sbaPyModule();\">python backend</button>\n        <br/><span>API Response: </span><br/>\n    </mat-card-content>\n</mat-card>\n",
+                template: "<mat-card> \n    <mat-card-title>Welcome to MyModule</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\"\n            (click)=\"doAPIAction();\"> \n        Request to Module \n        </button> \n        <br/> \n        <span>The API response was: </span> \n        <br/> \n    </mat-card-content> \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);
         return WarDriverComponent;
     }());
-    /*
-    $pineAP_aggro_settings = array('mode' => 'advanced', 'settings' => array(
-            'ap_channel' => '11',
-            'autostart' => true,
-            'autostartPineAP' => true,
-            'beacon_interval' => 'AGGRESSIVE',
-            'beacon_response_interval' => 'AGGRESSIVE',
-            'beacon_responses' => true,
-            'broadcast_ssid_pool' => true,
-            'capture_ssids' => true,
-            'connect_notifications' => false,
-            'disconnect_notifications' => false,
-            'enablePineAP' => true,
-            'karma' => true,
-            'logging' => true,
-            'pineap_mac' => '00:13:37:A8:1C:BB',
-            'target_mac' => 'FF:FF:FF:FF:FF:FF'
-        ));
-    */
 
     /*
      * Copyright (c) 2018 Hak5 LLC.
