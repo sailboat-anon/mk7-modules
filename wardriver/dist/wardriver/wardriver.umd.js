@@ -450,10 +450,11 @@
                 _this.apiResponse = response;
             });
         };
-        WarDriverComponent.prototype.setToAggro = function () {
-            var settingsMap = new Map();
-            settingsMap.set('mode', 'advanced');
-            var settings = new Map([
+        /*
+        setToAggro(): void {
+            let settingsMap = new Map<string,string | Map<string, string | boolean>>();
+            settingsMap.set('mode','advanced');
+            let settings = new Map<string, string | boolean>([
                 ['ap_channel', '11'],
                 ['autostart', true],
                 ['autostartPineAP', true],
@@ -470,13 +471,15 @@
                 ['pineap_mac', '00:13:37:A8:1C:BB'],
                 ['target_mac', 'FF:FF:FF:FF:FF:FF']
             ]);
-            settingsMap.set('settings', settings);
-            /*this.API.APIGet('/api/status', (response) => {
-                this.apiResponse = response.versionString;
-            })
-            */
-            console.log(settingsMap);
-        };
+            settingsMap.set('settings', settings); */
+        /*this.API.APIGet('/api/status', (response) => {
+            this.apiResponse = response.versionString;
+        })
+        */
+        /*
+        console.log(settingsMap);
+     }
+    */
         WarDriverComponent.prototype.ngOnInit = function () {
         };
         WarDriverComponent.ctorParameters = function () { return [

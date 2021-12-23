@@ -20,7 +20,7 @@ export class WarDriverComponent implements OnInit {
             this.apiResponse = response;
         })
     }
-    
+    /*
     setToAggro(): void {
         let settingsMap = new Map<string,string | Map<string, string | boolean>>();
         settingsMap.set('mode','advanced');
@@ -41,14 +41,15 @@ export class WarDriverComponent implements OnInit {
             ['pineap_mac', '00:13:37:A8:1C:BB'],
             ['target_mac', 'FF:FF:FF:FF:FF:FF']
         ]);
-        settingsMap.set('settings', settings);
+        settingsMap.set('settings', settings); */
         /*this.API.APIGet('/api/status', (response) => { 
             this.apiResponse = response.versionString; 
         })
         */
+       /*
        console.log(settingsMap); 
     }
- 
+ */
     ngOnInit() { 
     } 
 }
