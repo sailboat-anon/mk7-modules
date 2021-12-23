@@ -20,7 +20,7 @@ export class WarDriverComponent implements OnInit {
     // GET /api/pineap/ssids
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
-            return resp;
+            this.apiResponse = resp;
         });
     }
     doAPIAction(): void {
