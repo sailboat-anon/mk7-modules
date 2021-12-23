@@ -449,7 +449,7 @@
         WarDriverComponent.prototype.populateTargetBSSIDs = function () {
             var _this = this;
             this.API.APIGet('/api/pineap/ssids', function (resp) {
-                _this.apiResponse = resp;
+                _this.apiResponse = resp.ssids;
                 console.log('HERE');
                 console.log(resp);
                 console.log('THERE');
