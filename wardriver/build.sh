@@ -36,7 +36,8 @@ build_module() {
     RET=$?
 
     if [[ $RET -ne 0 ]]; then
-        echo "[!] Angular Build Failed: Run 'ng build --prod' to figure out why."
+        echo "[!] Angular Build Failed: Running 'ng build --prod' to figure out why."
+        exec ng build --prod
         exit 1
     else
         echo "[*] Angular Build Succeeded"
