@@ -23,6 +23,7 @@ export class WarDriverComponent implements OnInit {
             console.log(resp.ssids);
         });
     }
+
     doAPIAction(): void {
         this.API.request({
             module: 'wardriver',

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 
 
-import logging, datetime, random
+import logging
 
 from pineapple.modules import Module, Request
 
