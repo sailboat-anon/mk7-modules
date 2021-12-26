@@ -1,5 +1,5 @@
 #!/usr/bin/env python3 
-# status functionality:  create python backend API->writes to /tmp/.292->async refresh (5) /tmp/.292->cleanup: write to history file after;  STORE AS NSDSON!!
+# status functionality:  create python backend API->writes to /tmp/.292->async refresh (5) /tmp/.292->cleanup: write to history file after;  store as NDJSON
 # when reloading history, can use JSON to populate widgets (how many APs?  which APs?  which clients? etc)
 
 #create an engine that can parse through /tmp/.292 and collect the details after-the-fact
@@ -27,7 +27,7 @@ def parse_json_file_to_status_window(file_name) :
             json_line = json.loads(line)
             print(f"objid: {json_line['objid']} datetime: {json_line['datetime_start']} msg: {json_line['msg']}")
             print(json_line)
-            
+
 def status_window_setup():
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
     file_name = 'wd-scan-' + right_now + '.ndjson'
