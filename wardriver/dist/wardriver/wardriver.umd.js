@@ -459,21 +459,19 @@
             });
             return this.statusFileName;
         };
-        WarDriverComponent.prototype.get_status_file = function (file_name) {
+        WarDriverComponent.prototype.get_status_file = function () {
             this.API.request({
                 module: 'wardriver',
                 action: 'get_status_file',
-                file_name: file_name
+                file_name: this.statusFileName,
             }, function (resp) {
                 var json_file = resp;
                 console.log(json_file);
             });
         };
-        // get JSON file
-        // print to console
-        // turn into interface
         WarDriverComponent.prototype.get_status = function () {
-            this.get_status_file(this.get_status_file_name());
+            this.get_status_file_name();
+            this.get_status_file();
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
