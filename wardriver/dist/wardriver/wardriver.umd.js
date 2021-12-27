@@ -459,31 +459,21 @@
             });
             return this.statusFileName;
         };
-        WarDriverComponent.prototype.get_status_file = function () {
+        WarDriverComponent.prototype.get_status_file = function (file_name) {
             this.API.request({
                 module: 'wardriver',
                 action: 'get_status_file',
+                file_name: file_name
             }, function (resp) {
-                console.log(resp);
+                var json_file = resp;
+                console.log(json_file);
             });
         };
+        // get JSON file
+        // print to console
+        // turn into interface
         WarDriverComponent.prototype.get_status = function () {
-            this.get_status_file_name();
-            this.get_status_file();
-            //fp.readAsText(this.statusFileName);
-            //this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
-            //this.fp.readAsText(statusFileName);
-            //let json_root_obj: RootObject[] = fp as RootObject[];
-            //console.log(json_root_obj);
-        };
-        WarDriverComponent.prototype.doAPIAction = function () {
-            var _this = this;
-            this.API.request({
-                module: 'wardriver',
-                action: 'hello_world',
-            }, function (response) {
-                _this.apiResponse = response;
-            });
+            this.get_status_file(this.get_status_file_name());
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();

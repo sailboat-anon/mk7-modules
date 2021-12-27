@@ -13,6 +13,8 @@ def get_status_file(file_name):
     except:
         print(f">Could not open/read {f}")
         return -1
+    return f.loads(file_name) # send the whole JSON object
+
 
 @module.handles_action('status_window_setup')
 def status_window_setup():

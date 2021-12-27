@@ -30,34 +30,23 @@ export class WarDriverComponent implements OnInit {
         return this.statusFileName;
     }
 
-    get_status_file(): any {
+    get_status_file(file_name: string): any {
         this.API.request({
             module: 'wardriver',
             action: 'get_status_file',
+            file_name: file_name
         }, (resp) => {
-            console.log(resp);
+            let json_file: RootObject[] = resp;
+            console.log(json_file);
         })
     }
-
+// get JSON file
+// print to console
+// turn into interface
     get_status(): void {
-        this.get_status_file_name();
-        this.get_status_file();
-        //fp.readAsText(this.statusFileName);
-        //this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
-        //this.fp.readAsText(statusFileName);
-        //let json_root_obj: RootObject[] = fp as RootObject[];
-        //console.log(json_root_obj);
+        this.get_status_file(this.get_status_file_name());
     }
 
-    doAPIAction(): void {
-        this.API.request({
-            module: 'wardriver',
-            action: 'hello_world',
-        }, (response) => {
-            this.apiResponse = response;
-        })
-    } 
-    
     ngOnInit() { 
         this.populateTargetBSSIDs();
         this.get_status();
