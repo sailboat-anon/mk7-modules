@@ -33,11 +33,12 @@ export class WarDriverComponent implements OnInit {
     get_status_file(statusFileName: string): any {
         this.API.request({
             module: 'wardriver',
-            action: 'get_status_file',
+            action: 'status_file',
             file_name: statusFileName,
         }, (resp) => {
             let json_file: RootObject[] = resp;
             console.log(json_file);
+            console.log(statusFileName);
         })
     }
 
