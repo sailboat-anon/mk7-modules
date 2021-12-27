@@ -54,10 +54,12 @@ def status_window_setup():
     else:
         print(f'>err {right_now}: a peculiar thing has happened.  the syncronicities have collided.  fix your ntp server.')
     f.close()
+    return file_name
     #parse_json_file_to_status_window(file_name, True)
-    print(">Status Header:")
-    print(get_status_header(file_name))
-    print(">Status Body:")
-    print(get_status_body(file_name))
 
-status_window_setup()
+
+file_name = status_window_setup()
+print(">Status Header:")
+print(get_status_header(file_name))
+print(">Status Body:")
+print(get_status_body(file_name))
