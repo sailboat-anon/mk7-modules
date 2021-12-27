@@ -30,11 +30,11 @@ export class WarDriverComponent implements OnInit {
         return this.statusFileName;
     }
 
-    get_status_file(): any {
+    get_status_file(statusFileName: string): any {
         this.API.request({
             module: 'wardriver',
             action: 'get_status_file',
-            file_name: this.statusFileName,
+            file_name: statusFileName,
         }, (resp) => {
             let json_file: RootObject[] = resp;
             console.log(json_file);
@@ -42,8 +42,8 @@ export class WarDriverComponent implements OnInit {
     }
 
     get_status(): void {
-        this.get_status_file_name();
-        this.get_status_file();
+        let statusFileName: string = this.get_status_file_name();
+        this.get_status_file(statusFileName);
     }
 
     ngOnInit() { 
