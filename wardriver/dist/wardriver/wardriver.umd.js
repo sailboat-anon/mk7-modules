@@ -459,12 +459,17 @@
             });
             return this.statusFileName;
         };
+        WarDriverComponent.prototype.get_status_file = function () {
+            this.API.request({
+                module: 'wardriver',
+                action: 'get_status_file',
+            }, function (resp) {
+                console.log(resp);
+            });
+        };
         WarDriverComponent.prototype.get_status = function () {
             this.get_status_file_name();
-            var fp = new FileReader();
-            fp.onload = function () {
-                console.log(fp.result);
-            };
+            this.get_status_file();
             //fp.readAsText(this.statusFileName);
             //this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
             //this.fp.readAsText(statusFileName);
@@ -490,7 +495,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n            <textarea readonly=\"true\">{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<!--</div>\n<mat-card>\n    <mat-card-title>PyMod Test</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <mat-label>Message to send to Module</mat-label> \n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>-->",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n            <textarea readonly=\"true\"></textarea> \n    </mat-card-content> \n</mat-card>\n<!--</div>\n<mat-card>\n    <mat-card-title>PyMod Test</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <mat-label>Message to send to Module</mat-label> \n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>-->",
                 styles: [""]
             })
         ], WarDriverComponent);

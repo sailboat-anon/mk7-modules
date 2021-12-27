@@ -1,20 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
-
-interface Header {
-    objid: string;
-    datetime: string;
-    msg: string;
-}
-interface Message {
-    type: string;
-    datetime: string;
-    msg: string;
-}
-interface RootObject {
-    header: Header;
-    messages: Message[];
-}
+import { RootObject, Header, Message } from '../interfaces/status_interface';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -44,12 +30,18 @@ export class WarDriverComponent implements OnInit {
         return this.statusFileName;
     }
 
+    get_status_file(): any {
+        this.API.request({
+            module: 'wardriver',
+            action: 'get_status_file',
+        }, (resp) => {
+            console.log(resp);
+        })
+    }
+
     get_status(): void {
         this.get_status_file_name();
-        let fp: FileReader = new FileReader();
-        fp.onload = () => {
-            console.log(fp.result);
-        };
+        this.get_status_file();
         //fp.readAsText(this.statusFileName);
         //this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
         //this.fp.readAsText(statusFileName);

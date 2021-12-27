@@ -6,38 +6,15 @@ from pineapple.modules import Module, Request
 
 module = Module('wardriver', logging.DEBUG)
 
-@module.handles_action('hello_world')
-def get_status_header(file_name):
-    try:
-        f = open(file_name, 'r')
-    except:
-        print(f">Could not open/read {f}")
-        return -1
-    for line in f:
-        return json.loads(line)
-
-def get_status_body(file_name):
-    try:
-        f = open(file_name, 'r')
-    except:
-        print(f">Could not open/read {f}")
-        return -1
-    firstline = 0
-    json_line = []
-    for line in f:
-        if firstline == 0:
-            firstline += 1
-        else:
-            json_line.append(json.loads(line))
-    return json_line
-
-def get_status(file_name):
+@module.handles_action('get_status_file')
+def get_status_file(file_name):
     try:
         f = open(file_name, 'r')
     except:
         print(f">Could not open/read {f}")
         return -1
 
+@module.handles_action('status_window_setup')
 def status_window_setup():
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
     file_name = 'wd-scan-' + right_now + '.json'
