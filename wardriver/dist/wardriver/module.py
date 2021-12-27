@@ -8,14 +8,6 @@ module = Module('wardriver', logging.DEBUG)
 
 @module.handles_action('get_status_file')
 def get_status_file(request: Request):
-    f = open(request.file_name, 'r')
-    data = f.read()
-    f.close()
-    json_data = json.loads(data)
-    return json_data  # send the whole JSON object
-
-@module.handles_action('status_window_setup')
-def status_window_setup(request: Request):
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
     file_name = 'wd-scan-' + right_now + '.json'
     file_already_exists = Path(file_name)
@@ -26,7 +18,12 @@ def status_window_setup(request: Request):
     else:
         print(f'>err {right_now}: a peculiar thing has happened.  the syncronicities have collided.  fix your ntp server.')
     f.close()
-    return file_name
+    
+    f = open(file_name, 'r')
+    data = f.read()
+    f.close()
+    json_data = json.loads(data)
+    return json_data  # send the whole JSON object
 
 if __name__ == '__main__': 
     module.start()
