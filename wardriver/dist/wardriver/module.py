@@ -8,11 +8,7 @@ module = Module('wardriver', logging.DEBUG)
 
 @module.handles_action('get_status_file')
 def get_status_file(request: Request):
-    try:
-        f = open(request.file_name, 'r')
-    except:
-        print(f">Could not open/read {f}")
-        return -1
+    f = open(request.file_name, 'r')
     data = f.read()
     f.close()
     json_data = json.loads(data)
