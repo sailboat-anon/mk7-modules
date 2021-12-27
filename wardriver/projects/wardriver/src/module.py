@@ -7,9 +7,9 @@ from pineapple.modules import Module, Request
 module = Module('wardriver', logging.DEBUG)
 
 @module.handles_action('get_status_file')
-def get_status_file(file_name):
+def get_status_file(request: Request):
     try:
-        f = open(file_name, 'r')
+        f = open(request.file_name, 'r')
     except:
         print(f">Could not open/read {f}")
         return -1
