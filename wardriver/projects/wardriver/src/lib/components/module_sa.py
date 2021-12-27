@@ -14,19 +14,30 @@
 import logging, datetime, random, json
 from pathlib import Path
 
-def parse_json_file_to_status_window(file_name) :
-    firstline = 0
+def get_status_header(file_name):
     try:
         f = open(file_name, 'r')
     except:
         print(f">Could not open/read {f}")
         return -1
     for line in f:
-        print(line)
+        return json.loads(line)
+
+def get_status_body(file_name):
+    try:
+        f = open(file_name, 'r')
+    except:
+        print(f">Could not open/read {f}")
+        return -1
+
+    firstline = 0
+    json_line = []
+    for line in f:
         if firstline == 0:
-            json_line = json.loads(line)
-            print(f"objid: {json_line['objid']} datetime: {json_line['datetime_start']} msg: {json_line['msg']}")
-            print(json_line)
+            firstline += 1
+        else:
+            json_line.append(json.loads(line))
+    return json_line
 
 def status_window_setup():
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
@@ -34,13 +45,19 @@ def status_window_setup():
     file_already_exists = Path(file_name)
     if not file_already_exists.is_file():
         f = open(file_name, 'a')
-        header = '{\"objid\": \"0001\", \"datetime_start\": \"' + right_now + '\", \"msg\": \"Welcome to Wardriver!\"}'
+        header = '{\"objid\": \"0001\", \"datetime\": \"' + right_now + '\", \"msg\": \"Welcome to Wardriver!\"}\n'
+        body1 = '{\"type\": \"STATUS\", \"datetime\": \"' + right_now + '\", \"msg\":\"Scanning BSSID EL:IT:EH:AC:KR\"}\n'
+        body2 = '{\"type\": \"WARN\", \"datetime\": \"' + right_now + '\", \"msg\":\"BSSID EL:IT:EH:AC:KR has no Associated Clients\"}\n'
         f.write(header)
+        f.write(body1)
+        f.write(body2)
     else:
         print(f'>err {right_now}: a peculiar thing has happened.  the syncronicities have collided.  fix your ntp server.')
     f.close()
-    parse_json_file_to_status_window(file_name)
-    return 'Hello, world!'
-
+    #parse_json_file_to_status_window(file_name, True)
+    print(">Status Header:")
+    print(get_status_header(file_name))
+    print(">Status Body:")
+    print(get_status_body(file_name))
 
 status_window_setup()
