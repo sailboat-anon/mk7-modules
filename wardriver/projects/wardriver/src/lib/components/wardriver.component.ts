@@ -23,7 +23,6 @@ interface RootObject {
 })
 
 export class WarDriverComponent implements OnInit { 
-    fs = require('fs');
     constructor(private API: ApiService) { }
     apiResponse = 'Unfulfilled Response';
     statusHeader: string = '';
@@ -47,9 +46,15 @@ export class WarDriverComponent implements OnInit {
 
     get_status(): void {
         this.get_status_file_name();
-        this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
-        let json_root_obj: RootObject[] = this.fs as RootObject[];
-        console.log(json_root_obj);
+        let fp: FileReader = new FileReader();
+        fp.onload = () => {
+            console.log(fp.result);
+        };
+        //fp.readAsText(this.statusFileName);
+        //this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
+        //this.fp.readAsText(statusFileName);
+        //let json_root_obj: RootObject[] = fp as RootObject[];
+        //console.log(json_root_obj);
     }
 
     doAPIAction(): void {

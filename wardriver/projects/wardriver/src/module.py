@@ -2,7 +2,11 @@
 
 import logging, datetime, random, json
 from pathlib import Path
+from pineapple.modules import Module, Request
 
+module = Module('wardriver', logging.DEBUG)
+
+@module.handles_action('hello_world')
 def get_status_header(file_name):
     try:
         f = open(file_name, 'r')
@@ -34,7 +38,6 @@ def get_status(file_name):
         print(f">Could not open/read {f}")
         return -1
 
-
 def status_window_setup():
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
     file_name = 'wd-scan-' + right_now + '.json'
@@ -48,8 +51,5 @@ def status_window_setup():
     f.close()
     return file_name
 
-#file_name = status_window_setup()
-#print(">Status Header:")
-#print(get_status_header(file_name))
-#print(">Status Body:")
-#print(get_status_body(file_name))
+if __name__ == '__main__': 
+    module.start()

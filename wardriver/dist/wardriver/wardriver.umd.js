@@ -439,19 +439,37 @@
     var WarDriverComponent = /** @class */ (function () {
         function WarDriverComponent(API) {
             this.API = API;
-            this.ap_channel = '11';
-            this.autostart = true;
-            this.autostartPineAP = true;
             this.apiResponse = 'Unfulfilled Response';
+            this.statusHeader = '';
+            this.statusFileName = '';
         }
-        // targetBSSID
-        // GET /api/pineap/ssids
         WarDriverComponent.prototype.populateTargetBSSIDs = function () {
             var _this = this;
             this.API.APIGet('/api/pineap/ssids', function (resp) {
                 _this.apiResponse = resp.ssids;
-                console.log(resp.ssids);
             });
+        };
+        WarDriverComponent.prototype.get_status_file_name = function () {
+            var _this = this;
+            this.API.request({
+                module: 'wardriver',
+                action: 'status_window_setup',
+            }, function (resp) {
+                _this.statusFileName = resp;
+            });
+            return this.statusFileName;
+        };
+        WarDriverComponent.prototype.get_status = function () {
+            this.get_status_file_name();
+            var fp = new FileReader();
+            fp.onload = function () {
+                console.log(fp.result);
+            };
+            //fp.readAsText(this.statusFileName);
+            //this.fs.readFileSync(this.statusFileName, {encoding: 'json', flag: 'r'});
+            //this.fp.readAsText(statusFileName);
+            //let json_root_obj: RootObject[] = fp as RootObject[];
+            //console.log(json_root_obj);
         };
         WarDriverComponent.prototype.doAPIAction = function () {
             var _this = this;
@@ -462,38 +480,9 @@
                 _this.apiResponse = response;
             });
         };
-        /*
-        setToAggro(): void {
-            let settingsMap = new Map<string,string | Map<string, string | boolean>>();
-            settingsMap.set('mode','advanced');
-            let settings = new Map<string, string | boolean>([
-                ['ap_channel', '11'],
-                ['autostart', true],
-                ['autostartPineAP', true],
-                ['beacon_interval', 'AGGRESSIVE'],
-                ['beacon_response_interval', 'AGGRESSIVE'],
-                ['beacon_responses', true],
-                ['broadcast_ssid_pool', true],
-                ['capture_ssids', true],
-                ['connect_notifications', false],
-                ['disconnect_notifications', false],
-                ['enablePineAP', true],
-                ['karma', true],
-                ['logging', true],
-                ['pineap_mac', '00:13:37:A8:1C:BB'],
-                ['target_mac', 'FF:FF:FF:FF:FF:FF']
-            ]);
-            settingsMap.set('settings', settings); */
-        /*this.API.APIGet('/api/status', (response) => {
-            this.apiResponse = response.versionString;
-        })
-        */
-        /*
-        console.log(settingsMap);
-     }
-    */
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
+            this.get_status();
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }
@@ -501,7 +490,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<!--div ng-app=\"\" ng-init=\"populateTargetBSSIDs();\">-->\n<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<!--</div>\n<mat-card>\n    <mat-card-title>PyMod Test</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <mat-label>Message to send to Module</mat-label> \n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>-->",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n            <textarea readonly=\"true\">{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<!--</div>\n<mat-card>\n    <mat-card-title>PyMod Test</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <mat-label>Message to send to Module</mat-label> \n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>-->",
                 styles: [""]
             })
         ], WarDriverComponent);

@@ -7,8 +7,5 @@
     },
     "scripts": {
         "build": "ng build --prod"
-    },
-    "dependencies": {
-        "json2ts": "^0.0.7"
     }
 }
