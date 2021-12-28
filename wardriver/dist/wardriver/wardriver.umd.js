@@ -486,7 +486,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n          <!--  <li *ngFor=\"let status of json_frontend.payload\"> \n                {{status.objid}}\n            </li>-->\n    </mat-card-content> \n</mat-card>",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n            <li *ngFor=\"let status of json_frontend.header\"> \n                {{status.objid}}\n    </mat-card-content> \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);
