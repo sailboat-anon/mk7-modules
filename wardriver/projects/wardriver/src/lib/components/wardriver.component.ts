@@ -49,8 +49,37 @@ export class WarDriverComponent implements OnInit {
         //this.render_status();
     }
 
+    set_aggro(): void {
+        let pineAP_aggro_settings = {
+            'mode': 'advanced', 
+            'settings': { 
+                'ap_channel': '11', 
+                'autostart': true,
+                'autostartPineAP': true,
+                'beacon_interval': 'AGGRESSIVE',
+                'beacon_response_interval': 'AGGRESSIVE',
+                'beacon_responses': true,
+                'broadcast_ssid_pool': false,
+                'capture_ssids': true,
+                'connect_notifications': false,
+                'disconnect_notifications': false,
+                'enablePineAP': true,
+                'karma': true,
+                'logging': true,
+                'pineap_mac': '5A:11:B0:A7:A9:09',
+                'target_mac': 'FF:FF:FF:FF:FF:FF' 
+            }
+        }
+        this.API.APIPut('/api/pineap/settings', {
+            body: pineAP_aggro_settings
+        }, (resp) => {
+            console.log(resp);
+        });
+    }
+
     ngOnInit() { 
         this.populateTargetBSSIDs();
         this.get_status();
+        this.set_aggro();
     } 
 }
