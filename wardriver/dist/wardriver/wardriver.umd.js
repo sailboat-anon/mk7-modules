@@ -478,27 +478,27 @@
         };
         WarDriverComponent.prototype.set_aggro = function () {
             var pineAP_aggro_settings = JSON.parse(JSON.stringify({
-                'mode': 'advanced',
-                'settings': {
-                    'ap_channel': '11',
-                    'autostart': true,
-                    'autostartPineAP': true,
-                    'beacon_interval': 'AGGRESSIVE',
-                    'beacon_response_interval': 'AGGRESSIVE',
-                    'beacon_responses': true,
-                    'broadcast_ssid_pool': false,
-                    'capture_ssids': true,
-                    'connect_notifications': false,
-                    'disconnect_notifications': false,
-                    'enablePineAP': true,
-                    'karma': true,
-                    'logging': true,
-                    'pineap_mac': '5A:11:B0:A7:A9:09',
-                    'target_mac': 'FF:FF:FF:FF:FF:FF'
-                }
+                //'mode': 'advanced', 
+                //'settings': { 
+                'ap_channel': '11',
+                'autostart': true,
+                'autostartPineAP': true,
+                'beacon_interval': 'AGGRESSIVE',
+                'beacon_response_interval': 'AGGRESSIVE',
+                'beacon_responses': true,
+                'broadcast_ssid_pool': false,
+                'capture_ssids': true,
+                'connect_notifications': false,
+                'disconnect_notifications': false,
+                'enablePineAP': true,
+                'karma': true,
+                'logging': true,
+                'pineap_mac': '5A:11:B0:A7:A9:09',
+                'target_mac': 'FF:FF:FF:FF:FF:FF'
+                //}
             }));
             this.API.APIPut('/api/pineap/settings', {
-                pineAP_aggro_settings: pineAP_aggro_settings
+                pineAP_aggro_settings: pineAP_aggro_settings,
             }, function (resp) {
                 console.log(pineAP_aggro_settings);
                 console.log(resp);
