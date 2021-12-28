@@ -44,6 +44,7 @@ export class WarDriverComponent implements OnInit {
 
     get_status(): void {
         let statusFileName: string = this.get_status_file_name();
+        console.log(statusFileName);
         this.get_status_file(statusFileName);
     }
 

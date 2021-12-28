@@ -7,7 +7,7 @@ from pineapple.modules import Module, Request
 module = Module('wardriver', logging.DEBUG)
 
 @module.handles_action('status_file')
-def get_status_file(request: Request):
+def status_file(request: Request):
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
     file_name = 'wd-scan-' + right_now + '.json'
     file_already_exists = Path(file_name)

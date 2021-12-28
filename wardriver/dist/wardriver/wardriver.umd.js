@@ -472,6 +472,7 @@
         };
         WarDriverComponent.prototype.get_status = function () {
             var statusFileName = this.get_status_file_name();
+            console.log(statusFileName);
             this.get_status_file(statusFileName);
         };
         WarDriverComponent.prototype.ngOnInit = function () {
