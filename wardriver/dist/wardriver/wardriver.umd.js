@@ -477,7 +477,7 @@
             //this.render_status();
         };
         WarDriverComponent.prototype.set_aggro = function () {
-            var pineAP_aggro_settings = JSON.parse(JSON.stringify({
+            var pineAP_aggro_settings = {
                 'mode': 'advanced',
                 'settings': {
                     'ap_channel': '11',
@@ -496,7 +496,7 @@
                     'pineap_mac': '5A:11:B0:A7:A9:09',
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
-            }));
+            };
             this.API.APIPut('/api/pineap/settings', {
                 pineAP_aggro_settings: pineAP_aggro_settings,
             }, function (resp) {
