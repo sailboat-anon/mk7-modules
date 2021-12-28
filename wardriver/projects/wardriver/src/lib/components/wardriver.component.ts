@@ -1,6 +1,6 @@
 import { Component, OnInit, NgModule } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
-import { RootObject, Header, Message } from '../interfaces/status_interface';
+import { StatusRootObject, Header, Message } from '../interfaces/status.interface';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -13,7 +13,7 @@ export class WarDriverComponent implements OnInit {
     apiResponse = 'Unfulfilled Response';
     statusHeader: string = '';
     statusFileName: string = '';
-    json_frontend: RootObject[];
+    json_frontend: StatusRootObject[];
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
@@ -37,17 +37,16 @@ export class WarDriverComponent implements OnInit {
             action: 'status_file',
             file_name: this.statusFileName,
         }, (resp) => {
-            let json_file: RootObject[] = resp;
+            let json_file: StatusRootObject[] = resp;
             this.json_frontend = json_file;
-            console.log(json_file);
-            console.log(this.statusFileName);
+            console.log(Object.getOwnPropertyNames(json_file));
         })
     }
 
     get_status(): void {
         let statusFileName: string = this.get_status_file_name();
-        console.log(statusFileName);
         this.get_status_file(statusFileName);
+        //this.render_status();
     }
 
     ngOnInit() { 

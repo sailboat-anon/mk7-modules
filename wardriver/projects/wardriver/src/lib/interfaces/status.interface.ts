@@ -10,7 +10,7 @@ export interface Message {
     msg: string;
 }
 
-export interface RootObject {
+export interface StatusRootObject {
     header: Header;
     messages: Message[];
 }

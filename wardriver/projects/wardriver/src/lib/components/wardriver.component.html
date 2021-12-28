@@ -7,25 +7,8 @@
 <mat-card>
     <mat-card-title>Status</mat-card-title> 
     <mat-card-content> 
-            <textarea readonly="true">{{statusFileName}}</textarea> 
+          <!--  <li *ngFor="let status of json_frontend.payload"> 
+                {{status.objid}}
+            </li>-->
     </mat-card-content> 
 </mat-card>
-<!--</div>
-<mat-card>
-    <mat-card-title>PyMod Test</mat-card-title> 
-    <mat-card-content> 
-        <mat-form-field> 
-            <mat-label>Message to send to Module</mat-label> 
-        </mat-form-field> 
-        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> 
-    </mat-card-content> 
-</mat-card>
-<mat-card> 
-    <mat-card-title>Test</mat-card-title> 
-    <mat-card-content> 
-        <button mat-flat-button color="accent" (click)="doAPIAction();">Request to Module </button> 
-        <br/> 
-            <span>The API response was: {{apiResponse}}</span> 
-        <br/> 
-    </mat-card-content> 
-</mat-card>-->

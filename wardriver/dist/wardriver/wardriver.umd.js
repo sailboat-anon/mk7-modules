@@ -453,7 +453,7 @@
             var _this = this;
             this.API.request({
                 module: 'wardriver',
-                action: 'status_window_setup',
+                action: 'build_status_file',
             }, function (resp) {
                 _this.statusFileName = resp;
             });
@@ -464,18 +464,17 @@
             this.API.request({
                 module: 'wardriver',
                 action: 'status_file',
-                file_name: statusFileName,
+                file_name: this.statusFileName,
             }, function (resp) {
                 var json_file = resp;
                 _this.json_frontend = json_file;
-                console.log(json_file);
-                console.log(statusFileName);
+                console.log(Object.getOwnPropertyNames(json_file));
             });
         };
         WarDriverComponent.prototype.get_status = function () {
             var statusFileName = this.get_status_file_name();
-            console.log(statusFileName);
             this.get_status_file(statusFileName);
+            //this.render_status();
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
@@ -487,7 +486,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n            <textarea readonly=\"true\">{{json_frontend}}</textarea> \n    </mat-card-content> \n</mat-card>\n<!--</div>\n<mat-card>\n    <mat-card-title>PyMod Test</mat-card-title> \n    <mat-card-content> \n        <mat-form-field> \n            <mat-label>Message to send to Module</mat-label> \n        </mat-form-field> \n        <span>The API response was: {{ap_channel}} {{autostart}} {{autostartPineAP}}</span> \n    </mat-card-content> \n</mat-card>\n<mat-card> \n    <mat-card-title>Test</mat-card-title> \n    <mat-card-content> \n        <button mat-flat-button color=\"accent\" (click)=\"doAPIAction();\">Request to Module </button> \n        <br/> \n            <span>The API response was: {{apiResponse}}</span> \n        <br/> \n    </mat-card-content> \n</mat-card>-->",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n          <!--  <li *ngFor=\"let status of json_frontend.payload\"> \n                {{status.objid}}\n            </li>-->\n    </mat-card-content> \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);
