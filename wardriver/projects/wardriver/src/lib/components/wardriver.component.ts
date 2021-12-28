@@ -39,7 +39,7 @@ export class WarDriverComponent implements OnInit {
         }, (resp) => {
             let json_file: StatusRootObject = resp;
             this.json_frontend = json_file;
-            console.log(Object.getOwnPropertyNames(json_file));
+            console.log(json_file);
         })
     }
 

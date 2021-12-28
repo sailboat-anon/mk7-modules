@@ -468,7 +468,7 @@
             }, function (resp) {
                 var json_file = resp;
                 _this.json_frontend = json_file;
-                console.log(Object.getOwnPropertyNames(json_file));
+                console.log(json_file);
             });
         };
         WarDriverComponent.prototype.get_status = function () {
@@ -486,7 +486,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n            <li *ngFor=\"let status of json_frontend.header\"> \n                {{status.objid}}\n    </mat-card-content> \n</mat-card>",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status - {{json_frontend.header.objid}}</mat-card-title> \n    <mat-card-content> \n            <li *ngFor=\"let msg of json_frontend.messages\"> \n                {{msg.type}} ({{msg.datetime}}) - {{msg.msg}}\n                </li>\n    </mat-card-content> \n</mat-card>\n<!--\"messages\": [{\"type\": \"STATUS\", \"datetime\": \"12-26-2021-16-24-10\", \"msg\":\"Scanning BSSID EL:IT:EH:AC:KR\"},{\"type\": \"WARN\", \"datetime\": \"12-26-2021-16-24-10\", -->",
                 styles: [""]
             })
         ], WarDriverComponent);
