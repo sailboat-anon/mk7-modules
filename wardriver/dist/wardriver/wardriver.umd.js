@@ -497,9 +497,7 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
-            this.API.APIPut('/api/pineap/settings', {
-                pineAP_aggro_settings: pineAP_aggro_settings,
-            }, function (resp) {
+            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
                 console.log(pineAP_aggro_settings);
                 console.log(resp);
             });
