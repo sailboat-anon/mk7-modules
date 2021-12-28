@@ -73,6 +73,7 @@ export class WarDriverComponent implements OnInit {
         this.API.APIPut('/api/pineap/settings', {
             body: pineAP_aggro_settings
         }, (resp) => {
+            console.log(pineAP_aggro_settings);
             console.log(resp);
         });
     }
