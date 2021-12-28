@@ -13,7 +13,7 @@ export class WarDriverComponent implements OnInit {
     apiResponse = 'Unfulfilled Response';
     statusHeader: string = '';
     statusFileName: string = '';
-    json_frontend: RootObject;
+    json_frontend: RootObject[];
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
@@ -38,6 +38,7 @@ export class WarDriverComponent implements OnInit {
             file_name: statusFileName,
         }, (resp) => {
             let json_file: RootObject[] = resp;
+            this.json_frontend = json_file;
             console.log(json_file);
             console.log(statusFileName);
         })

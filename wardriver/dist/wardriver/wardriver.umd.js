@@ -460,12 +460,14 @@
             return this.statusFileName;
         };
         WarDriverComponent.prototype.get_status_file = function (statusFileName) {
+            var _this = this;
             this.API.request({
                 module: 'wardriver',
                 action: 'status_file',
                 file_name: statusFileName,
             }, function (resp) {
                 var json_file = resp;
+                _this.json_frontend = json_file;
                 console.log(json_file);
                 console.log(statusFileName);
             });
