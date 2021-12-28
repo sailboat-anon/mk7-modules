@@ -6,8 +6,8 @@ from pineapple.modules import Module, Request
 
 module = Module('wardriver', logging.DEBUG)
 
-@module.handles_action('status_file')
-def status_file(request: Request):
+@module.handles_action('build_status_file')
+def build_status_file(request: Request):
     right_now = datetime.datetime.now().strftime('%m-%d-%Y-%H-%M-%S')
     file_name = 'wd-scan-' + right_now + '.json'
     file_already_exists = Path(file_name)
@@ -19,7 +19,9 @@ def status_file(request: Request):
         print(f'>err {right_now}: a peculiar thing has happened.  the syncronicities have collided.  fix your ntp server.')
     f.close()
 
-    f = open(file_name, 'r')
+@module.handles_action('get_status_file')
+def get_status_file(request: Request):
+    f = open(request.file_name, 'r')
     data = f.read()
     f.close()
     json_data = json.loads(data)
