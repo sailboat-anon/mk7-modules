@@ -477,7 +477,7 @@
             //this.render_status();
         };
         WarDriverComponent.prototype.set_aggro = function () {
-            var pineAP_aggro_settings = {
+            var pineAP_aggro_settings = JSON.parse(JSON.stringify({
                 'mode': 'advanced',
                 'settings': {
                     'ap_channel': '11',
@@ -496,7 +496,7 @@
                     'pineap_mac': '5A:11:B0:A7:A9:09',
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
-            };
+            }));
             this.API.APIPut('/api/pineap/settings', {
                 body: pineAP_aggro_settings
             }, function (resp) {
@@ -515,7 +515,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<mat-card>\n    <mat-card-title>Status - {{json_frontend.header.objid}}</mat-card-title> \n    <mat-card-content> \n            <li *ngFor=\"let msg of json_frontend.messages\"> \n                {{msg.type}} ({{msg.datetime}}) - {{msg.msg}}\n                </li>\n    </mat-card-content> \n</mat-card>\n<!--\"messages\": [{\"type\": \"STATUS\", \"datetime\": \"12-26-2021-16-24-10\", \"msg\":\"Scanning BSSID EL:IT:EH:AC:KR\"},{\"type\": \"WARN\", \"datetime\": \"12-26-2021-16-24-10\", -->",
+                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n            <textarea>{{apiResponse}}</textarea> \n    </mat-card-content> \n</mat-card>\n<!--<mat-card>\n    <mat-card-title>Status - {{json_frontend.header.objid}}</mat-card-title> \n    <mat-card-content> \n            <li *ngFor=\"let msg of json_frontend.messages\"> \n                {{msg.type}} ({{msg.datetime}}) - {{msg.msg}}\n                </li>\n    </mat-card-content> \n</mat-card> -->\n<!--\"messages\": [{\"type\": \"STATUS\", \"datetime\": \"12-26-2021-16-24-10\", \"msg\":\"Scanning BSSID EL:IT:EH:AC:KR\"},{\"type\": \"WARN\", \"datetime\": \"12-26-2021-16-24-10\", -->",
                 styles: [""]
             })
         ], WarDriverComponent);
