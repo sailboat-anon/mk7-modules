@@ -24,7 +24,7 @@ export class WarDriverComponent implements OnInit {
     get_status_file_name(): string {
         this.API.request({
             module: 'wardriver',
-            action: 'status_window_setup',
+            action: 'build_status_file',
         }, (resp) => {
             this.statusFileName = resp;
         })
