@@ -522,7 +522,12 @@
                 console.log('>active scans stopped');
                 console.log(resp.error);
             });
-            this.API.APIPost('/api/recon/start', { "live": false, "scan_time": 30, "band": "0" }, function (resp) {
+            var scan_opts = {
+                "live": false,
+                "scan_time": 30,
+                "band": "0"
+            };
+            this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
                 console.log('>starting recon scan:');
                 console.log(resp.error);
             });
