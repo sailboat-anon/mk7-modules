@@ -101,7 +101,7 @@ export class WarDriverComponent implements OnInit {
 
     ngOnInit() { 
         this.populateTargetBSSIDs();
-        this.get_status();
+        //this.get_status();
         this.run_scand();
     } 
 }

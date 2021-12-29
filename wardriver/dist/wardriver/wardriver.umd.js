@@ -533,7 +533,7 @@
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
-            this.get_status();
+            //this.get_status();
             this.run_scand();
         };
         WarDriverComponent.ctorParameters = function () { return [
