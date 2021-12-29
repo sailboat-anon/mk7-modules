@@ -93,7 +93,7 @@ export class WarDriverComponent implements OnInit {
         });
 
         this.API.setBusy();
-        this.delay(3000).then(any=>{
+        this.delay(30000).then(any=>{
             this.API.setNotBusy();
             console.log('>no longer busy');
        });  
