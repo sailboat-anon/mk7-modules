@@ -520,10 +520,11 @@
             // stop active scans
             this.API.APIPost('/api/recon/stop', null, function (resp) {
                 console.log('>active scans stopped');
+                console.log(resp.error);
             });
             this.API.APIPost('/api/recon/start', { "live": false, "scan_time": 30, "band": "0" }, function (resp) {
                 console.log('>starting recon scan:');
-                //console.log(resp);
+                console.log(resp.error);
             });
             this.API.setBusy();
             this.delay(30000).then(function (any) {

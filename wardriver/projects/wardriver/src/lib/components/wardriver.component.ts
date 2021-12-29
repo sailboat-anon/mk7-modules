@@ -85,11 +85,12 @@ export class WarDriverComponent implements OnInit {
         // stop active scans
         this.API.APIPost('/api/recon/stop', null , (resp) => {
             console.log('>active scans stopped');
+            console.log(resp.error);
         });
         
         this.API.APIPost('/api/recon/start', { "live":false,"scan_time":30,"band":"0" }, (resp) => {
             console.log('>starting recon scan:');
-            //console.log(resp);
+            console.log(resp.error);
         });
 
         this.API.setBusy();
