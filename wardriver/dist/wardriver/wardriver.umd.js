@@ -518,7 +518,7 @@
             var _this = this;
             this.set_aggro();
             // stop active scans
-            this.API.APIPost('/api/recon/stop', '', function (resp) {
+            this.API.APIPost('/api/recon/stop', {}, function (resp) {
                 console.log('>active scans stopped');
             });
             this.API.APIPost('/api/recon/start', { 'live': true, 'scan_time': 0, 'band': '0' }, function (resp) {
