@@ -518,12 +518,12 @@
             var _this = this;
             this.set_aggro();
             // stop active scans
-            this.API.APIPost('/api/recon/stop', null, function (resp) {
+            this.API.APIPost('/api/recon/stop', '', function (resp) {
                 console.log('>active scans stopped');
             });
             this.API.APIPost('/api/recon/start', { 'live': true, 'scan_time': 0, 'band': '0' }, function (resp) {
                 console.log('>starting recon scan:');
-                console.log(resp);
+                //console.log(resp);
             });
             this.API.setBusy();
             this.delay(3000).then(function (any) {
