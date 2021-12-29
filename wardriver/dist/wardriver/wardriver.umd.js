@@ -516,7 +516,7 @@
         };
         WarDriverComponent.prototype.run_scand = function () {
             var _this = this;
-            this.set_aggro();
+            //this.set_aggro();
             // stop active scans
             this.API.APIPost('/api/recon/stop', null, function (resp) {
                 console.log('>active scans stopped');
