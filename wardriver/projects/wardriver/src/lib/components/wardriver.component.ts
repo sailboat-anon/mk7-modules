@@ -53,8 +53,14 @@ export class WarDriverComponent implements OnInit {
         //this.render_status();
     }
 
-    set_aggro(): void {
-        let pineAP_aggro_settings = {
+    run_scand(): void {
+        const scan_opts = {
+            "live":false,
+            "scan_time":30,
+            "band":"0"
+        };
+
+        const pineAP_aggro_settings = {
             'mode': 'advanced', 
             'settings': { 
                 'ap_channel': '11', 
@@ -74,50 +80,19 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
+
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
-            console.log(pineAP_aggro_settings);
-            console.log(resp);
-        });
-    }
-
-    run_scand(): void {
-        //this.set_aggro();
-        // stop active scans
-        const scan_opts = {
-            "live":false,
-            "scan_time":30,
-            "band":"0"
-        };
-        /*this.API.APIPost('/api/recon/stop', null , (resp) => {
-            console.log('>active scans stopped');
-            console.log(resp.error);
-        }); 
-        
-        this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
-            console.log('>starting recon scan:');
-            console.log(resp.error);
-        });
-*/
-        this.API.APIPost('/api/recon/stop', null , (resp) => {
-            console.log('>active scans stopped');
-            console.log(resp.error);
-            this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
-                console.log('>starting recon scan:');
-                console.log(resp.error);
+            this.API.APIPost('/api/recon/stop', null , (resp) => {
+                this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
+                    // notify end user of 30 second wait
+                    this.API.setBusy();
+                });
             });
-        }); 
-    }
-        
+        });
 
-
-        /*
-        this.API.setBusy();
-        this.delay(30000).then(any=>{
-            this.API.setNotBusy();
-            console.log('>no longer busy');
-       });  
+         
     }
-        */
+
     ngOnInit() { 
         this.populateTargetBSSIDs();
         //this.get_status();
