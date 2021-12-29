@@ -15,6 +15,10 @@ export class WarDriverComponent implements OnInit {
     statusFileName: string = '';
     json_frontend: StatusRootObject;
 
+    async delay(ms: number) {
+        await new Promise(resolve => setTimeout(()=>resolve(ms), ms)).then(()=>console.log("fired"));
+    }
+
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp.ssids;
@@ -76,9 +80,28 @@ export class WarDriverComponent implements OnInit {
         });
     }
 
+    run_scand(): void {
+        this.set_aggro();
+        // stop active scans
+        this.API.APIPost('/api/recon/stop', null, (resp) => {
+            console.log('>active scans stopped');
+        });
+        
+        this.API.APIPost('/api/recon/start', { 'live': true, 'scan_time': 0, 'band': 0 }, (resp) => {
+            console.log('>starting recon scan:');
+            console.log(resp);
+        });
+
+        this.API.setBusy();
+        this.delay(3000).then(any=>{
+            this.API.setNotBusy();
+            console.log('>no longer busy');
+       });  
+    }
+
     ngOnInit() { 
         this.populateTargetBSSIDs();
         this.get_status();
-        this.set_aggro();
+        this.run_scand();
     } 
 }

@@ -443,6 +443,18 @@
             this.statusHeader = '';
             this.statusFileName = '';
         }
+        WarDriverComponent.prototype.delay = function (ms) {
+            return __awaiter(this, void 0, void 0, function () {
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(function () { return resolve(ms); }, ms); }).then(function () { return console.log("fired"); })];
+                        case 1:
+                            _a.sent();
+                            return [2 /*return*/];
+                    }
+                });
+            });
+        };
         WarDriverComponent.prototype.populateTargetBSSIDs = function () {
             var _this = this;
             this.API.APIGet('/api/pineap/ssids', function (resp) {
@@ -502,10 +514,27 @@
                 console.log(resp);
             });
         };
+        WarDriverComponent.prototype.run_scand = function () {
+            var _this = this;
+            this.set_aggro();
+            // stop active scans
+            this.API.APIPost('/api/recon/stop', null, function (resp) {
+                console.log('>active scans stopped');
+            });
+            this.API.APIPost('/api/recon/start', { 'live': true, 'scan_time': 0, 'band': 0 }, function (resp) {
+                console.log('>starting recon scan:');
+                console.log(resp);
+            });
+            this.API.setBusy();
+            this.delay(3000).then(function (any) {
+                _this.API.setNotBusy();
+                console.log('>no longer busy');
+            });
+        };
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
             this.get_status();
-            this.set_aggro();
+            this.run_scand();
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }
