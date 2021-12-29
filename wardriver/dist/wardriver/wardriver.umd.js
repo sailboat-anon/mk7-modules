@@ -518,10 +518,10 @@
             var _this = this;
             //this.set_aggro();
             // stop active scans
-            this.API.APIPost('/api/recon/stop', null, function (resp) {
+            /*this.API.APIPost('/api/recon/stop', null , (resp) => {
                 console.log('>active scans stopped');
                 console.log(resp.error);
-            });
+            }); */
             var scan_opts = {
                 "live": false,
                 "scan_time": 30,
