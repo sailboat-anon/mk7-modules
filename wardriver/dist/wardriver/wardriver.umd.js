@@ -518,25 +518,38 @@
             var _this = this;
             //this.set_aggro();
             // stop active scans
-            /*this.API.APIPost('/api/recon/stop', null , (resp) => {
-                console.log('>active scans stopped');
-                console.log(resp.error);
-            }); */
             var scan_opts = {
                 "live": false,
                 "scan_time": 30,
                 "band": "0"
             };
-            this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
+            /*this.API.APIPost('/api/recon/stop', null , (resp) => {
+                console.log('>active scans stopped');
+                console.log(resp.error);
+            });
+            
+            this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
                 console.log('>starting recon scan:');
                 console.log(resp.error);
             });
-            this.API.setBusy();
-            this.delay(30000).then(function (any) {
-                _this.API.setNotBusy();
-                console.log('>no longer busy');
+    */
+            this.API.APIPost('/api/recon/stop', null, function (resp) {
+                console.log('>active scans stopped');
+                console.log(resp.error);
+                _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
+                    console.log('>starting recon scan:');
+                    console.log(resp.error);
+                });
             });
         };
+        /*
+        this.API.setBusy();
+        this.delay(30000).then(any=>{
+            this.API.setNotBusy();
+            console.log('>no longer busy');
+       });
+    }
+        */
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
             //this.get_status();

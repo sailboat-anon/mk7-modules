@@ -83,27 +83,41 @@ export class WarDriverComponent implements OnInit {
     run_scand(): void {
         //this.set_aggro();
         // stop active scans
-        /*this.API.APIPost('/api/recon/stop', null , (resp) => {
-            console.log('>active scans stopped');
-            console.log(resp.error);
-        }); */
         const scan_opts = {
             "live":false,
             "scan_time":30,
             "band":"0"
-    };
+        };
+        /*this.API.APIPost('/api/recon/stop', null , (resp) => {
+            console.log('>active scans stopped');
+            console.log(resp.error);
+        }); 
+        
         this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
             console.log('>starting recon scan:');
             console.log(resp.error);
         });
+*/
+        this.API.APIPost('/api/recon/stop', null , (resp) => {
+            console.log('>active scans stopped');
+            console.log(resp.error);
+            this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
+                console.log('>starting recon scan:');
+                console.log(resp.error);
+            });
+        }); 
+    }
+        
 
+
+        /*
         this.API.setBusy();
         this.delay(30000).then(any=>{
             this.API.setNotBusy();
             console.log('>no longer busy');
        });  
     }
-
+        */
     ngOnInit() { 
         this.populateTargetBSSIDs();
         //this.get_status();
