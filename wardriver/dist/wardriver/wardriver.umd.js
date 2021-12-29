@@ -475,7 +475,7 @@
             var _this = this;
             this.API.request({
                 module: 'wardriver',
-                action: 'status_file',
+                action: 'get_status_file',
                 file_name: this.statusFileName,
             }, function (resp) {
                 var json_file = resp;
@@ -518,15 +518,15 @@
             var _this = this;
             this.set_aggro();
             // stop active scans
-            this.API.APIPost('/api/recon/stop', {}, function (resp) {
+            this.API.APIPost('/api/recon/stop', null, function (resp) {
                 console.log('>active scans stopped');
             });
-            this.API.APIPost('/api/recon/start', { 'live': false, 'scan_time': 0, 'band': '0' }, function (resp) {
+            this.API.APIPost('/api/recon/start', { 'live': false, 'scan_time': 30, 'band': '0' }, function (resp) {
                 console.log('>starting recon scan:');
                 //console.log(resp);
             });
             this.API.setBusy();
-            this.delay(3000).then(function (any) {
+            this.delay(30000).then(function (any) {
                 _this.API.setNotBusy();
                 console.log('>no longer busy');
             });

@@ -38,7 +38,7 @@ export class WarDriverComponent implements OnInit {
     get_status_file(statusFileName: string): any {
         this.API.request({
             module: 'wardriver',
-            action: 'status_file',
+            action: 'get_status_file',
             file_name: this.statusFileName,
         }, (resp) => {
             let json_file: StatusRootObject = resp;
