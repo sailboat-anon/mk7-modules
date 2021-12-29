@@ -83,11 +83,11 @@ export class WarDriverComponent implements OnInit {
     run_scand(): void {
         this.set_aggro();
         // stop active scans
-        this.API.APIPost('/api/recon/stop', {} , (resp) => {
+        this.API.APIPost('/api/recon/stop', null , (resp) => {
             console.log('>active scans stopped');
         });
         
-        this.API.APIPost('/api/recon/start', { 'live': false, 'scan_time': 0, 'band': '0' }, (resp) => {
+        this.API.APIPost('/api/recon/start', { 'live': false, 'scan_time': 30, 'band': '0' }, (resp) => {
             console.log('>starting recon scan:');
             //console.log(resp);
         });
