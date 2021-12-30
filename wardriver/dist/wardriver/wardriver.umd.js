@@ -513,17 +513,19 @@
                                     resp.APResults.forEach(function (ap) {
                                         if (ap.APClient.length > 0) {
                                             ap.APClient.forEach(function (client) {
-                                                console.log('>client found: ' + client.client_mac);
+                                                console.log('>client found!: ' + client.client_mac);
                                             });
                                         }
-                                        else { /* console.log('>AP found, but not with associated clients'); */ }
+                                        else {
+                                            console.log('>AP found, but not with associated clients');
+                                        }
                                     });
                                 }
                                 else {
                                     console.log('>no APs found');
                                 }
                             });
-                        }, 30000);
+                        }, 60000);
                     });
                 });
             });
