@@ -78,12 +78,16 @@ export class WarDriverComponent implements OnInit {
         }
 
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
-            this.API.APIPost('/api/recon/stop', null , (resp) => {
+            this.API.APIPost('/api/recon/stop', null, (resp) => {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
-                    // notify end user of 30 second wait
                     this.API.setBusy();
-                });
-            });
+                    // notify end user of 30 second wait
+                    setTimeout(() => {  console.log(this.API.setNotBusy()); }, 10000);
+                    this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
+                        console.log(resp.APResults);
+                    })
+                })
+            })
         });
     }
 
