@@ -504,13 +504,11 @@
                 }
             };
             this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
-                setTimeout(function () { }, 3000);
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
-                    setTimeout(function () { }, 3000);
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
                         _this.API.setBusy();
                         // notify end user of 30 second wait
-                        setTimeout(function () { console.log(_this.API.setNotBusy()); }, 10000);
+                        setTimeout(function () { console.log(_this.API.setNotBusy()); }, 30000);
                         _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
                             console.log(resp.APResults);
                         });
