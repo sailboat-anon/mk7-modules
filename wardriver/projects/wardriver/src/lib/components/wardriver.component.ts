@@ -80,12 +80,20 @@ export class WarDriverComponent implements OnInit {
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
-                    
                     // notify end user of 30 second wait
                     setTimeout(() => {  
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
-                        console.log(resp.APResults);
-                        
+                        if (resp.APResults) {
+                            resp.APResults.forEach(ap => {
+                                if (ap.APClient.length > 0) {
+                                    ap.APClient.forEach(client => {
+                                        console.log('>client found: ' + client.client_mac);
+                                    });
+                                }
+                                else { /* console.log('>AP found, but not with associated clients'); */ }
+                            });
+                        }
+                        else { console.log('>no APs found'); }
                     })}, 30000);
                 })
             })
