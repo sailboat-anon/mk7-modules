@@ -15,10 +15,6 @@ export class WarDriverComponent implements OnInit {
     statusFileName: string = '';
     json_frontend: StatusRootObject;
 
-    async delay(ms: number) {
-        await new Promise(resolve => setTimeout(()=>resolve(ms), ms)).then(()=>console.log("fired"));
-    }
-
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp.ssids;
@@ -89,8 +85,6 @@ export class WarDriverComponent implements OnInit {
                 });
             });
         });
-
-         
     }
 
     ngOnInit() { 
