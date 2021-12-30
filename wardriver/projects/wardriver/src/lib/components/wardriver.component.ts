@@ -82,10 +82,11 @@ export class WarDriverComponent implements OnInit {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
                     
                     // notify end user of 30 second wait
-                    setTimeout(() => {  console.log('SLEEPING') }, 30000);
+                    setTimeout(() => {  
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
                         console.log(resp.APResults);
-                    })
+                        
+                    })}, 30000);
                 })
             })
         });

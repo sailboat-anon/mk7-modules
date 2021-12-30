@@ -507,10 +507,11 @@
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
                         // notify end user of 30 second wait
-                        setTimeout(function () { console.log('SLEEPING'); }, 30000);
-                        _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
-                            console.log(resp.APResults);
-                        });
+                        setTimeout(function () {
+                            _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
+                                console.log(resp.APResults);
+                            });
+                        }, 30000);
                     });
                 });
             });
