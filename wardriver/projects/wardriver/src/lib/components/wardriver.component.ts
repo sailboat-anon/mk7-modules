@@ -1,6 +1,7 @@
 import { Component, OnInit, NgModule } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject, Header, Message } from '../interfaces/status.interface';
+import { exit } from 'process';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -83,6 +84,7 @@ export class WarDriverComponent implements OnInit {
                     // notify end user of 30 second wait
                     setTimeout(() => {  
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
+                        console.log(resp); exit;
                         if (resp.APResults.length > 0) {
                             resp.APResults.forEach(ap => {
                                 if (ap.APClient.length > 0) {
