@@ -443,18 +443,6 @@
             this.statusHeader = '';
             this.statusFileName = '';
         }
-        WarDriverComponent.prototype.delay = function (ms) {
-            return __awaiter(this, void 0, void 0, function () {
-                return __generator(this, function (_a) {
-                    switch (_a.label) {
-                        case 0: return [4 /*yield*/, new Promise(function (resolve) { return setTimeout(function () { return resolve(ms); }, ms); }).then(function () { return console.log("fired"); })];
-                        case 1:
-                            _a.sent();
-                            return [2 /*return*/];
-                    }
-                });
-            });
-        };
         WarDriverComponent.prototype.populateTargetBSSIDs = function () {
             var _this = this;
             this.API.APIGet('/api/pineap/ssids', function (resp) {
@@ -488,7 +476,13 @@
             this.get_status_file(statusFileName);
             //this.render_status();
         };
-        WarDriverComponent.prototype.set_aggro = function () {
+        WarDriverComponent.prototype.run_scand = function () {
+            var _this = this;
+            var scan_opts = {
+                "live": false,
+                "scan_time": 30,
+                "band": "0"
+            };
             var pineAP_aggro_settings = {
                 'mode': 'advanced',
                 'settings': {
@@ -510,46 +504,14 @@
                 }
             };
             this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
-                console.log(pineAP_aggro_settings);
-                console.log(resp);
-            });
-        };
-        WarDriverComponent.prototype.run_scand = function () {
-            var _this = this;
-            //this.set_aggro();
-            // stop active scans
-            var scan_opts = {
-                "live": false,
-                "scan_time": 30,
-                "band": "0"
-            };
-            /*this.API.APIPost('/api/recon/stop', null , (resp) => {
-                console.log('>active scans stopped');
-                console.log(resp.error);
-            });
-            
-            this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
-                console.log('>starting recon scan:');
-                console.log(resp.error);
-            });
-    */
-            this.API.APIPost('/api/recon/stop', null, function (resp) {
-                console.log('>active scans stopped');
-                console.log(resp.error);
-                _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
-                    console.log('>starting recon scan:');
-                    console.log(resp.error);
+                _this.API.APIPost('/api/recon/stop', null, function (resp) {
+                    _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
+                        // notify end user of 30 second wait
+                        _this.API.setBusy();
+                    });
                 });
             });
         };
-        /*
-        this.API.setBusy();
-        this.delay(30000).then(any=>{
-            this.API.setNotBusy();
-            console.log('>no longer busy');
-       });
-    }
-        */
         WarDriverComponent.prototype.ngOnInit = function () {
             this.populateTargetBSSIDs();
             //this.get_status();
