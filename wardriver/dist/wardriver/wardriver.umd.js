@@ -519,7 +519,7 @@
                                             });
                                         }
                                         else {
-                                            console.log('>AP found, but not with associated clients');
+                                            console.log('>APs found, but not with associated clients');
                                         }
                                     });
                                 }
@@ -527,7 +527,7 @@
                                     console.log('>no APs found');
                                 }
                             });
-                        }, 20000);
+                        }, 70000);
                     });
                 });
             });

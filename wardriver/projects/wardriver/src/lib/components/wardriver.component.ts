@@ -93,11 +93,11 @@ export class WarDriverComponent implements OnInit {
                                         console.log('>client found!: ' + client.client_mac);
                                     });
                                 }
-                                else { console.log('>AP found, but not with associated clients'); }
+                                else { console.log('>APs found, but not with associated clients'); }
                             });
                         }
                         else { console.log('>no APs found'); }
-                    })}, 20000);
+                    })}, 70000);
                 })
             })
         });
