@@ -57,8 +57,8 @@ export class WarDriverComponent implements OnInit {
         };
 
         const pineAP_aggro_settings = {
-            //'mode': 'advanced', 
-            //'settings': { 
+            'mode': 'advanced', 
+            'settings': { 
                 'ap_channel': '11', 
                 'autostart': true,
                 'autostartPineAP': true,
@@ -74,7 +74,7 @@ export class WarDriverComponent implements OnInit {
                 'logging': true,
                 'pineap_mac': '5A:11:B0:A7:A9:09',
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
-           // }
+            }
         }
 
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
