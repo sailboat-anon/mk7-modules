@@ -509,10 +509,11 @@
                         // notify end user of 30 second wait
                         setTimeout(function () {
                             _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
-                                console.log(resp);
+                                console.log('>apr len: ' + resp.APResults.length);
                                 if (resp.APResults.length > 0) {
                                     resp.APResults.forEach(function (ap) {
-                                        if (ap.APClient.length > 0) {
+                                        if (ap.APClient != null) {
+                                            console.log('>apclient');
                                             ap.APClient.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
                                             });
@@ -526,7 +527,7 @@
                                     console.log('>no APs found');
                                 }
                             });
-                        }, 60000);
+                        }, 20000);
                     });
                 });
             });

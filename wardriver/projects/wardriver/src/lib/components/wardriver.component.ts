@@ -84,10 +84,11 @@ export class WarDriverComponent implements OnInit {
                     // notify end user of 30 second wait
                     setTimeout(() => {  
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
-                        console.log(resp);
+                        console.log('>apr len: ' +resp.APResults.length);
                         if (resp.APResults.length > 0) {
                             resp.APResults.forEach(ap => {
-                                if (ap.APClient.length > 0) {
+                                if (ap.APClient != null) {
+                                    console.log('>apclient');
                                     ap.APClient.forEach(client => {
                                         console.log('>client found!: ' + client.client_mac);
                                     });
@@ -96,7 +97,7 @@ export class WarDriverComponent implements OnInit {
                             });
                         }
                         else { console.log('>no APs found'); }
-                    })}, 60000);
+                    })}, 20000);
                 })
             })
         });
