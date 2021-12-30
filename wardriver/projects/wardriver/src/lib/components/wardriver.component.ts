@@ -84,7 +84,7 @@ export class WarDriverComponent implements OnInit {
                     // notify end user of 30 second wait
                     setTimeout(() => {  
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
-                        console.log(resp); exit;
+                        console.log(resp);
                         if (resp.APResults.length > 0) {
                             resp.APResults.forEach(ap => {
                                 if (ap.APClient.length > 0) {
