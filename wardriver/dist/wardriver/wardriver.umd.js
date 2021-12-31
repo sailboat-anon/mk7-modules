@@ -578,14 +578,14 @@
                                 else {
                                     console.log('>no APs found');
                                 }
+                                _this.API.APIPost('/api/recon/stop', null, function (resp) {
+                                    if (_this.scanResultsArray != null)
+                                        _this.attackd();
+                                    else
+                                        console.log('>sorry, nothing to attack');
+                                });
                             });
                         }, 120000);
-                        _this.API.APIPost('/api/recon/stop', null, function (resp) {
-                            if (_this.scanResultsArray != null)
-                                _this.attackd();
-                            else
-                                console.log('>sorry, nothing to attack');
-                        });
                     });
                 });
             });

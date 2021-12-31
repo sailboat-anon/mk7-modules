@@ -149,12 +149,12 @@ export class WarDriverComponent implements OnInit {
                             });
                         }
                         else { console.log('>no APs found'); }
+                        
+                        this.API.APIPost('/api/recon/stop', null, (resp) => { 
+                            if (this.scanResultsArray != null) this.attackd()
+                            else console.log('>sorry, nothing to attack');
+                        });
                     })}, 120000);
-                
-                this.API.APIPost('/api/recon/stop', null, (resp) => { 
-                    if (this.scanResultsArray != null) this.attackd()
-                    else console.log('>sorry, nothing to attack');
-                }); 
             });
         });
     });    
