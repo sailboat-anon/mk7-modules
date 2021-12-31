@@ -509,7 +509,7 @@
                 _this.API.APIPost('/api/pineap/handshakes/stop', null, function (resp) {
                     console.log('>stopped handshake capture');
                     _this.API.APIGet('/api/pineap/handshakes', function (resp) {
-                        if (resp.handshakes.lengh > 0) {
+                        if (resp.handshakes.length > 0) {
                             console.log('>handshakes found!');
                             var notification_payload = {
                                 level: 1,
@@ -580,14 +580,15 @@
                                 }
                             });
                         }, 120000);
-                        _this.API.APIPost('/api/recon/stop', null, function (resp) { });
+                        _this.API.APIPost('/api/recon/stop', null, function (resp) {
+                            if (_this.scanResultsArray != null)
+                                _this.attackd();
+                            else
+                                console.log('>sorry, nothing to attack');
+                        });
                     });
                 });
             });
-            if (this.scanResultsArray != null)
-                this.attackd();
-            else
-                console.log('>sorry, nothing to attack');
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             //this.populateTargetBSSIDs();
