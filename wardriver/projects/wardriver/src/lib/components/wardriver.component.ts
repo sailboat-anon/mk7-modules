@@ -15,7 +15,7 @@ export class WarDriverComponent implements OnInit {
     statusHeader: string = '';
     statusFileName: string = '';
     json_frontend: StatusRootObject;
-    scanResultsArray: Array<APResult>;
+    scanResultsArray: APResult[];
     continousDeauth: boolean = false;
 
     populateTargetBSSIDs(): void {
