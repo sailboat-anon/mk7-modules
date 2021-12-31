@@ -82,7 +82,7 @@ export class WarDriverComponent implements OnInit {
             this.API.APIPost('/api/pineap/handshakes/stop', null, (resp) => { // stop handshake capture
                 console.log('>stopped handshake capture');
                 this.API.APIGet('/api/pineap/handshakes', (resp) => {
-                    if (resp.handshakes.lengh > 0) {
+                    if (resp.handshakes.length > 0) {
                         console.log('>handshakes found!');
                         const notification_payload = {
                             level: 1,
