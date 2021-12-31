@@ -84,6 +84,12 @@ export class WarDriverComponent implements OnInit {
                 this.API.APIGet('/api/pineap/handshakes', (resp) => {
                     if (resp.handshakes.lengh > 0) {
                         console.log('>handshakes found!');
+                        const notification_payload = {
+                            level: 1,
+                            message: "HANDSHAKE FOUND!!!",
+                            module_name: 'wardriver'
+                        }
+                        this.API.APIPut('/api/notifications', notification_payload, (resp) => {} );
                     }
                     else { console.log('>no handshakes found :('); }
                     }
@@ -149,7 +155,7 @@ export class WarDriverComponent implements OnInit {
             });
         });
     });    
-    if (this.scanResultsArray.length > 0) this.attackd()
+    if (this.scanResultsArray != null) this.attackd()
     else console.log('>sorry, nothing to attack');
 }
 

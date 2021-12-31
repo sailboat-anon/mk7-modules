@@ -511,6 +511,12 @@
                     _this.API.APIGet('/api/pineap/handshakes', function (resp) {
                         if (resp.handshakes.lengh > 0) {
                             console.log('>handshakes found!');
+                            var notification_payload = {
+                                level: 1,
+                                message: "HANDSHAKE FOUND!!!",
+                                module_name: 'wardriver'
+                            };
+                            _this.API.APIPut('/api/notifications', notification_payload, function (resp) { });
                         }
                         else {
                             console.log('>no handshakes found :(');
@@ -578,7 +584,7 @@
                     });
                 });
             });
-            if (this.scanResultsArray.length > 0)
+            if (this.scanResultsArray != null)
                 this.attackd();
             else
                 console.log('>sorry, nothing to attack');
