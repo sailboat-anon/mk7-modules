@@ -559,17 +559,16 @@
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
                         // notify end user of 30 second wait
-                        setTimeout(function (scanResultsArray) {
+                        setTimeout(function () {
                             _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
                                 console.log('>apr len: ' + resp.APResults.length);
                                 if (resp.APResults.length > 0) {
                                     var scanResultsArray_1;
                                     resp.APResults.forEach(function (ap) {
                                         if (ap.clients != null) {
-                                            ap.clients.forEach(function (_a) {
-                                                var client = _a.client, scanResultsArray = _a.scanResultsArray;
+                                            ap.clients.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
-                                                scanResultsArray.push(ap);
+                                                scanResultsArray_1.push(ap);
                                             });
                                         }
                                         else {
