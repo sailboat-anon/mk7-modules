@@ -560,7 +560,7 @@
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
                         // notify end user of 30 second wait
-                        setTimeout(function () {
+                        setTimeout(function (scanResultsArray) {
                             _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
                                 console.log('>apr len: ' + resp.APResults.length);
                                 if (resp.APResults.length > 0) {
