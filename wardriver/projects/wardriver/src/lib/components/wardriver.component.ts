@@ -136,12 +136,8 @@ export class WarDriverComponent implements OnInit {
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
                         console.log('>apr len: ' +resp.APResults.length);
                         if (resp.APResults.length > 0) {
-<<<<<<< HEAD
                             let scanResultsArray: Array<APResult>;
                             resp.APResults.forEach(ap => {
-=======
-                            resp.APResults.forEach(({ ap, scanResultsArray }) => {
->>>>>>> 7a192931cb8317999139ae519e35715e95792d9b
                                 if (ap.clients != null) {
                                     ap.clients.forEach(({ client, scanResultsArray }) => {
                                         console.log('>client found!: ' + client.client_mac);
@@ -156,16 +152,7 @@ export class WarDriverComponent implements OnInit {
                             });
                         }
                         else { console.log('>no APs found'); }
-<<<<<<< HEAD
                     })}, 120000);
-=======
-                        
-                        this.API.APIPost('/api/recon/stop', null, (resp) => { 
-                            if (scanResultsArray != null) this.attackd(scanResultsArray);
-                            else console.log('>sorry, nothing to attack');
-                        });
-                    })}, 90000);
->>>>>>> 7a192931cb8317999139ae519e35715e95792d9b
             });
         });
     });    

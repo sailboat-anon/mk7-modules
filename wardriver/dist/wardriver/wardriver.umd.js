@@ -563,18 +563,13 @@
                             _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
                                 console.log('>apr len: ' + resp.APResults.length);
                                 if (resp.APResults.length > 0) {
-<<<<<<< HEAD
                                     var scanResultsArray_1;
                                     resp.APResults.forEach(function (ap) {
-=======
-                                    resp.APResults.forEach(function (_a) {
-                                        var ap = _a.ap, scanResultsArray = _a.scanResultsArray;
->>>>>>> 7a192931cb8317999139ae519e35715e95792d9b
                                         if (ap.clients != null) {
                                             ap.clients.forEach(function (_a) {
                                                 var client = _a.client, scanResultsArray = _a.scanResultsArray;
                                                 console.log('>client found!: ' + client.client_mac);
-                                                scanResultsArray_1.push(ap);
+                                                scanResultsArray.push(ap);
                                             });
                                         }
                                         else {
@@ -592,7 +587,7 @@
                                     console.log('>no APs found');
                                 }
                             });
-                        }, 90000);
+                        }, 120000);
                     });
                 });
             });
