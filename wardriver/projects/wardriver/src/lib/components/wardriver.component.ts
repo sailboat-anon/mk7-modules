@@ -137,9 +137,9 @@ export class WarDriverComponent implements OnInit {
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
                         console.log('>apr len: ' +resp.APResults.length);
                         if (resp.APResults.length > 0) {
-                            resp.APResults.forEach(ap => {
+                            resp.APResults.forEach(({ ap, scanResultsArray }) => {
                                 if (ap.clients != null) {
-                                    ap.clients.forEach(client => {
+                                    ap.clients.forEach(({ client, scanResultsArray }) => {
                                         console.log('>client found!: ' + client.client_mac);
                                         scanResultsArray.push(ap);
                                     });
