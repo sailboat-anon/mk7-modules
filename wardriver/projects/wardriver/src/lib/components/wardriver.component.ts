@@ -153,7 +153,7 @@ export class WarDriverComponent implements OnInit {
                             if (scanResultsArray != null) this.attackd(scanResultsArray);
                             else console.log('>sorry, nothing to attack');
                         });
-                    })}, 120000);
+                    })}, 90000);
             });
         });
     });    
