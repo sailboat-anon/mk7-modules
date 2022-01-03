@@ -1,4 +1,4 @@
-import { Component, OnInit, NgModule } from '@angular/core'; 
+import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject, Header, Message } from '../interfaces/status.interface';
 
@@ -24,7 +24,7 @@ export class WarDriverComponent implements OnInit {
             this.apiResponse = resp.ssids;
         });
     }
- 
+
     get_status_file_name(): string {
         this.API.request({
             module: 'wardriver',

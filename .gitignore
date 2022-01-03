@@ -7,3 +7,6 @@ replacer.sh
 create.sh
 *.tar.gz
 node_modules/
+wardriver/tsconfig.json
+package.json
+package-lock.json
