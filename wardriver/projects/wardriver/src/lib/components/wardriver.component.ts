@@ -127,7 +127,6 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
-        let scanResultsArray: Array<APResult>;
 
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
@@ -137,6 +136,7 @@ export class WarDriverComponent implements OnInit {
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
                         console.log('>apr len: ' +resp.APResults.length);
                         if (resp.APResults.length > 0) {
+                            let scanResultsArray: Array<APResult>;
                             resp.APResults.forEach(ap => {
                                 if (ap.clients != null) {
                                     ap.clients.forEach(client => {
@@ -146,13 +146,12 @@ export class WarDriverComponent implements OnInit {
                                 }
                                 else { console.log('>AP found, but not with associated clients'); }
                             });
+                            this.API.APIPost('/api/recon/stop', null, (resp) => { 
+                                if (scanResultsArray != null) this.attackd(scanResultsArray);
+                                else console.log('>sorry, nothing to attack');
+                            });
                         }
                         else { console.log('>no APs found'); }
-                        
-                        this.API.APIPost('/api/recon/stop', null, (resp) => { 
-                            if (scanResultsArray != null) this.attackd(scanResultsArray);
-                            else console.log('>sorry, nothing to attack');
-                        });
                     })}, 120000);
             });
         });

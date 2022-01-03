@@ -555,7 +555,6 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
-            var scanResultsArray;
             this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
@@ -564,27 +563,28 @@
                             _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
                                 console.log('>apr len: ' + resp.APResults.length);
                                 if (resp.APResults.length > 0) {
+                                    var scanResultsArray_1;
                                     resp.APResults.forEach(function (ap) {
                                         if (ap.clients != null) {
                                             ap.clients.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
-                                                scanResultsArray.push(ap);
+                                                scanResultsArray_1.push(ap);
                                             });
                                         }
                                         else {
                                             console.log('>AP found, but not with associated clients');
                                         }
                                     });
+                                    _this.API.APIPost('/api/recon/stop', null, function (resp) {
+                                        if (scanResultsArray_1 != null)
+                                            _this.attackd(scanResultsArray_1);
+                                        else
+                                            console.log('>sorry, nothing to attack');
+                                    });
                                 }
                                 else {
                                     console.log('>no APs found');
                                 }
-                                _this.API.APIPost('/api/recon/stop', null, function (resp) {
-                                    if (scanResultsArray != null)
-                                        _this.attackd(scanResultsArray);
-                                    else
-                                        console.log('>sorry, nothing to attack');
-                                });
                             });
                         }, 120000);
                     });
