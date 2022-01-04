@@ -590,9 +590,57 @@
             });
         };
         WarDriverComponent.prototype.ngOnInit = function () {
+            var _this = this;
             //this.populateTargetBSSIDs();
             //this.get_status();
-            this.run_scand();
+            var pineAP_aggro_settings = {
+                'mode': 'advanced',
+                'settings': {
+                    'ap_channel': '11',
+                    'autostart': true,
+                    'autostartPineAP': true,
+                    'beacon_interval': 'AGGRESSIVE',
+                    'beacon_response_interval': 'AGGRESSIVE',
+                    'beacon_responses': true,
+                    'broadcast_ssid_pool': false,
+                    'capture_ssids': true,
+                    'connect_notifications': false,
+                    'disconnect_notifications': false,
+                    'enablePineAP': true,
+                    'karma': true,
+                    'logging': true,
+                    'pineap_mac': '5A:11:B0:A7:A9:09',
+                    'target_mac': 'FF:FF:FF:FF:FF:FF'
+                }
+            };
+            var stopPineAP = new Promise(function (resolve, reject) {
+                _this.API.APIPost('/api/recon/stop', null, function (resp) {
+                    if (resp.success) {
+                        return resolve('>recon stopped');
+                    }
+                    else
+                        return reject(new Error('>could not stop recon:' + resp.error));
+                });
+            });
+            var pushSettings = new Promise(function (resolve, reject) {
+                _this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
+                    if (resp.success)
+                        return resolve('>settings pushed sucessfully');
+                    else
+                        return reject(new Error('>could not push settings:' + resp.error));
+                });
+            });
+            var startWardriver = function () {
+                pushSettings.then(function (fulfilled) {
+                    //success
+                    console.log('>settings promise fulfilled');
+                    stopPineAP;
+                }).catch(function (error) {
+                    console.log(error.message);
+                });
+            };
+            startWardriver();
+            //this.run_scand();
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }

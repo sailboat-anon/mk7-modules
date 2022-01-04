@@ -160,6 +160,53 @@ export class WarDriverComponent implements OnInit {
     ngOnInit() { 
         //this.populateTargetBSSIDs();
         //this.get_status();
-        this.run_scand();
+        const pineAP_aggro_settings = {
+            'mode': 'advanced', 
+            'settings': { 
+                'ap_channel': '11', 
+                'autostart': true,
+                'autostartPineAP': true,
+                'beacon_interval': 'AGGRESSIVE',
+                'beacon_response_interval': 'AGGRESSIVE',
+                'beacon_responses': true,
+                'broadcast_ssid_pool': false,
+                'capture_ssids': true,
+                'connect_notifications': false,
+                'disconnect_notifications': false,
+                'enablePineAP': true,
+                'karma': true,
+                'logging': true,
+                'pineap_mac': '5A:11:B0:A7:A9:09',
+                'target_mac': 'FF:FF:FF:FF:FF:FF' 
+            }
+        }
+
+        const stopPineAP = new Promise((resolve, reject) => {
+            this.API.APIPost('/api/recon/stop', null, (resp) => {
+                if (resp.success) {
+                    return resolve('>recon stopped');
+                }
+                else return reject(new Error('>could not stop recon:' +resp.error));
+            });
+        });
+
+        const pushSettings = new Promise ((resolve, reject) => {
+            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
+                if(resp.success) return resolve('>settings pushed sucessfully');
+                else return reject(new Error('>could not push settings:' +resp.error));
+            });
+        });
+
+        const startWardriver = () => {
+            pushSettings.then((fulfilled) => {
+                //success
+                console.log('>settings promise fulfilled');
+                stopPineAP;    
+            }).catch(error => {
+                console.log(error.message);
+            });
+        }
+        startWardriver();
+        //this.run_scand();
     } 
 }
