@@ -181,12 +181,12 @@ export class WarDriverComponent implements OnInit {
             }
         }
 
-        const stopPineAP = new Promise((resolve, reject) => {
+        const stopPineAP = new Promise((resolve) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
                 if (resp.success) {
                     return resolve('>recon stopped');
                 }
-                else return reject(new Error('>could not stop recon:' +resp.error));
+                //else return reject(new Error('>could not stop recon:' +resp.error));
             });
         });
 
@@ -197,14 +197,11 @@ export class WarDriverComponent implements OnInit {
             });
         });
 
-        const startWardriver = () => {
-            pushSettings.then((fulfilled) => {
-                //success
-                console.log('>settings promise fulfilled');
-                stopPineAP;    
-            }).catch(error => {
-                console.log(error.message);
-            });
+        let settingsPushed = false;
+        let reconStopped = false;
+        async function startWardriver() {
+            this.settingsPushed = await pushSettings;
+            this.reconStopped = await stopPineAP;
         }
         startWardriver();
         //this.run_scand();

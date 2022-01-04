@@ -613,13 +613,12 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
-            var stopPineAP = new Promise(function (resolve, reject) {
+            var stopPineAP = new Promise(function (resolve) {
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     if (resp.success) {
                         return resolve('>recon stopped');
                     }
-                    else
-                        return reject(new Error('>could not stop recon:' + resp.error));
+                    //else return reject(new Error('>could not stop recon:' +resp.error));
                 });
             });
             var pushSettings = new Promise(function (resolve, reject) {
@@ -630,15 +629,27 @@
                         return reject(new Error('>could not push settings:' + resp.error));
                 });
             });
-            var startWardriver = function () {
-                pushSettings.then(function (fulfilled) {
-                    //success
-                    console.log('>settings promise fulfilled');
-                    stopPineAP;
-                }).catch(function (error) {
-                    console.log(error.message);
+            var settingsPushed = false;
+            var reconStopped = false;
+            function startWardriver() {
+                return __awaiter(this, void 0, void 0, function () {
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
+                            case 0:
+                                _a = this;
+                                return [4 /*yield*/, pushSettings];
+                            case 1:
+                                _a.settingsPushed = _c.sent();
+                                _b = this;
+                                return [4 /*yield*/, stopPineAP];
+                            case 2:
+                                _b.reconStopped = _c.sent();
+                                return [2 /*return*/];
+                        }
+                    });
                 });
-            };
+            }
             startWardriver();
             //this.run_scand();
         };
