@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
+declare var require: any;
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -219,9 +220,14 @@ export class WarDriverComponent implements OnInit {
             }
             else return false;
         }
-        startSettings();
-        stopRecon();
-
+        
+        var async = require('async');
+        async.series([
+            startSettings,
+            stopRecon
+        ], function (err, results) {
+            //
+        });
         //this.run_scand();
     } 
 }
