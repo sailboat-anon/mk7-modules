@@ -662,18 +662,18 @@
                     }
                 });
             }); };
-            setSettings().then(function () {
-                getReconStatus().then(function (reconResp) {
-                    if (reconResp.scanRunning) { // if recon is running, stop it, then start it
-                        stopRecon().then(function () {
+            getReconStatus().then(function (reconResp) {
+                if (reconResp.scanRunning) { // if recon is running, stop it
+                    stopRecon().then(function () {
+                        setSettings().then(function () {
                             startRecon().then(function (startResp) {
                                 if (startResp.scanRunning) {
                                     console.log('>scan running. id: ' + startResp.scanID);
                                 }
                             });
                         });
-                    }
-                });
+                    });
+                }
             });
         };
         WarDriverComponent.ctorParameters = function () { return [

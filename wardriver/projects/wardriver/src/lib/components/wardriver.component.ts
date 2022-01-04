@@ -207,20 +207,20 @@ export class WarDriverComponent implements OnInit {
             return startReconResp;
         }
 
-        setSettings().then(() => { // set pineAP settings
-            getReconStatus().then((reconResp) => { // get status of recon scan
-                if (reconResp.scanRunning) { // if recon is running, stop it, then start it
+        
+        getReconStatus().then((reconResp) => { // get status of recon scan
+                if (reconResp.scanRunning) { // if recon is running, stop it
                     stopRecon().then(() => {
-                        startRecon().then((startResp) => {
-                            if (startResp.scanRunning) {
-                                console.log('>scan running. id: ' +startResp.scanID)
-                            }
-                        });
-                    }
-                    
-                    );
-                }
-            });
+                        setSettings().then(() => { // set pineAP settings
+                            startRecon().then((startResp) => { // start recon
+                                if (startResp.scanRunning) {
+                                    console.log('>scan running. id: ' +startResp.scanID)
+                                }
+                            });
+                    });
+                });
+            }
         });
+        
     } 
 }
