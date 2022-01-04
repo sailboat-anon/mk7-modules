@@ -631,28 +631,32 @@
             });
             var settingsPushed = false;
             var reconStopped = false;
-            function startWardriver() {
-                return __awaiter(this, void 0, void 0, function () {
-                    var _a, _b;
-                    return __generator(this, function (_c) {
-                        switch (_c.label) {
-                            case 0:
-                                _a = this;
-                                return [4 /*yield*/, pushSettings];
-                            case 1:
-                                _a.settingsPushed = _c.sent();
-                                if (!settingsPushed) return [3 /*break*/, 3];
-                                _b = this;
-                                return [4 /*yield*/, stopPineAP];
-                            case 2:
-                                _b.reconStopped = _c.sent();
-                                _c.label = 3;
-                            case 3: return [2 /*return*/];
-                        }
-                    });
-                });
+            /*async function startWardriver() {
+                this.settingsPushed = await pushSettings;
+                if (settingsPushed) {
+                    this.reconStopped = await stopPineAP;
+                }
+            }*/
+            function startSettings() {
+                this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) { if (resp.success) {
+                    return true;
+                } });
+                return true;
             }
-            startWardriver();
+            function stopRecon() {
+                var stopped = this.API.APIPost('/api/recon/stop', null, function (resp) {
+                    if (resp.success) {
+                        return true;
+                    }
+                });
+                if (stopped) {
+                    return true;
+                }
+                else
+                    return false;
+            }
+            startSettings();
+            stopRecon();
             //this.run_scand();
         };
         WarDriverComponent.ctorParameters = function () { return [

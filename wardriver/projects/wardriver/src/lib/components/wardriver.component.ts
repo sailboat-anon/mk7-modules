@@ -199,13 +199,29 @@ export class WarDriverComponent implements OnInit {
 
         let settingsPushed = false;
         let reconStopped = false;
-        async function startWardriver() {
+        /*async function startWardriver() {
             this.settingsPushed = await pushSettings;
             if (settingsPushed) {
                 this.reconStopped = await stopPineAP;
             }
+        }*/
+        function startSettings(): Boolean {
+            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => { if (resp.success) { return true; } });
+            return true;
         }
-        startWardriver();
+
+        function stopRecon(): Boolean {
+            let stopped = this.API.APIPost('/api/recon/stop', null, (resp) => {
+                if (resp.success) { return true; }
+            });
+            if (stopped) {
+                return true;
+            }
+            else return false;
+        }
+        startSettings();
+        stopRecon();
+
         //this.run_scand();
     } 
 }
