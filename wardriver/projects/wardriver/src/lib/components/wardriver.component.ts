@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
-import { async } from 'async';
+import { async, series } from 'async';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -181,50 +181,11 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
-
-        const stopPineAP = new Promise((resolve) => {
-            this.API.APIPost('/api/recon/stop', null, (resp) => {
-                if (resp.success) {
-                    return resolve('>recon stopped');
-                }
-                //else return reject(new Error('>could not stop recon:' +resp.error));
-            });
-        });
-
-        const pushSettings = new Promise ((resolve, reject) => {
-            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
-                if(resp.success) return resolve(true);
-                else return reject(new Error('>could not push settings:' +resp.error));
-            });
-        });
-
-        let settingsPushed = false;
-        let reconStopped = false;
-        /*async function startWardriver() {
-            this.settingsPushed = await pushSettings;
-            if (settingsPushed) {
-                this.reconStopped = await stopPineAP;
-            }
-        }*/
-        function startSettings(): Boolean {
-            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => { if (resp.success) { return true; } });
-            return true;
-        }
-
-        function stopRecon(): Boolean {
-            let stopped = this.API.APIPost('/api/recon/stop', null, (resp) => {
-                if (resp.success) { return true; }
-            });
-            if (stopped) {
-                return true;
-            }
-            else return false;
-        }
         
         //var async = require('async');
         async.series([
-            startSettings,
-            stopRecon
+            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => { if (resp.success) { return true; } }),
+            this.API.APIPost('/api/recon/stop', null, (resp) => { if (resp.success) { return true; } })
         ], function (err, results) {
             //
         });

@@ -590,7 +590,6 @@
             });
         };
         WarDriverComponent.prototype.ngOnInit = function () {
-            var _this = this;
             //this.populateTargetBSSIDs();
             //this.get_status();
             var pineAP_aggro_settings = {
@@ -613,52 +612,14 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
-            var stopPineAP = new Promise(function (resolve) {
-                _this.API.APIPost('/api/recon/stop', null, function (resp) {
-                    if (resp.success) {
-                        return resolve('>recon stopped');
-                    }
-                    //else return reject(new Error('>could not stop recon:' +resp.error));
-                });
-            });
-            var pushSettings = new Promise(function (resolve, reject) {
-                _this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
-                    if (resp.success)
-                        return resolve(true);
-                    else
-                        return reject(new Error('>could not push settings:' + resp.error));
-                });
-            });
-            var settingsPushed = false;
-            var reconStopped = false;
-            /*async function startWardriver() {
-                this.settingsPushed = await pushSettings;
-                if (settingsPushed) {
-                    this.reconStopped = await stopPineAP;
-                }
-            }*/
-            function startSettings() {
-                this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) { if (resp.success) {
-                    return true;
-                } });
-                return true;
-            }
-            function stopRecon() {
-                var stopped = this.API.APIPost('/api/recon/stop', null, function (resp) {
-                    if (resp.success) {
-                        return true;
-                    }
-                });
-                if (stopped) {
-                    return true;
-                }
-                else
-                    return false;
-            }
             //var async = require('async');
             async.async.series([
-                startSettings,
-                stopRecon
+                this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) { if (resp.success) {
+                    return true;
+                } }),
+                this.API.APIPost('/api/recon/stop', null, function (resp) { if (resp.success) {
+                    return true;
+                } })
             ], function (err, results) {
                 //
             });
