@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
-declare var require: any;
+import { async } from 'async';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -221,7 +221,7 @@ export class WarDriverComponent implements OnInit {
             else return false;
         }
         
-        var async = require('async');
+        //var async = require('async');
         async.series([
             startSettings,
             stopRecon
