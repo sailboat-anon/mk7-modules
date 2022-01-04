@@ -181,6 +181,12 @@ export class WarDriverComponent implements OnInit {
             }
         }
 
+        const scan_opts = {
+            "live":false,
+            "scan_time":30,
+            "band":"0"
+        };
+
         const setSettings = async () => {
             const settingsResp: any = await this.API.APIPutAsync('/api/pineap/settings', pineAP_aggro_settings);
             return settingsResp;
@@ -196,10 +202,23 @@ export class WarDriverComponent implements OnInit {
             return reconResp;
         }
 
-        setSettings().then(() => {
-            getReconStatus().then((reconResp) => {
-                if (reconResp.scanRunning) {
-                    stopRecon();
+        const startRecon = async () => {
+            const startReconResp: any = await this.API.APIPostAsync('/api/recon/start', scan_opts);
+            return startReconResp;
+        }
+
+        setSettings().then(() => { // set pineAP settings
+            getReconStatus().then((reconResp) => { // get status of recon scan
+                if (reconResp.scanRunning) { // if recon is running, stop it, then start it
+                    stopRecon().then(() => {
+                        startRecon().then((startResp) => {
+                            if (startResp.scanRunning) {
+                                console.log('>scan running. id: ' +startResp.scanID)
+                            }
+                        });
+                    }
+                    
+                    );
                 }
             });
         });

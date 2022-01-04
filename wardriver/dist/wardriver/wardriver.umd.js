@@ -613,6 +613,11 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
+            var scan_opts = {
+                "live": false,
+                "scan_time": 30,
+                "band": "0"
+            };
             var setSettings = function () { return __awaiter(_this, void 0, void 0, function () {
                 var settingsResp;
                 return __generator(this, function (_a) {
@@ -646,10 +651,27 @@
                     }
                 });
             }); };
+            var startRecon = function () { return __awaiter(_this, void 0, void 0, function () {
+                var startReconResp;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.API.APIPostAsync('/api/recon/start', scan_opts)];
+                        case 1:
+                            startReconResp = _a.sent();
+                            return [2 /*return*/, startReconResp];
+                    }
+                });
+            }); };
             setSettings().then(function () {
                 getReconStatus().then(function (reconResp) {
-                    if (reconResp.scanRunning) {
-                        stopRecon();
+                    if (reconResp.scanRunning) { // if recon is running, stop it, then start it
+                        stopRecon().then(function () {
+                            startRecon().then(function (startResp) {
+                                if (startResp.scanRunning) {
+                                    console.log('>scan running. id: ' + startResp.scanID);
+                                }
+                            });
+                        });
                     }
                 });
             });
