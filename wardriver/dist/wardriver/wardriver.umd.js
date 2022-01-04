@@ -624,7 +624,7 @@
             var pushSettings = new Promise(function (resolve, reject) {
                 _this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
                     if (resp.success)
-                        return resolve('>settings pushed sucessfully');
+                        return resolve(true);
                     else
                         return reject(new Error('>could not push settings:' + resp.error));
                 });
@@ -633,15 +633,21 @@
             var reconStopped = false;
             function startWardriver() {
                 return __awaiter(this, void 0, void 0, function () {
-                    var _a;
-                    return __generator(this, function (_b) {
-                        switch (_b.label) {
+                    var _a, _b;
+                    return __generator(this, function (_c) {
+                        switch (_c.label) {
                             case 0:
                                 _a = this;
-                                return [4 /*yield*/, pushSettings.then(this.stopPineAP())];
+                                return [4 /*yield*/, pushSettings];
                             case 1:
-                                _a.settingsPushed = _b.sent();
-                                return [2 /*return*/];
+                                _a.settingsPushed = _c.sent();
+                                if (!settingsPushed) return [3 /*break*/, 3];
+                                _b = this;
+                                return [4 /*yield*/, stopPineAP];
+                            case 2:
+                                _b.reconStopped = _c.sent();
+                                _c.label = 3;
+                            case 3: return [2 /*return*/];
                         }
                     });
                 });

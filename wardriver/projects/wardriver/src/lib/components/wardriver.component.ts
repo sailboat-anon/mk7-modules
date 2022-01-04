@@ -192,7 +192,7 @@ export class WarDriverComponent implements OnInit {
 
         const pushSettings = new Promise ((resolve, reject) => {
             this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
-                if(resp.success) return resolve('>settings pushed sucessfully');
+                if(resp.success) return resolve(true);
                 else return reject(new Error('>could not push settings:' +resp.error));
             });
         });
@@ -200,8 +200,10 @@ export class WarDriverComponent implements OnInit {
         let settingsPushed = false;
         let reconStopped = false;
         async function startWardriver() {
-            this.settingsPushed = await pushSettings.then(this.stopPineAP());
-            //this.reconStopped = await stopPineAP;
+            this.settingsPushed = await pushSettings;
+            if (settingsPushed) {
+                this.reconStopped = await stopPineAP;
+            }
         }
         startWardriver();
         //this.run_scand();
