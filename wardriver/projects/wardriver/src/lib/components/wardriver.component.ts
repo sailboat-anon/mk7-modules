@@ -200,8 +200,8 @@ export class WarDriverComponent implements OnInit {
         let settingsPushed = false;
         let reconStopped = false;
         async function startWardriver() {
-            this.settingsPushed = await pushSettings;
-            this.reconStopped = await stopPineAP;
+            this.settingsPushed = await pushSettings.then(this.stopPineAP());
+            //this.reconStopped = await stopPineAP;
         }
         startWardriver();
         //this.run_scand();

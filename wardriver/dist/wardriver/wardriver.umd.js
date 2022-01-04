@@ -633,18 +633,14 @@
             var reconStopped = false;
             function startWardriver() {
                 return __awaiter(this, void 0, void 0, function () {
-                    var _a, _b;
-                    return __generator(this, function (_c) {
-                        switch (_c.label) {
+                    var _a;
+                    return __generator(this, function (_b) {
+                        switch (_b.label) {
                             case 0:
                                 _a = this;
-                                return [4 /*yield*/, pushSettings];
+                                return [4 /*yield*/, pushSettings.then(this.stopPineAP())];
                             case 1:
-                                _a.settingsPushed = _c.sent();
-                                _b = this;
-                                return [4 /*yield*/, stopPineAP];
-                            case 2:
-                                _b.reconStopped = _c.sent();
+                                _a.settingsPushed = _b.sent();
                                 return [2 /*return*/];
                         }
                     });
