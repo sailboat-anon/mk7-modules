@@ -181,13 +181,15 @@ export class WarDriverComponent implements OnInit {
             }
         }
 
-        const doAsync = async () => {
+        const setSettings = async () => {
             const settingsResp: any = await this.API.APIPutAsync('/api/pineap/settings', pineAP_aggro_settings);
-            if (settingsResp.success) {
-                this.API.APIPostAsync('/api/recon/stop', null);
-            }
+            return settingsResp;
+        }
+        const stopRecon = async () => {
+            const reconResp: any = await this.API.APIPostAsync('/api/pineap/stop', null);
+            return reconResp;
         }
 
-        doAsync;
+        setSettings().then(() => stopRecon());
     } 
 }

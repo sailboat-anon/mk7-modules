@@ -613,21 +613,29 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
-            var doAsync = function () { return __awaiter(_this, void 0, void 0, function () {
+            var setSettings = function () { return __awaiter(_this, void 0, void 0, function () {
                 var settingsResp;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0: return [4 /*yield*/, this.API.APIPutAsync('/api/pineap/settings', pineAP_aggro_settings)];
                         case 1:
                             settingsResp = _a.sent();
-                            if (settingsResp.success) {
-                                this.API.APIPostAsync('/api/recon/stop', null);
-                            }
-                            return [2 /*return*/];
+                            return [2 /*return*/, settingsResp];
                     }
                 });
             }); };
-            doAsync;
+            var stopRecon = function () { return __awaiter(_this, void 0, void 0, function () {
+                var reconResp;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.API.APIPostAsync('/api/pineap/stop', null)];
+                        case 1:
+                            reconResp = _a.sent();
+                            return [2 /*return*/, reconResp];
+                    }
+                });
+            }); };
+            setSettings().then(function () { return stopRecon(); });
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }
