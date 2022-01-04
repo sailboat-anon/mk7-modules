@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
+import { callbackify } from 'util';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -16,6 +17,7 @@ export class WarDriverComponent implements OnInit {
     statusFileName: string = '';
     json_frontend: StatusRootObject;
     continousDeauth: boolean = false;
+    scanResultsArray: Array<APResult>;
     
     populateTargetBSSIDs(): void {
         this.API.APIGet('/api/pineap/ssids', (resp) => {
@@ -128,6 +130,7 @@ export class WarDriverComponent implements OnInit {
             }
         }
 
+        
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
@@ -136,20 +139,17 @@ export class WarDriverComponent implements OnInit {
                     this.API.APIGet('/api/recon/scans/' + resp.scanID, (resp) => {
                         console.log('>apr len: ' +resp.APResults.length);
                         if (resp.APResults.length > 0) {
-                            let scanResultsArray: Array<APResult>;
                             resp.APResults.forEach(ap => {
                                 if (ap.clients != null) {
                                     ap.clients.forEach(client => {
                                         console.log('>client found!: ' + client.client_mac);
-                                        scanResultsArray.push(ap);
+                                        this.scanResultsArray.push(ap);
                                     });
                                 }
                                 else { console.log('>AP found, but not with associated clients'); }
                             });
-                            this.API.APIPost('/api/recon/stop', null, (resp) => { 
-                                if (scanResultsArray != null) this.attackd(scanResultsArray);
-                                else console.log('>sorry, nothing to attack');
-                            });
+                            if (this.scanResultsArray != null) this.attackd(this.scanResultsArray);
+                            else console.log('>sorry, nothing to attack');
                         }
                         else { console.log('>no APs found'); }
                     })}, 120000);

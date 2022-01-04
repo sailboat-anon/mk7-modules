@@ -563,24 +563,21 @@
                             _this.API.APIGet('/api/recon/scans/' + resp.scanID, function (resp) {
                                 console.log('>apr len: ' + resp.APResults.length);
                                 if (resp.APResults.length > 0) {
-                                    var scanResultsArray_1;
                                     resp.APResults.forEach(function (ap) {
                                         if (ap.clients != null) {
                                             ap.clients.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
-                                                scanResultsArray_1.push(ap);
+                                                _this.scanResultsArray.push(ap);
                                             });
                                         }
                                         else {
                                             console.log('>AP found, but not with associated clients');
                                         }
                                     });
-                                    _this.API.APIPost('/api/recon/stop', null, function (resp) {
-                                        if (scanResultsArray_1 != null)
-                                            _this.attackd(scanResultsArray_1);
-                                        else
-                                            console.log('>sorry, nothing to attack');
-                                    });
+                                    if (_this.scanResultsArray != null)
+                                        _this.attackd(_this.scanResultsArray);
+                                    else
+                                        console.log('>sorry, nothing to attack');
                                 }
                                 else {
                                     console.log('>no APs found');
