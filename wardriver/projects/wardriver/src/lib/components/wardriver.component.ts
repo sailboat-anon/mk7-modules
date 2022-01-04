@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
-import { async, series } from 'async';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -181,14 +180,14 @@ export class WarDriverComponent implements OnInit {
                 'target_mac': 'FF:FF:FF:FF:FF:FF' 
             }
         }
-        
-        //var async = require('async');
-        async.series([
-            this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => { if (resp.success) { return true; } }),
-            this.API.APIPost('/api/recon/stop', null, (resp) => { if (resp.success) { return true; } })
-        ], function (err, results) {
-            //
-        });
-        //this.run_scand();
+
+        const doAsync = async () => {
+            const settingsResp: any = await this.API.APIPutAsync('/api/pineap/settings', pineAP_aggro_settings);
+            if (settingsResp.success) {
+                this.API.APIPostAsync('/api/recon/stop', null);
+            }
+        }
+
+        doAsync;
     } 
 }
