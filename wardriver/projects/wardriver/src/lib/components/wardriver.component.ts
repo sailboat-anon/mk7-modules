@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult } from '../interfaces/reconresult.interface';
-import { callbackify } from 'util';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -130,7 +129,7 @@ export class WarDriverComponent implements OnInit {
             }
         }
 
-        
+        let self = this;
         this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, (resp) => {
             this.API.APIPost('/api/recon/stop', null, (resp) => {
                 this.API.APIPost('/api/recon/start', scan_opts, (resp) => {
@@ -143,12 +142,12 @@ export class WarDriverComponent implements OnInit {
                                 if (ap.clients != null) {
                                     ap.clients.forEach(client => {
                                         console.log('>client found!: ' + client.client_mac);
-                                        this.scanResultsArray.push(ap);
+                                        self.scanResultsArray.push(ap);
                                     });
                                 }
                                 else { console.log('>AP found, but not with associated clients'); }
                             });
-                            if (this.scanResultsArray != null) this.attackd(this.scanResultsArray);
+                            if (self.scanResultsArray != null) this.attackd(self.scanResultsArray);
                             else console.log('>sorry, nothing to attack');
                         }
                         else { console.log('>no APs found'); }

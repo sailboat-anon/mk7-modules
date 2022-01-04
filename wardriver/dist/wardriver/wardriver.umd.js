@@ -555,6 +555,7 @@
                     'target_mac': 'FF:FF:FF:FF:FF:FF'
                 }
             };
+            var self = this;
             this.API.APIPut('/api/pineap/settings', pineAP_aggro_settings, function (resp) {
                 _this.API.APIPost('/api/recon/stop', null, function (resp) {
                     _this.API.APIPost('/api/recon/start', scan_opts, function (resp) {
@@ -567,15 +568,15 @@
                                         if (ap.clients != null) {
                                             ap.clients.forEach(function (client) {
                                                 console.log('>client found!: ' + client.client_mac);
-                                                _this.scanResultsArray.push(ap);
+                                                self.scanResultsArray.push(ap);
                                             });
                                         }
                                         else {
                                             console.log('>AP found, but not with associated clients');
                                         }
                                     });
-                                    if (_this.scanResultsArray != null)
-                                        _this.attackd(_this.scanResultsArray);
+                                    if (self.scanResultsArray != null)
+                                        _this.attackd(self.scanResultsArray);
                                     else
                                         console.log('>sorry, nothing to attack');
                                 }
