@@ -628,7 +628,7 @@
                 var reconStatusResp;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, this.API.APIGetAsync('/api/pineap/status')];
+                        case 0: return [4 /*yield*/, this.API.APIGetAsync('/api/recon/status')];
                         case 1:
                             reconStatusResp = _a.sent();
                             return [2 /*return*/, reconStatusResp];
@@ -639,7 +639,7 @@
                 var reconResp;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, this.API.APIPostAsync('/api/pineap/stop', null)];
+                        case 0: return [4 /*yield*/, this.API.APIPostAsync('/api/recon/stop', null)];
                         case 1:
                             reconResp = _a.sent();
                             return [2 /*return*/, reconResp];
