@@ -192,9 +192,7 @@ export class WarDriverComponent implements OnInit {
         
         const getReconStatus = async () => {
             const reconStatusResp: any = await this.API.APIGetAsync('/api/recon/status');
-            setTimeout(() => {
-                return reconStatusResp;
-            },20000);
+            return reconStatusResp;
         }
 
         const stopRecon = async () => {
@@ -257,10 +255,9 @@ export class WarDriverComponent implements OnInit {
                 level: 1,
                 message: notificationString,
                 module_name: 'wardriver'
-            }
-            
-            const getHandshakeStatusResp: any = await this.API.APIPutAsync('/api/notifications', notification_payload);
-            return getHandshakeStatusResp;
+            }         
+            const notificationResp: any = await this.API.APIPutAsync('/api/notifications', notification_payload);
+            return notificationResp;
         }
 
         let scanID: number;
