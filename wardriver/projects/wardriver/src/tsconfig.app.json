@@ -1,0 +1,11 @@
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "types": [ "node" ],
+        "typeRoots": ["../node_modules/@types"]
+    },
+    "angularCompilerOptions": {
+        "fullTemplateTypeCheck": true,
+        "strictInjectionParameters": true,
+    }
+}
