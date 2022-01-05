@@ -226,12 +226,12 @@ export class WarDriverComponent implements OnInit {
                 multiplier: 5,
                 channel: 11
             }
-            const deauthBssidResp: any = await this.API.APIPostAsync('/api/pineap/deauth/client', deauthClientPayload);
-            return deauthBssidResp;
+            const deauthClientResp: any = await this.API.APIPostAsync('/api/pineap/deauth/client', deauthClientPayload);
+            return deauthClientResp;
         }
 
         const deauthBssid = async (ap: APResult) => { // https://hak5.github.io/mk7-docs/docs/rest/recon/recon/
-            let clientArray: Array<string>;
+            let clientArray: any;
             ap.clients.forEach((client) => {
                 clientArray.push(client.client_mac);
             });
