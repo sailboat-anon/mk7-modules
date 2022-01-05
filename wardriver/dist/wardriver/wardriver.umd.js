@@ -809,6 +809,7 @@
                     });
                 });
             }
+            startBasicWorkflow();
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }

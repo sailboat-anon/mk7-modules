@@ -313,6 +313,7 @@ export class WarDriverComponent implements OnInit {
                 });
             });
         }
+        startBasicWorkflow();
     }
 }
 
