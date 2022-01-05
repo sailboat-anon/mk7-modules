@@ -759,7 +759,7 @@
             var currentBssid;
             var currentClient;
             var continuousRun = true;
-            while (continuousRun) {
+            function startBasicWorkflow() {
                 getReconStatus().then(function (reconResp) {
                     if (reconResp.scanRunning) { // if recon is running, stop it
                         stopRecon();
@@ -791,6 +791,9 @@
                                                                             sendNotification('Sorry, no handshakes found :(');
                                                                         }
                                                                         // stop handshakes
+                                                                        if (continuousRun) {
+                                                                            startBasicWorkflow();
+                                                                        }
                                                                     });
                                                                 }, 20000);
                                                             });
