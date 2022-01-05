@@ -616,6 +616,7 @@
                 "scan_time": 30,
                 "band": "0"
             };
+            var clientArray;
             var setSettings = function () { return __awaiter(_this, void 0, void 0, function () {
                 var settingsResp;
                 return __generator(this, function (_a) {
@@ -706,7 +707,7 @@
                 });
             }); };
             var deauthBssid = function (ap) { return __awaiter(_this, void 0, void 0, function () {
-                var clientArray, deauthBssidPayload, deauthBssidResp;
+                var deauthBssidPayload, deauthBssidResp;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
