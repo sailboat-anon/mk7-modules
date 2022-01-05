@@ -634,7 +634,10 @@
                         case 0: return [4 /*yield*/, this.API.APIGetAsync('/api/recon/status')];
                         case 1:
                             reconStatusResp = _a.sent();
-                            return [2 /*return*/, reconStatusResp];
+                            setTimeout(function () {
+                                return reconStatusResp;
+                            }, 20000);
+                            return [2 /*return*/];
                     }
                 });
             }); };

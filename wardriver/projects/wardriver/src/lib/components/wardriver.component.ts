@@ -192,7 +192,9 @@ export class WarDriverComponent implements OnInit {
         
         const getReconStatus = async () => {
             const reconStatusResp: any = await this.API.APIGetAsync('/api/recon/status');
-            return reconStatusResp;
+            setTimeout(() => {
+                return reconStatusResp;
+            },20000);
         }
 
         const stopRecon = async () => {
