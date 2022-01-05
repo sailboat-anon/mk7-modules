@@ -780,7 +780,8 @@
                                                                 //deauthBssid(ap);
                                                                 ap.clients.forEach(function (client) {
                                                                     currentClient = client;
-                                                                    deauthClient(client);
+                                                                    deauthClient(client); // WAIT for this to finish before resending
+                                                                    setTimeout(function () { }, 5000);
                                                                 });
                                                                 setTimeout(function () {
                                                                     getHandshakeStatus().then(function (handShakeStatus) {

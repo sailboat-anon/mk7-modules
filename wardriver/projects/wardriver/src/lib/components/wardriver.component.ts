@@ -286,7 +286,8 @@ export class WarDriverComponent implements OnInit {
                                                             //deauthBssid(ap);
                                                             ap.clients.forEach((client: Client) => { // loop through clients
                                                                 currentClient = client;
-                                                                deauthClient(client);
+                                                                deauthClient(client);  // WAIT for this to finish before resending
+                                                                setTimeout(() => {}, 5000);
                                                             });
                                                             setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
                                                                 getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
