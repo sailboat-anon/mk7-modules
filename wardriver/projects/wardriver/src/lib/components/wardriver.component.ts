@@ -184,6 +184,7 @@ export class WarDriverComponent implements OnInit {
             "scan_time":30,
             "band":"0"
         };
+        let clientArray: any;
 
         const setSettings = async () => {
             const settingsResp: any = await this.API.APIPutAsync('/api/pineap/settings', pineAP_aggro_settings);
@@ -231,7 +232,6 @@ export class WarDriverComponent implements OnInit {
         }
 
         const deauthBssid = async (ap: APResult) => { // https://hak5.github.io/mk7-docs/docs/rest/recon/recon/
-            let clientArray: any;
             ap.clients.forEach((client) => {
                 clientArray.push(client.client_mac);
             });
