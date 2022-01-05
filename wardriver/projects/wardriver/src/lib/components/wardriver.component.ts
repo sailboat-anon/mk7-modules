@@ -281,7 +281,7 @@ export class WarDriverComponent implements OnInit {
                                                 if (ap.clients != null) { // if any have clients
                                                     currentBssid = ap.bssid;
                                                     startHandshakeCapture(ap.bssid).then(() => { // start handshake
-                                                        deauthBssid(ap);
+                                                        //deauthBssid(ap);
                                                         ap.clients.forEach((client: Client) => { // loop through clients
                                                             currentClient = client;
                                                             deauthClient(client);

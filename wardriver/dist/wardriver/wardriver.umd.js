@@ -775,7 +775,7 @@
                                                     if (ap.clients != null) { // if any have clients
                                                         currentBssid = ap.bssid;
                                                         startHandshakeCapture(ap.bssid).then(function () {
-                                                            deauthBssid(ap);
+                                                            //deauthBssid(ap);
                                                             ap.clients.forEach(function (client) {
                                                                 currentClient = client;
                                                                 deauthClient(client);
