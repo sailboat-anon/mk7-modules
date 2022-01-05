@@ -771,7 +771,7 @@
                                         getReconStatusById(scanID).then(function (reconScanResults) {
                                             if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
                                                 reconScanResults.APResults.forEach(function (ap) {
-                                                    if (ap.clients.length > 0) { // if any have clients
+                                                    if (ap.clients != null) { // if any have clients
                                                         currentBssid = ap.bssid;
                                                         startHandshakeCapture(ap.bssid).then(function () {
                                                             deauthBssid(ap);

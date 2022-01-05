@@ -278,7 +278,7 @@ export class WarDriverComponent implements OnInit {
                                     getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
                                         if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
                                             reconScanResults.APResults.forEach((ap) => { // loop through APs
-                                                if (ap.clients.length > 0) { // if any have clients
+                                                if (ap.clients != null) { // if any have clients
                                                     currentBssid = ap.bssid;
                                                     startHandshakeCapture(ap.bssid).then(() => { // start handshake
                                                         deauthBssid(ap);
