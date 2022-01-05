@@ -698,7 +698,7 @@
                                 multiplier: 5,
                                 channel: 11
                             };
-                            return [4 /*yield*/, this.API.APIPostAsync('/api/pineap/deauth/ap', deauthClientPayload)];
+                            return [4 /*yield*/, this.API.APIPostAsync('/api/pineap/deauth/client', deauthClientPayload)];
                         case 1:
                             deauthBssidResp = _a.sent();
                             return [2 /*return*/, deauthBssidResp];
@@ -778,18 +778,17 @@
                                                             ap.clients.forEach(function (client) {
                                                                 currentClient = client;
                                                                 deauthClient(client);
-                                                            }).then(function () {
-                                                                setTimeout(function () {
-                                                                    getHandshakeStatus().then(function (handShakeStatus) {
-                                                                        if (handShakeStatus.handshakes != null) {
-                                                                            sendNotification('Handshakes Found!'); // tell the user our results
-                                                                        }
-                                                                        else {
-                                                                            sendNotification('Sorry, no handshakes found :(');
-                                                                        }
-                                                                    });
-                                                                }, 20000);
                                                             });
+                                                            setTimeout(function () {
+                                                                getHandshakeStatus().then(function (handShakeStatus) {
+                                                                    if (handShakeStatus.handshakes != null) {
+                                                                        sendNotification('Handshakes Found!'); // tell the user our results
+                                                                    }
+                                                                    else {
+                                                                        sendNotification('Sorry, no handshakes found :(');
+                                                                    }
+                                                                });
+                                                            }, 20000);
                                                         });
                                                     }
                                                 });

