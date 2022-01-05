@@ -304,7 +304,7 @@ export class WarDriverComponent implements OnInit {
                                     });
                                 }
                             });
-                        }, 31000);
+                        }, 120000);
                     }
                 });
             });
