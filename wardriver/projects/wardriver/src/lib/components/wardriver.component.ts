@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ApiService } from '../services/api.service'; 
 import { StatusRootObject} from '../interfaces/status.interface';
 import { APResult, Client } from '../interfaces/reconresult.interface';
+var serializer = require("async");
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -192,8 +193,11 @@ export class WarDriverComponent implements OnInit {
         }
         
         const getReconStatus = async () => {
-            const reconStatusResp: any = await this.API.APIGetAsync('/api/recon/status');
-            return reconStatusResp;
+            //const reconStatusResp: any = await this.API.APIGetAsync('/api/recon/status');
+            this.API.APIGet('/api/recon/status', (reconStatusResp) => {
+                return reconStatusResp;
+            });
+            
         }
 
         const stopRecon = async () => {
@@ -260,61 +264,75 @@ export class WarDriverComponent implements OnInit {
             return notificationResp;
         }
 
+        serializer.series([
+            getReconStatus(),
+            setSettings(),
+            startRecon(),
+            stopRecon()
+        ]);
+        
+        
+/*
         let scanID: number;
         let currentBssid: string;
         let currentClient: Client;
         const continuousRun: boolean = true;
 
         function startBasicWorkflow() {
+            console.log('>starting wardriver workflow');
             getReconStatus().then((reconResp) => { // get status of recon scan
                 if (reconResp.scanRunning) { // if recon is running, stop it
                     stopRecon();
                 }
-                setSettings().then(() => { // set pineAP settings
-                    startRecon().then((startResp) => { // start recon
-                        if (startResp.scanRunning) {
-                            scanID = startResp.scanID;
-                            setTimeout(() => { // run recon for x seconds
-                                stopRecon().then((stopReconResponse) => { // stop recon
-                                    if (stopReconResponse.success) {
-                                        getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
-                                            if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
-                                                reconScanResults.APResults.forEach((ap: APResult) => { // loop through APs
-                                                    if (ap.clients != null) { // if any have clients
-                                                        currentBssid = ap.bssid;
-                                                        startHandshakeCapture(ap.bssid).then(() => { // start handshake
-                                                            //deauthBssid(ap);
-                                                            ap.clients.forEach((client: Client) => { // loop through clients
-                                                                currentClient = client;
-                                                                deauthClient(client);  // WAIT for this to finish before resending
-                                                                setTimeout(() => {}, 5000);
-                                                            });
-                                                            setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
-                                                                getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
-                                                                    if (handShakeStatus.handshakes != null) {
-                                                                        sendNotification('Handshakes Found!'); // tell the user our results
-                                                                    }
-                                                                    else {
-                                                                        sendNotification('Sorry, no handshakes found :(');
-                                                                    }
-                                                                    // stop handshakes
-                                                                    if (continuousRun) { startBasicWorkflow(); }
+                setTimeout(() => {  
+                    setSettings().then(() => { // set pineAP settings
+                        startRecon().then((startResp) => { // start recon
+                            if (startResp.scanRunning) {
+                                scanID = startResp.scanID;
+                                setTimeout(() => { // run recon for x seconds
+                                    stopRecon().then((stopReconResponse) => { // stop recon
+                                        if (stopReconResponse.success) {
+                                            getReconStatusById(scanID).then((reconScanResults) => {  // get recon scan results
+                                                if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
+                                                    reconScanResults.APResults.forEach((ap: APResult) => { // loop through APs
+                                                        if (ap.clients != null) { // if any have clients
+                                                            console.log('>found BSSID (' + ap.bssid + ')with clients:' + ap.clients.length);
+                                                            currentBssid = ap.bssid;
+                                                            startHandshakeCapture(ap.bssid).then(() => { // start handshake
+                                                                //deauthBssid(ap);
+                                                                console.log('>starting handshake capture on ' + ap.bssid);
+                                                                ap.clients.forEach((client: Client) => { // loop through clients
+                                                                    currentClient = client;
+                                                                    console.log('>deauthing client (' + client.client_mac + ') with bssid ' + ap.bssid);
+                                                                    deauthClient(client);  // WAIT for this to finish before resending
                                                                 });
-                                                            }, 20000);
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            }, 180000);
-                        }
+                                                                setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
+                                                                    getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
+                                                                        if (handShakeStatus.handshakes != null) {
+                                                                            sendNotification('Handshakes Found!'); // tell the user our results
+                                                                        }
+                                                                        else {
+                                                                            sendNotification('Sorry, no handshakes found :(');
+                                                                        }
+                                                                        // stop handshakes
+                                                                        if (continuousRun) { console.log('>starting worfklow again'); startBasicWorkflow(); }
+                                                                    });
+                                                                }, 20000);
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }, 180000);
+                            }
+                        });
                     });
+                }, 5000);
                 });
-            });
         }
-        startBasicWorkflow();
+        startBasicWorkflow();*/
     }
 }
 

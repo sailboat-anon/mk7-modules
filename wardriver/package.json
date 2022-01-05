@@ -22,10 +22,9 @@
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
-    "@types/async": "^3.2.12",
+    "@types/async": "3.2.12",
     "async": "^2.6.3",
     "file-system": "^2.2.2",
-    "g": "^2.0.1",
     "ng": "^0.0.0",
     "require": "^2.4.20",
     "rxjs": "~6.5.5",
@@ -40,8 +39,9 @@
     "@angular/language-service": "~9.1.11",
     "@types/jasmine": "~3.5.10",
     "@types/jasminewd2": "~2.0.3",
-    "@types/node": "^12.20.40",
+    "@types/node": "17.0.8",
     "codelyzer": "^5.1.2",
+    "g": "2.0.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~5.0.2",
     "karma": "~5.1.0",
@@ -53,6 +53,6 @@
     "protractor": "~7.0.0",
     "ts-node": "~8.10.2",
     "tslint": "~6.1.2",
-    "typescript": "^3.6.5"
+    "typescript": "3.8.3"
   }
 }
