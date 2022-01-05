@@ -263,7 +263,9 @@ export class WarDriverComponent implements OnInit {
         let scanID: number;
         let currentBssid: string;
         let currentClient: Client;
+        const continuousRun: boolean = true;
 
+        while (continuousRun) {
         getReconStatus().then((reconResp) => { // get status of recon scan
             if (reconResp.scanRunning) { // if recon is running, stop it
                 stopRecon();
@@ -294,6 +296,7 @@ export class WarDriverComponent implements OnInit {
                                                                 else {
                                                                     sendNotification('Sorry, no handshakes found :(');
                                                                 }
+                                                                // stop handshakes
                                                             });
                                                         }, 20000);
                                                     });
@@ -303,11 +306,12 @@ export class WarDriverComponent implements OnInit {
                                     });
                                 }
                             });
-                        }, 120000);
+                        }, 180000);
                     }
                 });
             });
         });
+    }
     }
 }
 

