@@ -187,8 +187,6 @@ export class WarDriverComponent implements OnInit {
         };
         let clientArray: any;
 
-        let clientArray: any;
-
         const setSettings = async () => {
             const settingsResp: any = await this.API.APIPutAsync('/api/pineap/settings', pineAP_aggro_settings);
             return settingsResp;
