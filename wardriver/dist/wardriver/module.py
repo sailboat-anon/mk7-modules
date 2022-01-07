@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
-import logging, json, requests, time
+import logging, json, requests, time, subprocess
 from pineapple.modules import Module, Request
 
 module = Module('wardriver', logging.DEBUG)
@@ -10,7 +10,7 @@ scanid = None
 
 @module.handles_action('basic_wardriver_flow')
 def basic_wardriver_flow(request: Request):
-    grep_output('/usr/bin/python /root/m.py')
+    subprocess.call(['ash', 'python /root/m.py'])
     return True
 
     global cycle
