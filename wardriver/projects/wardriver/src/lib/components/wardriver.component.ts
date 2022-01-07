@@ -10,6 +10,15 @@ import {MatTabsModule} from '@angular/material/tabs';
 
 export class WarDriverComponent implements OnInit { 
     constructor(private API: ApiService) { }
+
+    basic_wardriver_flow(): void {
+        this.API.request({
+            module: 'wardriver',
+            action: 'basic_wardriver_flow',
+        }, (resp) => {
+            
+        })
+    }
     
     ngOnInit() { 
 

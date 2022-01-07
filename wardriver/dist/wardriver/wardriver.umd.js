@@ -440,6 +440,13 @@
         function WarDriverComponent(API) {
             this.API = API;
         }
+        WarDriverComponent.prototype.basic_wardriver_flow = function () {
+            this.API.request({
+                module: 'wardriver',
+                action: 'basic_wardriver_flow',
+            }, function (resp) {
+            });
+        };
         WarDriverComponent.prototype.ngOnInit = function () {
         };
         WarDriverComponent.ctorParameters = function () { return [
@@ -448,7 +455,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card-title>Status</mat-card-title> \n            <mat-card-content> \n                <textarea name=\"Status\">DOING A THING</textarea>\n                <mat-divider></mat-divider>\n                <section>\n                    <mat-slide-toggle>RELEASE THE BEAST</mat-slide-toggle>\n                </section>\n            </mat-card-content> \n        </mat-tab>\n        <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n        <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n        <mat-tab label=\"History\" disabled> History </mat-tab>\n        </mat-tab-group>      \n</mat-card>",
+                template: "<mat-card>\n    <mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card-title>Status</mat-card-title> \n            <mat-card-content> \n                <textarea name=\"Status\" width=\"33%\" height=\"33%\">Wardriver module locked and loaded!</textarea>\n                <mat-divider></mat-divider>\n                <section>\n                    <mat-slide-toggle (click)=\"basic_wardriver_flow();\">RELEASE THE BEAST</mat-slide-toggle>\n                </section>\n            </mat-card-content> \n        </mat-tab>\n        <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n        <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n        <mat-tab label=\"History\" disabled> History </mat-tab>\n        </mat-tab-group>      \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);
