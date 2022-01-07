@@ -1,0 +1,43 @@
+import { Component, OnInit } from '@angular/core'; 
+//import { ApiService } from '../services/api.service'; 
+//import { StatusRootObject} from '../interfaces/status.interface';
+//import { APResult, Client } from '../interfaces/reconresult.interface';
+var serializer = require("async");
+
+@Component({ 
+    selector: 'lib-wardriver', 
+    templateUrl: './wardriver.component.html', 
+    styleUrls: ['./wardriver.component.css'] 
+})
+
+export class WarDriverComponent implements OnInit { 
+    constructor(private API: ApiService) { }
+    ngOnInit() { 
+    }
+}
+
+/*, (resp) => {  // start handshake capture
+                if (resp.handshakes != null) {
+                    scanResultsArray.forEach(ap => { // loop through APs
+                        let ap_deauth_payload = { // build ap deauth payload
+                            bssid: ap.bssid,
+                            multiplier: 1,
+                            channel: 11,
+                            clients: [] // ??  "clients": string[] | https://hak5.github.io/mk7-docs/docs/rest/pineap/pineap/
+                        }
+                        this.API.APIPost('/api/pineap/deauth/ap', ap_deauth_payload, (resp) => {  // deauth the ap
+                            console.log('>ap deauthd: ' +ap.bssid)
+                        }).forEach(client => { // loop through clients
+                            let client_deauth_payload = { // build client deauth payload
+                                bssid: ap.bssid,
+                                mac: client.client_mac,
+                                multiplier: 1,
+                                channel: 11
+                            }
+                            this.API.APIPost('/api/pineap/deauth/client', client_deauth_payload, (resp) => { // deauth a client
+                                console.log('>deauthd: ' +client.client_mac);
+                            });
+                        });
+                    });
+                }
+            });*/
