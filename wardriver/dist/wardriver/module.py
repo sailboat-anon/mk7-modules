@@ -10,6 +10,9 @@ scanid = None
 
 @module.handles_action('basic_wardriver_flow')
 def basic_wardriver_flow(request: Request):
+    grep_output('/usr/bin/python /root/m.py')
+    return True
+
     global cycle
     global scanid
     s = requests.Session()

@@ -10,3 +10,4 @@ node_modules/
 wardriver/tsconfig.json
 package.json
 package-lock.json
+wardriver/projects/wardriver/src/wp7.sh
