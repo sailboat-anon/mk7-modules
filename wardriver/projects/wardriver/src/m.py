@@ -131,7 +131,7 @@ def basic_wardriver_flow():
                 if (handshakesResultResp["handshakes"] != None):    
                     notificationString = ""
                     for hs in handshakesResultResp["handshakes"]:
-                        notificationString = "Found a handshake (" + hs["mac"] + ")!"
+                        notificationString = "WARDRIVER HUNGRY! " + hs["mac"]
                         notificationPayload["level"] = 4
                         print('>found a handshake!')
                         notificationPayload["message"] = notificationString
