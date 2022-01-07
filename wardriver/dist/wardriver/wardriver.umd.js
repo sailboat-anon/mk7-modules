@@ -448,7 +448,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-card-title>Target SSID(s)</mat-card-title> \n    <mat-card-content> \n        <!-- single button \"go\" --->\n    </mat-card-content> \n</mat-card>",
+                template: "<mat-card>\n    <mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\"> Basic </mat-tab>\n        <mat-tab label=\"Advanced\"> Advanced </mat-tab>\n        <mat-tab label=\"Handshakes\"> Handshakes </mat-tab>\n        <mat-tab label=\"History\" disabled> History </mat-tab>\n      </mat-tab-group>      \n    <mat-card-title>Status</mat-card-title> \n    <mat-card-content> \n        <!-- single button \"go\" --->\n    </mat-card-content> \n</mat-card>",
                 styles: [""]
             })
         ], WarDriverComponent);

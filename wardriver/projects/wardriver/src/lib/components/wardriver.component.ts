@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
+import {MatTabsModule} from '@angular/material/tabs'; 
 
 @Component({ 
     selector: 'lib-wardriver', 
@@ -11,6 +12,6 @@ export class WarDriverComponent implements OnInit {
     constructor(private API: ApiService) { }
     
     ngOnInit() { 
-        
+
     }
 }
