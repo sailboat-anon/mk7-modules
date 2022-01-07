@@ -1,12 +1,18 @@
 <mat-card>
     <mat-tab-group mat-stretch-tabs class="example-stretched-tabs mat-elevation-z4">
-        <mat-tab label="Basic"> Basic </mat-tab>
-        <mat-tab label="Advanced"> Advanced </mat-tab>
-        <mat-tab label="Handshakes"> Handshakes </mat-tab>
+        <mat-tab label="Basic">
+            <mat-card-title>Status</mat-card-title> 
+            <mat-card-content> 
+                <textarea name="Status">DOING A THING</textarea>
+                <mat-divider></mat-divider>
+                <section>
+                    <mat-slide-toggle>RELEASE THE BEAST</mat-slide-toggle>
+                </div>
+                </section>
+            </mat-card-content> 
+        </mat-tab>
+        <mat-tab label="Advanced" disabled> Advanced </mat-tab>
+        <mat-tab label="Handshakes" disabled> Handshakes </mat-tab>
         <mat-tab label="History" disabled> History </mat-tab>
-      </mat-tab-group>      
-    <mat-card-title>Status</mat-card-title> 
-    <mat-card-content> 
-        <!-- single button "go" --->
-    </mat-card-content> 
+        </mat-tab-group>      
 </mat-card>
