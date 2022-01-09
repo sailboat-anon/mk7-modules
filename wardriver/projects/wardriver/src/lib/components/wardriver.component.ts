@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
 import {MatTabsModule} from '@angular/material/tabs'; 
-import fs from 'fs';
+import * as fs from 'fs';
 import { Subscription, Observable, timer } from 'rxjs';
 
 @Component({ 
