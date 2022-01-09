@@ -20,7 +20,7 @@ export class WarDriverComponent implements OnInit {
             action: 'basic_wardriver_flow',
         }, (resp) => {
             
-        })
+        });
     }
 
     get_berserker_scan_status(): any {
@@ -29,7 +29,7 @@ export class WarDriverComponent implements OnInit {
             action: 'get_berserker_scan_status',
         }, (resp) => {
             this.statusWindowMsg = resp;
-        })
+        });
     }
     
     ngOnInit() { 
