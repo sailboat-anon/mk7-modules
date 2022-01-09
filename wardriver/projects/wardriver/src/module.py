@@ -1,12 +1,10 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
-import logging, json, requests, time, subprocess
+import logging, subprocess
 from pineapple.modules import Module, Request
 
 module = Module('wardriver', logging.DEBUG)
 
-cycle = 0
-scanid = None
 scan_pid = None
 
 @module.handles_action('basic_wardriver_flow')
