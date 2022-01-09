@@ -1,10 +1,8 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
 # REQUIRES:  /usr/bin/pip install requests
-#
 
 import json, requests, time
-from pathlib import Path
 cycle = 0
 scanid = None
 
