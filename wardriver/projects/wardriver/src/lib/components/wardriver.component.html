@@ -3,7 +3,7 @@
         <mat-tab label="Basic">
             <mat-card-title>Status</mat-card-title> 
             <mat-card-content> 
-                <textarea name="Status" width="33%" height="33%">Wardriver module locked and loaded!</textarea>
+                <textarea name="Status" formControlName="Status" matInput>{{statusWindowMsg}}</textarea>
                 <mat-divider></mat-divider>
                 <section>
                     <mat-slide-toggle (click)="basic_wardriver_flow();">RELEASE THE BEAST</mat-slide-toggle>
