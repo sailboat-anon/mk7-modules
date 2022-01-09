@@ -10,7 +10,7 @@ scanid = None
 
 @module.handles_action('basic_wardriver_flow')
 def basic_wardriver_flow(request: Request):
-    subprocess.call(['python', '/tmp/m.py'])
+    subprocess.Popen(["python", "/tmp/m.py"])
     return True
 
     global cycle
