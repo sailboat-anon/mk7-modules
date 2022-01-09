@@ -7,6 +7,15 @@ module = Module('wardriver', logging.DEBUG)
 
 scan_pid = None
 
+@module.handles_action('poll_berserker_process')
+def poll_berserker_process(request: Request):
+    berserkerRunning = check_for_process(scan_pid)
+    if (berserkerRunning):
+        print('berserker is running')
+    else:
+        print('berserker is NOT running')
+    print('scan pid: ' +str(scan_pid))
+
 @module.handles_action('basic_wardriver_flow')
 def basic_wardriver_flow(request: Request):
     global scan_pid
