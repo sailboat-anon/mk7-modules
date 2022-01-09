@@ -1,8 +1,8 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common/http'), require('@angular/router'), require('fs'), require('rxjs'), require('@angular/common'), require('@angular/cdk/a11y'), require('@angular/cdk/bidi'), require('@angular/cdk/observers'), require('@angular/cdk/overlay'), require('@angular/cdk/platform'), require('@angular/cdk/portal'), require('@angular/cdk/stepper'), require('@angular/cdk/table'), require('@angular/cdk/tree'), require('@angular/material/autocomplete'), require('@angular/material/badge'), require('@angular/material/bottom-sheet'), require('@angular/material/button'), require('@angular/material/button-toggle'), require('@angular/material/card'), require('@angular/material/checkbox'), require('@angular/material/chips'), require('@angular/material/core'), require('@angular/material/datepicker'), require('@angular/material/dialog'), require('@angular/material/divider'), require('@angular/material/expansion'), require('@angular/material/form-field'), require('@angular/material/grid-list'), require('@angular/material/icon'), require('@angular/material/input'), require('@angular/material/list'), require('@angular/material/menu'), require('@angular/material/paginator'), require('@angular/material/progress-bar'), require('@angular/material/progress-spinner'), require('@angular/material/radio'), require('@angular/material/select'), require('@angular/material/sidenav'), require('@angular/material/slide-toggle'), require('@angular/material/slider'), require('@angular/material/snack-bar'), require('@angular/material/sort'), require('@angular/material/stepper'), require('@angular/material/table'), require('@angular/material/tabs'), require('@angular/material/toolbar'), require('@angular/material/tooltip'), require('@angular/material/tree'), require('@angular/flex-layout'), require('@angular/forms')) :
-    typeof define === 'function' && define.amd ? define('wardriver', ['exports', '@angular/core', '@angular/common/http', '@angular/router', 'fs', 'rxjs', '@angular/common', '@angular/cdk/a11y', '@angular/cdk/bidi', '@angular/cdk/observers', '@angular/cdk/overlay', '@angular/cdk/platform', '@angular/cdk/portal', '@angular/cdk/stepper', '@angular/cdk/table', '@angular/cdk/tree', '@angular/material/autocomplete', '@angular/material/badge', '@angular/material/bottom-sheet', '@angular/material/button', '@angular/material/button-toggle', '@angular/material/card', '@angular/material/checkbox', '@angular/material/chips', '@angular/material/core', '@angular/material/datepicker', '@angular/material/dialog', '@angular/material/divider', '@angular/material/expansion', '@angular/material/form-field', '@angular/material/grid-list', '@angular/material/icon', '@angular/material/input', '@angular/material/list', '@angular/material/menu', '@angular/material/paginator', '@angular/material/progress-bar', '@angular/material/progress-spinner', '@angular/material/radio', '@angular/material/select', '@angular/material/sidenav', '@angular/material/slide-toggle', '@angular/material/slider', '@angular/material/snack-bar', '@angular/material/sort', '@angular/material/stepper', '@angular/material/table', '@angular/material/tabs', '@angular/material/toolbar', '@angular/material/tooltip', '@angular/material/tree', '@angular/flex-layout', '@angular/forms'], factory) :
-    (global = global || self, factory(global.wardriver = {}, global.ng.core, global.ng.common.http, global.ng.router, global.fs, global.rxjs, global.ng.common, global.ng.cdk.a11y, global.ng.cdk.bidi, global.ng.cdk.observers, global.ng.cdk.overlay, global.ng.cdk.platform, global.ng.cdk.portal, global.ng.cdk.stepper, global.ng.cdk.table, global.ng.cdk.tree, global.ng.material.autocomplete, global.ng.material.badge, global.ng.material.bottomSheet, global.ng.material.button, global.ng.material.buttonToggle, global.ng.material.card, global.ng.material.checkbox, global.ng.material.chips, global.ng.material.core, global.ng.material.datepicker, global.ng.material.dialog, global.ng.material.divider, global.ng.material.expansion, global.ng.material.formField, global.ng.material.gridList, global.ng.material.icon, global.ng.material.input, global.ng.material.list, global.ng.material.menu, global.ng.material.paginator, global.ng.material.progressBar, global.ng.material.progressSpinner, global.ng.material.radio, global.ng.material.select, global.ng.material.sidenav, global.ng.material.slideToggle, global.ng.material.slider, global.ng.material.snackBar, global.ng.material.sort, global.ng.material.stepper, global.ng.material.table, global.ng.material.tabs, global.ng.material.toolbar, global.ng.material.tooltip, global.ng.material.tree, global.ng.flexLayout, global.ng.forms));
-}(this, (function (exports, core, http, router, fs, rxjs, common, a11y, bidi, observers, overlay, platform, portal, stepper, table, tree, autocomplete, badge, bottomSheet, button, buttonToggle, card, checkbox, chips, core$1, datepicker, dialog, divider, expansion, formField, gridList, icon, input, list, menu, paginator, progressBar, progressSpinner, radio, select, sidenav, slideToggle, slider, snackBar, sort, stepper$1, table$1, tabs, toolbar, tooltip, tree$1, flexLayout, forms) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('@angular/core'), require('@angular/common/http'), require('@angular/router'), require('@angular/common'), require('@angular/cdk/a11y'), require('@angular/cdk/bidi'), require('@angular/cdk/observers'), require('@angular/cdk/overlay'), require('@angular/cdk/platform'), require('@angular/cdk/portal'), require('@angular/cdk/stepper'), require('@angular/cdk/table'), require('@angular/cdk/tree'), require('@angular/material/autocomplete'), require('@angular/material/badge'), require('@angular/material/bottom-sheet'), require('@angular/material/button'), require('@angular/material/button-toggle'), require('@angular/material/card'), require('@angular/material/checkbox'), require('@angular/material/chips'), require('@angular/material/core'), require('@angular/material/datepicker'), require('@angular/material/dialog'), require('@angular/material/divider'), require('@angular/material/expansion'), require('@angular/material/form-field'), require('@angular/material/grid-list'), require('@angular/material/icon'), require('@angular/material/input'), require('@angular/material/list'), require('@angular/material/menu'), require('@angular/material/paginator'), require('@angular/material/progress-bar'), require('@angular/material/progress-spinner'), require('@angular/material/radio'), require('@angular/material/select'), require('@angular/material/sidenav'), require('@angular/material/slide-toggle'), require('@angular/material/slider'), require('@angular/material/snack-bar'), require('@angular/material/sort'), require('@angular/material/stepper'), require('@angular/material/table'), require('@angular/material/tabs'), require('@angular/material/toolbar'), require('@angular/material/tooltip'), require('@angular/material/tree'), require('@angular/flex-layout'), require('@angular/forms')) :
+    typeof define === 'function' && define.amd ? define('wardriver', ['exports', '@angular/core', '@angular/common/http', '@angular/router', '@angular/common', '@angular/cdk/a11y', '@angular/cdk/bidi', '@angular/cdk/observers', '@angular/cdk/overlay', '@angular/cdk/platform', '@angular/cdk/portal', '@angular/cdk/stepper', '@angular/cdk/table', '@angular/cdk/tree', '@angular/material/autocomplete', '@angular/material/badge', '@angular/material/bottom-sheet', '@angular/material/button', '@angular/material/button-toggle', '@angular/material/card', '@angular/material/checkbox', '@angular/material/chips', '@angular/material/core', '@angular/material/datepicker', '@angular/material/dialog', '@angular/material/divider', '@angular/material/expansion', '@angular/material/form-field', '@angular/material/grid-list', '@angular/material/icon', '@angular/material/input', '@angular/material/list', '@angular/material/menu', '@angular/material/paginator', '@angular/material/progress-bar', '@angular/material/progress-spinner', '@angular/material/radio', '@angular/material/select', '@angular/material/sidenav', '@angular/material/slide-toggle', '@angular/material/slider', '@angular/material/snack-bar', '@angular/material/sort', '@angular/material/stepper', '@angular/material/table', '@angular/material/tabs', '@angular/material/toolbar', '@angular/material/tooltip', '@angular/material/tree', '@angular/flex-layout', '@angular/forms'], factory) :
+    (global = global || self, factory(global.wardriver = {}, global.ng.core, global.ng.common.http, global.ng.router, global.ng.common, global.ng.cdk.a11y, global.ng.cdk.bidi, global.ng.cdk.observers, global.ng.cdk.overlay, global.ng.cdk.platform, global.ng.cdk.portal, global.ng.cdk.stepper, global.ng.cdk.table, global.ng.cdk.tree, global.ng.material.autocomplete, global.ng.material.badge, global.ng.material.bottomSheet, global.ng.material.button, global.ng.material.buttonToggle, global.ng.material.card, global.ng.material.checkbox, global.ng.material.chips, global.ng.material.core, global.ng.material.datepicker, global.ng.material.dialog, global.ng.material.divider, global.ng.material.expansion, global.ng.material.formField, global.ng.material.gridList, global.ng.material.icon, global.ng.material.input, global.ng.material.list, global.ng.material.menu, global.ng.material.paginator, global.ng.material.progressBar, global.ng.material.progressSpinner, global.ng.material.radio, global.ng.material.select, global.ng.material.sidenav, global.ng.material.slideToggle, global.ng.material.slider, global.ng.material.snackBar, global.ng.material.sort, global.ng.material.stepper, global.ng.material.table, global.ng.material.tabs, global.ng.material.toolbar, global.ng.material.tooltip, global.ng.material.tree, global.ng.flexLayout, global.ng.forms));
+}(this, (function (exports, core, http, router, common, a11y, bidi, observers, overlay, platform, portal, stepper, table, tree, autocomplete, badge, bottomSheet, button, buttonToggle, card, checkbox, chips, core$1, datepicker, dialog, divider, expansion, formField, gridList, icon, input, list, menu, paginator, progressBar, progressSpinner, radio, select, sidenav, slideToggle, slider, snackBar, sort, stepper$1, table$1, tabs, toolbar, tooltip, tree$1, flexLayout, forms) { 'use strict';
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -436,11 +436,12 @@
         return ApiService;
     }());
 
+    //import { Observable, Subscription, timer } from 'rxjs.min.js'
     var WarDriverComponent = /** @class */ (function () {
         function WarDriverComponent(API) {
             this.API = API;
+            this.updateLoop = null;
             this.statusWindowMsg = "Berserker module locked and loaded!";
-            this.everyFiveSeconds = rxjs.timer(0, 5000);
         }
         WarDriverComponent.prototype.basic_wardriver_flow = function () {
             this.API.request({
@@ -451,29 +452,21 @@
         };
         WarDriverComponent.prototype.get_berserker_scan_status = function () {
             var _this = this;
-            var outlog = '/tmp/wd-out.log';
-            var errlog = '/tmp/wd-error.log';
-            if (fs.existsSync(errlog)) {
-                fs.readFile(errlog, 'utf8', function (err, data) {
-                    _this.statusWindowMsg = data;
-                    console.log(data);
-                });
-            }
-            if (fs.existsSync(outlog)) {
-                fs.readFile(errlog, 'utf8', function (err, data) {
-                    _this.statusWindowMsg = data;
-                    console.log(data);
-                });
-            }
+            this.API.request({
+                module: 'wardriver',
+                action: 'get_berserker_scan_status',
+            }, function (resp) {
+                _this.statusWindowMsg = resp;
+            });
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             var _this = this;
-            this.subscription = this.everyFiveSeconds.subscribe(function () {
+            this.updateLoop = setInterval(function () {
                 _this.get_berserker_scan_status();
-            });
+            }, 5000);
         };
         WarDriverComponent.prototype.ngOnDestroy = function () {
-            this.subscription.unsubscribe();
+            clearInterval(this.updateLoop);
         };
         WarDriverComponent.ctorParameters = function () { return [
             { type: ApiService }
@@ -481,7 +474,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-card>\n    <mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card-title>Status</mat-card-title> \n            <mat-card-content> \n                <textarea name=\"Status\">{{statusWindowMsg}}</textarea>\n                <mat-divider></mat-divider>\n                <section>\n                    <mat-slide-toggle (click)=\"basic_wardriver_flow();\">RELEASE THE BEAST</mat-slide-toggle>\n                </section>\n            </mat-card-content> \n        </mat-tab>\n        <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n        <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n        <mat-tab label=\"History\" disabled> History </mat-tab>\n        </mat-tab-group>      \n</mat-card>",
+                template: "<mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card class=\"example-card\">\n                <mat-card-title>Status</mat-card-title>\n                <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>\n                <mat-card-content>\n                    <p>{{statusWindowMsg}}</p>\n                </mat-card-content>\n                <mat-card-actions>\n                    <mat-slide-toggle (click)=\"basic_wardriver_flow();\">RELEASE THE BEAST</mat-slide-toggle>\n                    <button mat-button color=\"accent\" (click)=\"get_berserker_scan_status();\">Refresh</button>\n                </mat-card-actions>\n            </mat-card>\n    </mat-tab>\n    <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n    <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n    <mat-tab label=\"History\" disabled> History </mat-tab>\n</mat-tab-group>",
                 styles: [""]
             })
         ], WarDriverComponent);
