@@ -8,7 +8,7 @@ from pineapple.helpers import command_helpers as cmd
 module = Module('wardriver', logging.DEBUG)
 
 scan_pid = None
-scan_toggle = False
+scan_toggle;
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
@@ -30,7 +30,9 @@ def get_berserker_scan_status(request: Request):
     global out_file
     global berserker_file
     global scan_toggle
-    if get_scan_toggle_status:
+    berserkerRunning = cmd.grep_output('ps -aux', berserker_file) 
+    if len(berserkerRunning) > 1:
+        scan_toggle = True
         f = open(out_file,"r")
         statusWindowOut = f.readlines()
         f.close()
