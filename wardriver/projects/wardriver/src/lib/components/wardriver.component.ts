@@ -23,12 +23,14 @@ export class WarDriverComponent implements OnInit {
         });
     }
 
-    get_berserker_scan_status(): any {
+    get_berserker_scan_status(): void {
         this.API.request({
             module: 'wardriver',
-            action: 'get_berserker_scan_status',
-        }, (resp) => {
-            this.statusWindowMsg = resp;
+            action: 'get_berserker_scan_status'
+        }, (response) => {
+            if (response.error === undefined) {
+                this.statusWindowMsg = response.json();
+            }
         });
     }
     
