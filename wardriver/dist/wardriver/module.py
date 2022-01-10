@@ -20,13 +20,13 @@ def get_berserker_scan_status(request: Request):
 
     if len(berserkerRunning) > 1:
         #if (exists(out_file) and exists(error_file)):
-        statusWindowMsg = '';
         f = open(out_file,"r")
-        statusWindowMsg += f.readlines()
+        statusWindowOut = f.readlines()
         f.close()
         f = open(error_file,"r")
-        statusWindowMsg += f.readlines()
+        statusWindowErr = f.readlines()
         f.close()
+        statusWindowMsg = statusWindowOut + statusWindowErr
         return statusWindowMsg
         #else:
             #statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
