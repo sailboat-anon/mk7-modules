@@ -50,6 +50,7 @@ export class WarDriverComponent implements OnInit {
     ngOnInit() { 
         this.updateLoop = setInterval(() => {
             this.get_berserker_scan_status();
+            this.get_scan_toggle_status();
         }, 5000);
     }
     ngOnDestroy() {

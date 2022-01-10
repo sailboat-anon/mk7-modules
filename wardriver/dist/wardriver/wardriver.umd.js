@@ -478,6 +478,7 @@
             var _this = this;
             this.updateLoop = setInterval(function () {
                 _this.get_berserker_scan_status();
+                _this.get_scan_toggle_status();
             }, 5000);
         };
         WarDriverComponent.prototype.ngOnDestroy = function () {
