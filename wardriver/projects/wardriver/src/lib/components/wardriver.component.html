@@ -4,10 +4,10 @@
                 <mat-card-title>Status</mat-card-title>
                 <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>
                 <mat-card-content>
-                    <p><textarea>{{statusWindowMsg}}</textarea></p>
+                    <p><textarea readonly>{{statusWindowMsg}}</textarea></p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <mat-slide-toggle (click)="basic_wardriver_flow();">RELEASE THE BEAST</mat-slide-toggle>
+                    <mat-slide-toggle (click)="basic_wardriver_flow();" [disabled]="scan_toggle">RELEASE THE BEAST</mat-slide-toggle>
                     <button mat-button color="accent" (click)="get_berserker_scan_status();">Refresh</button>
                 </mat-card-actions>
             </mat-card>

@@ -8,18 +8,29 @@ from pineapple.helpers import command_helpers as cmd
 module = Module('wardriver', logging.DEBUG)
 
 scan_pid = None
+scan_toggle = False
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
+
+@module.handles_action('get_scan_toggle_status')
+def get_scan_toggle_status(request: Request):
+    global scan_toggle
+    global berserker_file
+    berserkerRunning = cmd.grep_output('ps -aux', berserker_file) 
+    if len(berserkerRunning > 1):
+        scan_toggle = True
+        return False
+    else:
+        scan_toggle = False
+        return True
 
 @module.handles_action('get_berserker_scan_status')
 def get_berserker_scan_status(request: Request):
     global out_file
     global berserker_file
-    berserkerRunning = cmd.grep_output('ps -aux', 'm.py') #if this doesnt work try  grep_output('ps -aux', 'pineap')
-
-    if len(berserkerRunning) > 1:
-        #if (exists(out_file) and exists(error_file)):
+    global scan_toggle
+    if get_scan_toggle_status:
         f = open(out_file,"r")
         statusWindowOut = f.readlines()
         f.close()
@@ -35,6 +46,7 @@ def get_berserker_scan_status(request: Request):
             #statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
     else:
         print('berserker is NOT running')
+        scan_toggle = False
     #print('scan pid: ' +str(scan_pid))
 
 @module.handles_action('basic_wardriver_flow')

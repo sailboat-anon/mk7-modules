@@ -11,8 +11,9 @@ import {MatTabsModule} from '@angular/material/tabs';
 
 export class WarDriverComponent implements OnInit { 
     constructor(private API: ApiService) { }
-    updateLoop = null
+    updateLoop = null;
     statusWindowMsg = "Berserker module locked and loaded!";
+    scan_toggle = false;
 
     basic_wardriver_flow(): void {
         this.API.request({
@@ -34,7 +35,18 @@ export class WarDriverComponent implements OnInit {
             }
         });
     }
-    
+
+    get_scan_toggle_status(): void {
+        this.API.request({
+            module: 'wardriver',
+            action: 'get_scan_toggle_status'
+        }, (resp) => {
+            if (resp.error === undefined) {
+                this.scan_toggle = resp.payload;
+            }
+        });
+    }
+
     ngOnInit() { 
         this.updateLoop = setInterval(() => {
             this.get_berserker_scan_status();

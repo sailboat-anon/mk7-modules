@@ -442,6 +442,7 @@
             this.API = API;
             this.updateLoop = null;
             this.statusWindowMsg = "Berserker module locked and loaded!";
+            this.scan_toggle = false;
         }
         WarDriverComponent.prototype.basic_wardriver_flow = function () {
             this.API.request({
@@ -462,6 +463,17 @@
                 }
             });
         };
+        WarDriverComponent.prototype.get_scan_toggle_status = function () {
+            var _this = this;
+            this.API.request({
+                module: 'wardriver',
+                action: 'get_scan_toggle_status'
+            }, function (resp) {
+                if (resp.error === undefined) {
+                    _this.scan_toggle = resp.payload;
+                }
+            });
+        };
         WarDriverComponent.prototype.ngOnInit = function () {
             var _this = this;
             this.updateLoop = setInterval(function () {
@@ -477,7 +489,7 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card class=\"example-card\">\n                <mat-card-title>Status</mat-card-title>\n                <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>\n                <mat-card-content>\n                    <p><textarea>{{statusWindowMsg}}</textarea></p>\n                </mat-card-content>\n                <mat-card-actions>\n                    <mat-slide-toggle (click)=\"basic_wardriver_flow();\">RELEASE THE BEAST</mat-slide-toggle>\n                    <button mat-button color=\"accent\" (click)=\"get_berserker_scan_status();\">Refresh</button>\n                </mat-card-actions>\n            </mat-card>\n    </mat-tab>\n    <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n    <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n    <mat-tab label=\"History\" disabled> History </mat-tab>\n</mat-tab-group>",
+                template: "<mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card class=\"example-card\">\n                <mat-card-title>Status</mat-card-title>\n                <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>\n                <mat-card-content>\n                    <p><textarea readonly>{{statusWindowMsg}}</textarea></p>\n                </mat-card-content>\n                <mat-card-actions>\n                    <mat-slide-toggle (click)=\"basic_wardriver_flow();\" [disabled]=\"scan_toggle\">RELEASE THE BEAST</mat-slide-toggle>\n                    <button mat-button color=\"accent\" (click)=\"get_berserker_scan_status();\">Refresh</button>\n                </mat-card-actions>\n            </mat-card>\n    </mat-tab>\n    <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n    <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n    <mat-tab label=\"History\" disabled> History </mat-tab>\n</mat-tab-group>",
                 styles: [""]
             })
         ], WarDriverComponent);
