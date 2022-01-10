@@ -41,7 +41,7 @@ export class WarDriverComponent implements OnInit {
             module: 'wardriver',
             action: 'get_scan_toggle_status'
         }, (resp) => {
-            if (resp.payload) {
+            if (resp.payload == true) {
                 this.scan_toggle = true;
             }
             else {

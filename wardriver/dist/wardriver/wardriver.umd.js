@@ -469,7 +469,7 @@
                 module: 'wardriver',
                 action: 'get_scan_toggle_status'
             }, function (resp) {
-                if (resp.payload) {
+                if (resp.payload == true) {
                     _this.scan_toggle = true;
                 }
                 else {
