@@ -9,6 +9,7 @@ import {MatTabsModule} from '@angular/material/tabs';
     styleUrls: ['./wardriver.component.css'] 
 })
 
+
 export class WarDriverComponent implements OnInit { 
     constructor(private API: ApiService) { }
     updateLoop = null;
@@ -23,7 +24,7 @@ export class WarDriverComponent implements OnInit {
             
         });
     }
-
+    
     get_berserker_scan_status(): void {
         this.API.request({
             module: 'wardriver',
@@ -50,7 +51,6 @@ export class WarDriverComponent implements OnInit {
     }
 
     ngOnInit() { 
-        //this.scan_toggle_checked();
         this.updateLoop = setInterval(() => {
             this.get_berserker_scan_status();
             this.scan_toggle_checked();

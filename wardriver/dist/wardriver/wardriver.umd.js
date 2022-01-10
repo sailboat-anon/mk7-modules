@@ -478,7 +478,6 @@
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             var _this = this;
-            //this.scan_toggle_checked();
             this.updateLoop = setInterval(function () {
                 _this.get_berserker_scan_status();
                 _this.scan_toggle_checked();

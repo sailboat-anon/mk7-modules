@@ -12,12 +12,13 @@ scan_toggle = False
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
+berserker_file_grep = "/usr/bin/python " + berserker_file + ' | grep -v grep'
 
 @module.handles_action('scan_toggle_checked')
 def scan_toggle_checked(request: Request):
     global scan_toggle
     global berserker_file
-    berserker_file_grep = berserker_file + ' | grep -v grep'
+    global berserker_file_grep
     berserkerRunning = cmd.grep_output('ps -aux', berserker_file_grep) 
     if len(berserkerRunning) > 1:
         return True 
@@ -28,8 +29,8 @@ def scan_toggle_checked(request: Request):
 def get_berserker_scan_status(request: Request):
     global out_file
     global berserker_file
+    global berserker_file_grep
     global scan_toggle
-    berserker_file_grep = berserker_file + ' | grep -v grep'
     berserkerRunning = cmd.grep_output('ps -aux', berserker_file_grep) 
     if len(berserkerRunning) > 1:
         f = open(out_file,"r")
