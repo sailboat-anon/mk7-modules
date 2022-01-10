@@ -41,11 +41,20 @@ def basic_wardriver_flow(request: Request):
     global error_file
     global berserker_file
 
-    out = open(out_file, 'w+')
-    err = open(error_file, 'w+')
-    proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
-    scan_pid = proc.pid
-    return True
+    try:
+        out = open(out_file, 'w+')
+    except Exception as e:
+        print(e)
+    try:
+        err = open(error_file, 'w+')
+    except Exception as e:
+        print(e)
+    try:
+        proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
+        scan_pid = proc.pid
+        return True
+    except Exception as e:
+        print(e)
 
 if __name__ == '__main__':
     module.start()
