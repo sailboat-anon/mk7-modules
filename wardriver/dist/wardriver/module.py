@@ -16,22 +16,20 @@ berserker_file = "/tmp/m.py"
 def get_berserker_scan_status(request: Request):
     global out_file
     global berserker_file
-    print(f'BERSERKER {berserker_file}')
     berserkerRunning = cmd.grep_output('ps -aux', 'm.py') #if this doesnt work try  grep_output('ps -aux', 'pineap')
-    print(f'BERSERKER {berserkerRunning}')
-    return berserkerRunning;
-    if (berserkerRunning):
-        if (exists(out_file) and exists(error_file)):
-            statusWindowMsg = '';
-            f = open(out_file,"r")
-            statusWindowMsg += f.readlines()
-            f.close()
-            f = open(error_file,"r")
-            statusWindowMsg += f.readlines()
-            f.close()
-            return statusWindowMsg
-        else:
-            statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
+
+    if berserkerRunning.length > 1:
+        #if (exists(out_file) and exists(error_file)):
+        statusWindowMsg = '';
+        f = open(out_file,"r")
+        statusWindowMsg += f.readlines()
+        f.close()
+        f = open(error_file,"r")
+        statusWindowMsg += f.readlines()
+        f.close()
+        return statusWindowMsg
+        #else:
+            #statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
     else:
         print('berserker is NOT running')
     #print('scan pid: ' +str(scan_pid))
