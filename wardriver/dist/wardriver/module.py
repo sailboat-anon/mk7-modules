@@ -49,7 +49,7 @@ def basic_wardriver_flow(request: Request):
         outFileExists.unlink()
     if errorFileExists.exists():
         errorFileExists.unlink()
-    with outFileExists.open('wb') as out, errorFileExists.open('wb') as err:
+    with open(out_file, 'wb') as out, open(error_file, 'wb') as err:
         if berserkerFileExists.exists():
             proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
             scan_pid = proc.pid
