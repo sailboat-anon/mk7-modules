@@ -9,13 +9,12 @@ module = Module('wardriver', logging.DEBUG)
 
 scan_pid = None
 out_file = "/tmp/wd-out.log"
-error_file = "/tmp/wd-error.log"
+error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
 
 @module.handles_action('get_berserker_scan_status')
 def get_berserker_scan_status(request: Request):
     global out_file
-    global error_file
     global berserker_file
     berserkerRunning = cmd.check_for_process(scan_pid) #if this doesnt work try  grep_output('ps -aux', 'pineap')
     return berserkerRunning;
@@ -41,6 +40,7 @@ def basic_wardriver_flow(request: Request):
     global out_file
     global error_file
     global berserker_file
+
     outFileExists = pathlib.Path(out_file)
     errorFileExists = pathlib.Path(error_file)
     berserkerFileExists = pathlib.Path(berserker_file)
@@ -49,14 +49,16 @@ def basic_wardriver_flow(request: Request):
         outFileExists.unlink()
     if errorFileExists.exists():
         errorFileExists.unlink()
-    with open(out_file, 'wb') as out, open(error_file, 'wb') as err:
-        if berserkerFileExists.exists():
-            proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
-            scan_pid = proc.pid
-            return True
-        else:
-            print('/tmp/m.py missing')
-            return False
+
+    out = open(out_file, 'wb')
+    err = open(error_file, 'wb')
+    if berserkerFileExists.exists():
+        proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
+        scan_pid = proc.pid
+        return True
+    else:
+        print('/tmp/m.py missing')
+        return False
 
 if __name__ == '__main__':
     module.start()
