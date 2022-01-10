@@ -8,21 +8,19 @@ from pineapple.helpers import command_helpers as cmd
 module = Module('wardriver', logging.DEBUG)
 
 scan_pid = None
-scan_toggle = False;
+scan_toggle = False
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
 
-@module.handles_action('get_scan_toggle_status')
-def get_scan_toggle_status(request: Request):
+@module.handles_action('scan_toggle_checked')
+def scan_toggle_checked(request: Request):
     global scan_toggle
     global berserker_file
     berserkerRunning = cmd.grep_output('ps -aux', berserker_file) 
     if len(berserkerRunning) > 1:
-        scan_toggle = True
         return True 
     else:
-        scan_toggle = False
         return False
 
 @module.handles_action('get_berserker_scan_status')

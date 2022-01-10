@@ -35,13 +35,12 @@ export class WarDriverComponent implements OnInit {
         });
     }
 
-    get_scan_toggle_status(): void {
+    scan_toggle_checked(): void {
         this.API.request({
             module: 'wardriver',
-            action: 'get_scan_toggle_status'
+            action: 'scan_toggle_checked'
         }, (resp) => {
-            console.log(resp);
-            if (resp.payload == true) {
+            if (resp == true) {
                 this.scan_toggle = true;
             }
             else {
@@ -51,9 +50,10 @@ export class WarDriverComponent implements OnInit {
     }
 
     ngOnInit() { 
+        this.scan_toggle_checked();
         this.updateLoop = setInterval(() => {
             this.get_berserker_scan_status();
-            //this.get_scan_toggle_status();
+            this.scan_toggle_checked();
         }, 5000);
     }
     ngOnDestroy() {

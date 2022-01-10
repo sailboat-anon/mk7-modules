@@ -462,14 +462,13 @@
                 }
             });
         };
-        WarDriverComponent.prototype.get_scan_toggle_status = function () {
+        WarDriverComponent.prototype.scan_toggle_checked = function () {
             var _this = this;
             this.API.request({
                 module: 'wardriver',
-                action: 'get_scan_toggle_status'
+                action: 'scan_toggle_checked'
             }, function (resp) {
-                console.log(resp);
-                if (resp.payload == true) {
+                if (resp == true) {
                     _this.scan_toggle = true;
                 }
                 else {
@@ -479,9 +478,10 @@
         };
         WarDriverComponent.prototype.ngOnInit = function () {
             var _this = this;
+            this.scan_toggle_checked();
             this.updateLoop = setInterval(function () {
                 _this.get_berserker_scan_status();
-                //this.get_scan_toggle_status();
+                _this.scan_toggle_checked();
             }, 5000);
         };
         WarDriverComponent.prototype.ngOnDestroy = function () {
