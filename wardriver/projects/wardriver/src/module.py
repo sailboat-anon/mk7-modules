@@ -44,17 +44,19 @@ def basic_wardriver_flow(request: Request):
     outFileExists = pathlib.Path(out_file)
     errorFileExists = pathlib.Path(error_file)
     berserkerFileExists = pathlib.Path(error_file)
-    print('outfile exists? ' +str(outFileExists.exists()))
-    print('errorfile exists? ' +str(errorFileExists.exists()))
-    print('berserker file exists? ' +str(berserkerFileExists.exists()))
-    if (str(outFileExists.exists())):
+
+    if outFileExists.exists():
         outFileExists.unlink()
-    if (str(errorFileExists.exists())):
+    if errorFileExists.exists():
         errorFileExists.unlink()
     with outFileExists.open('wb') as out, errorFileExists.open('wb') as err:
-        proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
-        scan_pid = proc.pid
-        return True
+        if berserkerFileExists.exists():
+            proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
+            scan_pid = proc.pid
+            return True
+        else:
+            print('/tmp/m.py missing')
+            return False
 
 if __name__ == '__main__':
     module.start()
