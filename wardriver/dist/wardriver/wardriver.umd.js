@@ -459,6 +459,10 @@
             }, function (response) {
                 if (response.error === undefined) {
                     _this.statusWindowMsg = String(response);
+                    _this.updateLoop = setInterval(function () {
+                        _this.get_berserker_scan_status();
+                        //this.get_scan_toggle_status();
+                    }, 5000);
                 }
             });
         };
@@ -478,11 +482,7 @@
             });
         };
         WarDriverComponent.prototype.ngOnInit = function () {
-            var _this = this;
-            this.updateLoop = setInterval(function () {
-                _this.get_berserker_scan_status();
-                //this.get_scan_toggle_status();
-            }, 5000);
+            // if running, display current output
         };
         WarDriverComponent.prototype.ngOnDestroy = function () {
             clearInterval(this.updateLoop);

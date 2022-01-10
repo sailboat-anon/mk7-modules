@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
-import logging, subprocess
+import logging, subprocess, os
 import pathlib
 from pineapple.modules import Module, Request
 from pineapple.helpers import command_helpers as cmd
