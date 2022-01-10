@@ -458,7 +458,6 @@
                 action: 'get_berserker_scan_status'
             }, function (response) {
                 if (response.error === undefined) {
-                    console.log(response);
                     _this.statusWindowMsg = response.payload;
                 }
             });
@@ -469,6 +468,7 @@
                 module: 'wardriver',
                 action: 'get_scan_toggle_status'
             }, function (resp) {
+                console.log(resp);
                 if (resp.payload == true) {
                     _this.scan_toggle = true;
                 }

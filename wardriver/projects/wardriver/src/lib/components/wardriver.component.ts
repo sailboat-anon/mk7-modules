@@ -30,7 +30,6 @@ export class WarDriverComponent implements OnInit {
             action: 'get_berserker_scan_status'
         }, (response) => {
             if (response.error === undefined) {
-                console.log(response);
                 this.statusWindowMsg = response.payload;
             }
         });
@@ -41,6 +40,7 @@ export class WarDriverComponent implements OnInit {
             module: 'wardriver',
             action: 'get_scan_toggle_status'
         }, (resp) => {
+            console.log(resp);
             if (resp.payload == true) {
                 this.scan_toggle = true;
             }
