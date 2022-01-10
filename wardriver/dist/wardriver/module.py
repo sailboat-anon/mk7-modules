@@ -1,7 +1,7 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
 import logging, subprocess, os
-from os.path import exists
+import pathlib
 from pineapple.modules import Module, Request
 from pineapple.helpers import command_helpers as cmd
 
@@ -41,11 +41,13 @@ def basic_wardriver_flow(request: Request):
     global out_file
     global error_file
     global berserker_file
+    outFileExists = pathlib.Path(out_file)
+    errorFileExists = pathlib.Path(error_file)
 
-    if (str(os.path.exists(out_file))):
-        os.remove(out_file)
-    if (str(os.path.exists(error_file))):
-        os.remove(error_file)
+    if (outFileExists.exists()):
+        out_file.unlink()
+    if (errorFileExists.exists()):
+        error_file.unlink()
     with open(out_file,"wb") as out, open(error_file,"wb") as err:
         proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
         scan_pid = proc.pid
