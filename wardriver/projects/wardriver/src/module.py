@@ -43,13 +43,14 @@ def get_berserker_scan_status(request: Request):
         if statusWindowMsg:
             str1 = ""
             for element in statusWindowMsg:
-                str1 += element
+                str1 += '- ' + element
             return str1
         #else:
             #statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
     else:
         print('berserker is NOT running')
         scan_toggle = False
+        return "Berserker module locked and loaded!"
     #print('scan pid: ' +str(scan_pid))
 
 @module.handles_action('basic_wardriver_flow')
