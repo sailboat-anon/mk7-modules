@@ -43,7 +43,7 @@ def basic_wardriver_flow(request: Request):
     global berserker_file
     outFileExists = pathlib.Path(out_file)
     errorFileExists = pathlib.Path(error_file)
-    berserkerFileExists = pathlib.Path(error_file)
+    berserkerFileExists = pathlib.Path(berserker_file)
 
     if outFileExists.exists():
         outFileExists.unlink()
