@@ -457,6 +457,7 @@
                 action: 'get_berserker_scan_status'
             }, function (response) {
                 if (response.error === undefined) {
+                    console.log(response);
                     _this.statusWindowMsg = response.payload;
                 }
             });
