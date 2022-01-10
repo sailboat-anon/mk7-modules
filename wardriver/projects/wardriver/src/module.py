@@ -3,6 +3,7 @@
 import logging, subprocess, os
 from os.path import exists
 from pineapple.modules import Module, Request
+from pineapple.helpers import command_helpers as cmd
 
 module = Module('wardriver', logging.DEBUG)
 
@@ -16,11 +17,13 @@ def get_berserker_scan_status(request: Request):
     global out_file
     global error_file
     global berserker_file
-    berserkerRunning = check_for_process(scan_pid) #if this doesnt work try  grep_output('ps -aux', 'pineap')
+    berserkerRunning = cmd.check_for_process(scan_pid) #if this doesnt work try  grep_output('ps -aux', 'pineap')
+    return berserkerRunning;
     if (berserkerRunning):
         if (exists(out_file) and exists(error_file)):
+            statusWindowMsg = '';
             f = open(out_file,"r")
-            statusWindowMsg = f.readlines()
+            statusWindowMsg += f.readlines()
             f.close()
             f = open(error_file,"r")
             statusWindowMsg += f.readlines()
