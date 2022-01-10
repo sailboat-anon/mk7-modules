@@ -27,7 +27,10 @@ def get_berserker_scan_status(request: Request):
         statusWindowErr = f.readlines()
         f.close()
         statusWindowMsg = statusWindowOut + statusWindowErr
-        return statusWindowMsg
+        str1 = ""
+        for element in statusWindowMsg:
+            str1 += element
+        return str1
         #else:
             #statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
     else:
