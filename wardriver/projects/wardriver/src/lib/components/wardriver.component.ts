@@ -30,7 +30,7 @@ export class WarDriverComponent implements OnInit {
             action: 'get_berserker_scan_status'
         }, (response) => {
             if (response.error === undefined) {
-                this.statusWindowMsg = response.payload;
+                this.statusWindowMsg = String(response.payload);
             }
         });
     }
