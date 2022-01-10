@@ -18,7 +18,7 @@ def get_berserker_scan_status(request: Request):
     global berserker_file
     berserkerRunning = cmd.grep_output('ps -aux', 'm.py') #if this doesnt work try  grep_output('ps -aux', 'pineap')
 
-    if berserkerRunning.length > 1:
+    if len(berserkerRunning) > 1:
         #if (exists(out_file) and exists(error_file)):
         statusWindowMsg = '';
         f = open(out_file,"r")
