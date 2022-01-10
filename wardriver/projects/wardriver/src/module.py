@@ -18,12 +18,12 @@ def get_scan_toggle_status(request: Request):
     global scan_toggle
     global berserker_file
     berserkerRunning = cmd.grep_output('ps -aux', berserker_file) 
-    if len(berserkerRunning > 1):
+    if len(berserkerRunning) > 1:
         scan_toggle = True
-        return False
+        return True
     else:
         scan_toggle = False
-        return True
+        return False
 
 @module.handles_action('get_berserker_scan_status')
 def get_berserker_scan_status(request: Request):
