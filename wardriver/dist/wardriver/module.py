@@ -42,9 +42,9 @@ def basic_wardriver_flow(request: Request):
     global error_file
     global berserker_file
 
-    if os.path.exists(out_file):
+    if (str(os.path.exists(out_file))):
         os.remove(out_file)
-    if os.path.exists(error_file):
+    if (str(os.path.exists(error_file))):
         os.remove(error_file)
     with open(out_file,"wb") as out, open(error_file,"wb") as err:
         proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
