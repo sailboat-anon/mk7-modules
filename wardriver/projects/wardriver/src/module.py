@@ -17,6 +17,7 @@ def get_berserker_scan_status(request: Request):
     global out_file
     global berserker_file
     berserkerRunning = cmd.check_for_process(scan_pid) #if this doesnt work try  grep_output('ps -aux', 'pineap')
+    print(f'BERSERKER {berserkerRunning}')
     return berserkerRunning;
     if (berserkerRunning):
         if (exists(out_file) and exists(error_file)):
