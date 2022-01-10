@@ -454,9 +454,11 @@
             var _this = this;
             this.API.request({
                 module: 'wardriver',
-                action: 'get_berserker_scan_status',
-            }, function (resp) {
-                _this.statusWindowMsg = resp;
+                action: 'get_berserker_scan_status'
+            }, function (response) {
+                if (response.error === undefined) {
+                    _this.statusWindowMsg = response.json();
+                }
             });
         };
         WarDriverComponent.prototype.ngOnInit = function () {
