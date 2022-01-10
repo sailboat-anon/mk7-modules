@@ -43,11 +43,14 @@ def basic_wardriver_flow(request: Request):
     global berserker_file
     outFileExists = pathlib.Path(out_file)
     errorFileExists = pathlib.Path(error_file)
+    berserkerFileExists = pathlib.Path(error_file)
     print('outfile exists? ' +str(outFileExists.exists()))
+    print('errorfile exists? ' +str(errorFileExists.exists()))
+    print('berserker file exists? ' +str(berserkerFileExists.exists()))
     if (outFileExists.exists()):
-        out_file.unlink()
+        outFileExists.unlink()
     if (errorFileExists.exists()):
-        error_file.unlink()
+        errorFileExists.unlink()
     with open(out_file,"wb") as out, open(error_file,"wb") as err:
         proc = subprocess.Popen(['/usr/bin/python', berserker_file], stdout=out, stderr=err) 
         scan_pid = proc.pid
