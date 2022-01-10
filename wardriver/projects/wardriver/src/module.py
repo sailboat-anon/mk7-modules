@@ -8,7 +8,7 @@ from pineapple.helpers import command_helpers as cmd
 module = Module('wardriver', logging.DEBUG)
 
 scan_pid = None
-scan_toggle;
+scan_toggle = False;
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"

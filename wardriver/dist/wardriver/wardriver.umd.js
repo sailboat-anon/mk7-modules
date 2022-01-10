@@ -458,7 +458,7 @@
                 action: 'get_berserker_scan_status'
             }, function (response) {
                 if (response.error === undefined) {
-                    _this.statusWindowMsg = response.payload;
+                    _this.statusWindowMsg = response;
                 }
             });
         };
@@ -481,7 +481,7 @@
             var _this = this;
             this.updateLoop = setInterval(function () {
                 _this.get_berserker_scan_status();
-                _this.get_scan_toggle_status();
+                //this.get_scan_toggle_status();
             }, 5000);
         };
         WarDriverComponent.prototype.ngOnDestroy = function () {

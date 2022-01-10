@@ -30,7 +30,7 @@ export class WarDriverComponent implements OnInit {
             action: 'get_berserker_scan_status'
         }, (response) => {
             if (response.error === undefined) {
-                this.statusWindowMsg = response.payload;
+                this.statusWindowMsg = response;
             }
         });
     }
@@ -53,7 +53,7 @@ export class WarDriverComponent implements OnInit {
     ngOnInit() { 
         this.updateLoop = setInterval(() => {
             this.get_berserker_scan_status();
-            this.get_scan_toggle_status();
+            //this.get_scan_toggle_status();
         }, 5000);
     }
     ngOnDestroy() {
