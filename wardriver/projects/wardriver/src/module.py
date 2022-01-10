@@ -43,9 +43,8 @@ def basic_wardriver_flow(request: Request):
     global berserker_file
     outFileExists = pathlib.Path(out_file)
     errorFileExists = pathlib.Path(error_file)
-
+    print('outfile exists? ' +str(outFileExists.exists()))
     if (outFileExists.exists()):
-        print('outfile exists? ' +str(outFileExists.exists()))
         out_file.unlink()
     if (errorFileExists.exists()):
         error_file.unlink()
