@@ -20,7 +20,7 @@ def get_scan_toggle_status(request: Request):
     berserkerRunning = cmd.grep_output('ps -aux', berserker_file) 
     if len(berserkerRunning) > 1:
         scan_toggle = True
-        return True
+        return True 
     else:
         scan_toggle = False
         return False
@@ -38,10 +38,11 @@ def get_berserker_scan_status(request: Request):
         statusWindowErr = f.readlines()
         f.close()
         statusWindowMsg = statusWindowOut + statusWindowErr
-        str1 = ""
-        for element in statusWindowMsg:
-            str1 += element
-        return str1
+        if statusWindowMsg:
+            str1 = ""
+            for element in statusWindowMsg:
+                str1 += element
+            return str1
         #else:
             #statusWindowMsg = "Cannot find output or error file.  Is berserker even running?"
     else:
