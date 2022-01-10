@@ -30,7 +30,7 @@ export class WarDriverComponent implements OnInit {
         }, (response) => {
             if (response.error === undefined) {
                 console.log(response);
-                this.statusWindowMsg = response;
+                this.statusWindowMsg = response.payload;
             }
         });
     }

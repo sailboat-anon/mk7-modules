@@ -458,7 +458,7 @@
             }, function (response) {
                 if (response.error === undefined) {
                     console.log(response);
-                    _this.statusWindowMsg = response;
+                    _this.statusWindowMsg = response.payload;
                 }
             });
         };
