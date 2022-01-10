@@ -17,7 +17,8 @@ berserker_file = "/tmp/m.py"
 def scan_toggle_checked(request: Request):
     global scan_toggle
     global berserker_file
-    berserkerRunning = cmd.grep_output('ps -aux', berserker_file, '| grep -v grep') 
+    berserker_file_grep = berserker_file + ' | grep -v grep'
+    berserkerRunning = cmd.grep_output('ps -aux', berserker_file_grep) 
     if len(berserkerRunning) > 1:
         return True 
     else:
@@ -28,7 +29,8 @@ def get_berserker_scan_status(request: Request):
     global out_file
     global berserker_file
     global scan_toggle
-    berserkerRunning = cmd.grep_output('ps -aux', berserker_file, '| grep -v grep') 
+    berserker_file_grep = berserker_file + ' | grep -v grep'
+    berserkerRunning = cmd.grep_output('ps -aux', berserker_file_grep) 
     if len(berserkerRunning) > 1:
         f = open(out_file,"r")
         statusWindowOut = f.readlines()
