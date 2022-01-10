@@ -469,8 +469,11 @@
                 module: 'wardriver',
                 action: 'get_scan_toggle_status'
             }, function (resp) {
-                if (resp.error === undefined) {
-                    _this.scan_toggle = resp.payload;
+                if (resp.payload) {
+                    _this.scan_toggle = true;
+                }
+                else {
+                    _this.scan_toggle = false;
                 }
             });
         };

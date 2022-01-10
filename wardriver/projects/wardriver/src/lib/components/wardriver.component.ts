@@ -41,8 +41,11 @@ export class WarDriverComponent implements OnInit {
             module: 'wardriver',
             action: 'get_scan_toggle_status'
         }, (resp) => {
-            if (resp.error === undefined) {
-                this.scan_toggle = resp.payload;
+            if (resp.payload) {
+                this.scan_toggle = true;
+            }
+            else {
+                this.scan_toggle = false;
             }
         });
     }
