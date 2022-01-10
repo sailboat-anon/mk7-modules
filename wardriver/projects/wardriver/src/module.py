@@ -1,6 +1,6 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
-import logging, subprocess, os
+import logging, subprocess
 import pathlib
 from pineapple.modules import Module, Request
 from pineapple.helpers import command_helpers as cmd
@@ -45,6 +45,7 @@ def basic_wardriver_flow(request: Request):
     errorFileExists = pathlib.Path(error_file)
 
     if (outFileExists.exists()):
+        print('outfile exists? ' +str(outFileExists.exists()))
         out_file.unlink()
     if (errorFileExists.exists()):
         error_file.unlink()
