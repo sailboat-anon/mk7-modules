@@ -16,13 +16,23 @@ export class WarDriverComponent implements OnInit {
     statusWindowMsg = "Berserker module locked and loaded!";
     scan_toggle = false;
 
-    basic_wardriver_flow(): void {
-        this.API.request({
-            module: 'wardriver',
-            action: 'basic_wardriver_flow',
-        }, (resp) => {
-            
-        });
+    basic_berserker_flow(): void {
+        if (this.scan_toggle) {
+            this.API.request({
+                module: 'wardriver',
+                action: 'kill_berserker',
+            }, (resp) => {
+                
+            });
+        }
+        else {
+            this.API.request({
+                module: 'wardriver',
+                action: 'basic_berserker_flow',
+            }, (resp) => {
+                
+            });
+        }
     }
     
     get_berserker_scan_status(): void {
@@ -36,10 +46,10 @@ export class WarDriverComponent implements OnInit {
         });
     }
 
-    scan_toggle_checked(): void {
+    scan_toggle_check(): void {
         this.API.request({
             module: 'wardriver',
-            action: 'scan_toggle_checked'
+            action: 'scan_toggle_check'
         }, (resp) => {
             if (resp == true) {
                 this.scan_toggle = true;
@@ -51,7 +61,7 @@ export class WarDriverComponent implements OnInit {
     }
 
     ngOnInit() { 
-        this.scan_toggle_checked();
+        this.scan_toggle_check();
         this.updateLoop = setInterval(() => {
             this.get_berserker_scan_status();
         }, 5000);

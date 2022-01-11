@@ -25,7 +25,9 @@ def basic_wardriver_flow():
         reconScanOpts["scanTime"] = scanTime
     
 
-    print('starting wardriver cycle ' + str(cycle))
+    print('starting berserker cycle #' + str(cycle))
+    if (cycle < 1):
+        print('please allow a minute or two to warm up')
 
     authResp = s.post("http://172.16.42.1:1471/api/login", json.dumps(auth)).json()
     if (authResp["token"] != None):

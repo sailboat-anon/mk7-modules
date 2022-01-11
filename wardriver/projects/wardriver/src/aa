@@ -4,3 +4,13 @@
 
 
 MySpectrumWiFi58-2G	E8:AD:A6:62:2B:5E
+
+MVP:
+- nicer messages
+-- remind the user we need a min to warm-up in the beginning of a new cycle
+- turn-off scan on TOGGLE-off
+- MUCH larger status window.  should auto-scroll to bottom
+- ensure handshakes are new (and not repeating)
+
+WHEN SCAN IS IN PROGREESS
+- when toggle status is checked, update berker too ()

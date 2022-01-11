@@ -1,7 +1,6 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
-import logging, subprocess, os
-import pathlib
+import logging, subprocess, os, signal
 from pineapple.modules import Module, Request
 from pineapple.helpers import command_helpers as cmd
 
@@ -14,19 +13,24 @@ error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
 berserker_file_grep = "python" # this wont pass review; check_for_process runs pgrep -l and it wont find our script
 
+@module.handles_action('kill_berserker')
+def kill_berserker(request: Request):
+    global scan_pid
+    scan_pid_grep = '/proc/' + str(scan_pid)
+    if os.path.exists(scan_pid_grep):
+        os.kill(scan_pid, signal.SIGTERM)
+        scan_pid = None
+
 @module.handles_action('scan_toggle_checked')
-def scan_toggle_checked(request: Request):
+def scan_toggle_check(request: Request):
     global scan_toggle
     global berserker_file
     global berserker_file_grep
     global scan_pid
-    berserkerRunning = cmd.check_for_process(berserker_file_grep)
-    print('DISDISDIS')
-    print(berserkerRunning)
-    if berserkerRunning:
-        return True 
-    else:
-        return False
+    scan_pid_grep = '/proc/' + str(scan_pid)
+    if os.path.exists(scan_pid_grep):
+        return True
+    return False
 
 @module.handles_action('get_berserker_scan_status')
 def get_berserker_scan_status(request: Request):
@@ -36,9 +40,11 @@ def get_berserker_scan_status(request: Request):
     global scan_toggle
     global scan_pid
 
-    berserkerRunning = cmd.check_for_process(berserker_file_grep)
-    print('DISDISDIS')
-    print(berserkerRunning)
+    scan_pid_grep = '/proc/' + str(scan_pid)
+    if os.path.exists(scan_pid_grep):
+        berserkerRunning = True
+    else:
+        berserkerRunning = False
     if berserkerRunning:
         f = open(out_file,"r")
         statusWindowOut = f.readlines()
@@ -59,8 +65,8 @@ def get_berserker_scan_status(request: Request):
         return "Berserker module locked and loaded!"
     #print('scan pid: ' +str(scan_pid))
 
-@module.handles_action('basic_wardriver_flow')
-def basic_wardriver_flow(request: Request):
+@module.handles_action('basic_berserker_flow')
+def basic_berserker_flow(request: Request):
     global scan_pid
     global out_file
     global error_file
