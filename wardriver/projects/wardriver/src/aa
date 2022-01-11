@@ -11,6 +11,8 @@ MVP:
 - turn-off scan on TOGGLE-off
 - MUCH larger status window.  should auto-scroll to bottom
 - ensure handshakes are new (and not repeating)
+- moving cardbar footer
+- 2 charts (chart.htm)
 
 WHEN SCAN IS IN PROGREESS
 - when toggle status is checked, update berker too ()

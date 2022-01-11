@@ -72,7 +72,7 @@ package() {
 
 copy_to_device() {
     echo "[*] Copying module to WiFi Pineapple via SCP"
-    scp -r dist/$MODULENAME root@172.16.42.1:/pineapple/modules
+    scp -r /home/sba/hak5-war-driver-module/mk7-modules/wardriver/dist/wardriver root@172.16.42.1:/pineapple/modules
 }
 
 main() {
