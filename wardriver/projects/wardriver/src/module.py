@@ -12,7 +12,7 @@ scan_toggle = False
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/tmp/m.py"
-berserker_file_grep = berserker_file
+berserker_file_grep = "python" # this wont pass review; check_for_process runs pgrep -l and it wont find our script
 
 @module.handles_action('scan_toggle_checked')
 def scan_toggle_checked(request: Request):

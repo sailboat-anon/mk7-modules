@@ -18,7 +18,7 @@ def basic_wardriver_flow():
 
     reconScanOpts = dict()
     reconScanOpts["live"] = False
-    reconScanOpts["band"] = "1" # 0 is 2.4, 1 is 5g, 2 is both
+    reconScanOpts["band"] = "2" # 0 is 2.4, 1 is 5g, 2 is both
     if (continuousScan):
         reconScanOpts["scanTime"] = 0
     else:
@@ -145,7 +145,8 @@ def basic_wardriver_flow():
             else:
                 print('no client associated with AP')
     else:
-        print('no APs found')
+        print('no APs found, sleeping 60') # make this go up over time as failures occure
+        time.sleep(60)
     cycle += 1
     basic_wardriver_flow()
 basic_wardriver_flow()
