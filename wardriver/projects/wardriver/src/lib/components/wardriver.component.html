@@ -4,12 +4,15 @@
                 <mat-card-title>Status</mat-card-title>
                 <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>
                 <mat-card-content>
-                    <p><textarea disabled>{{statusWindowMsg}}</textarea></p>
+                    <p><textarea disabled md-textarea-scrollable name="status" id="status" rows="5" style="width: 650px">{{statusWindowMsg}}</textarea></p>
                 </mat-card-content>
                 <mat-card-actions>
-                    <mat-slide-toggle (click)="basic_berserker_flow();" [(ngModel)]="scan_toggle">RELEASE THE BEAST - {{scan_toggle}}</mat-slide-toggle>
+                    <mat-slide-toggle (click)="basic_berserker_flow();" [(ngModel)]="scan_toggle">RELEASE THE BEAST</mat-slide-toggle>
                     <button mat-button color="accent" (click)="get_berserker_scan_status();">Refresh</button>
                 </mat-card-actions>
+                <mat-card-footer>
+                    <mat-progress-bar mode="indeterminate" *ngIf="scan_toggle"></mat-progress-bar>
+                </mat-card-footer>
             </mat-card>
     </mat-tab>
     <mat-tab label="Advanced" disabled> Advanced </mat-tab>

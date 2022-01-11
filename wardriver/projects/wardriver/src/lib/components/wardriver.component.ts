@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'; 
 import { ApiService } from '../services/api.service'; 
 import {MatTabsModule} from '@angular/material/tabs'; 
+import { stat } from 'fs';
 //import { Observable, Subscription, timer } from 'rxjs.min.js'
 
 @Component({ 
@@ -30,11 +31,11 @@ export class WarDriverComponent implements OnInit {
                 module: 'wardriver',
                 action: 'basic_berserker_flow',
             }, (resp) => {
-                
+                this.statusWindowMsg = "Berserker warming-up... Please wait 1-2 mins...";
             });
         }
     }
-    
+
     get_berserker_scan_status(): void {
         this.API.request({
             module: 'wardriver',
@@ -42,6 +43,8 @@ export class WarDriverComponent implements OnInit {
         }, (response) => {
             if (response.error === undefined) {
                 this.statusWindowMsg = String(response);
+                let textarea = document.getElementById("status");
+                textarea.scrollTop = textarea.scrollHeight;
             }
         });
     }
