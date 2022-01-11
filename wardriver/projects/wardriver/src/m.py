@@ -18,7 +18,7 @@ def basic_wardriver_flow():
 
     reconScanOpts = dict()
     reconScanOpts["live"] = False
-    reconScanOpts["band"] = "0"
+    reconScanOpts["band"] = "1" # 0 is 2.4, 1 is 5g, 2 is both
     if (continuousScan):
         reconScanOpts["scanTime"] = 0
     else:
