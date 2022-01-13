@@ -443,7 +443,22 @@
             this.updateLoop = null;
             this.statusWindowMsg = "Berserker module locked and loaded!";
             this.scan_toggle = false;
+            this.wirelessLandscapeHeaders = ['ssid', 'bssid', 'encryption', 'hidden', 'wps', 'channel', 'signal', 'data', 'last_seen', 'probes', 'clients'];
         }
+        // need to restructure the above AND reconResults data so it's like this ts example:  https://material.angular.io/components/table/examples
+        // start by removing the arrays from the dataset, add them later
+        WarDriverComponent.prototype.get_recon_scan_details = function () {
+            var _this = this;
+            if (this.scan_toggle) {
+                this.API.request({
+                    module: 'wardriver',
+                    action: 'get_recon_scan_details',
+                }, function (resp) {
+                    _this.reconResults = resp;
+                    _this.APResults = resp.APResults;
+                });
+            }
+        };
         WarDriverComponent.prototype.basic_berserker_flow = function () {
             var _this = this;
             if (this.scan_toggle) {
@@ -470,8 +485,6 @@
             }, function (response) {
                 if (response.error === undefined) {
                     _this.statusWindowMsg = String(response);
-                    var textarea = document.getElementById("status");
-                    textarea.scrollTop = textarea.scrollHeight;
                 }
             });
         };
@@ -483,6 +496,7 @@
             }, function (resp) {
                 if (resp == true) {
                     _this.scan_toggle = true;
+                    _this.get_recon_scan_details();
                 }
                 else {
                     _this.scan_toggle = false;
@@ -505,8 +519,8 @@
         WarDriverComponent = __decorate([
             core.Component({
                 selector: 'lib-wardriver',
-                template: "<mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card class=\"example-card\">\n                <mat-card-title>Status</mat-card-title>\n                <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>\n                <mat-card-content>\n                    <p><textarea disabled md-textarea-scrollable name=\"status\" id=\"status\" rows=\"5\" style=\"width: 650px\">{{statusWindowMsg}}</textarea></p>\n                </mat-card-content>\n                <mat-card-actions>\n                    <mat-slide-toggle (click)=\"basic_berserker_flow();\" [(ngModel)]=\"scan_toggle\">RELEASE THE BEAST</mat-slide-toggle>\n                    <button mat-button color=\"accent\" (click)=\"get_berserker_scan_status();\">Refresh</button>\n                </mat-card-actions>\n                <mat-card-footer>\n                    <mat-progress-bar mode=\"indeterminate\" *ngIf=\"scan_toggle\"></mat-progress-bar>\n                </mat-card-footer>\n            </mat-card>\n    </mat-tab>\n    <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n    <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n    <mat-tab label=\"History\" disabled> History </mat-tab>\n</mat-tab-group>",
-                styles: [""]
+                template: "<mat-tab-group mat-stretch-tabs class=\"example-stretched-tabs mat-elevation-z4\">\n        <mat-tab label=\"Basic\">\n            <mat-card>\n                <mat-card-title>Status</mat-card-title>\n                <mat-card-subtitle>Berserker 0.1b</mat-card-subtitle>\n                <mat-card-content>\n                    <p><textarea disabled md-textarea-scrollable name=\"status\" id=\"status\" rows=\"5\" style=\"width: 375px\">{{statusWindowMsg}}</textarea></p>\n                </mat-card-content>\n                <mat-card-actions>\n                    <mat-slide-toggle (click)=\"basic_berserker_flow();\" [(ngModel)]=\"scan_toggle\">RELEASE THE BEAST</mat-slide-toggle>\n                    <button mat-button color=\"accent\" (click)=\"get_berserker_scan_status();\">Refresh</button>\n                </mat-card-actions>\n                <mat-card-footer>\n                    <mat-progress-bar mode=\"indeterminate\" *ngIf=\"scan_toggle\"></mat-progress-bar>\n                </mat-card-footer>\n            </mat-card>\n            <p><mat-card>\n                <mat-card-title>Wireless Landscape</mat-card-title>\n                <mat-card-subtitle>Targets: APs with Clients</mat-card-subtitle>\n                <mat-card-content>\n                    <table mat-table [dataSource]=\"APResults\" class=\"mat-elevation-z8\">\n                        <ng-container matColumnDef=\"ssid\">\n                            <th mat-header-cell *matHeaderCellDef> SSID </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.ssid}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"bssid\">\n                            <th mat-header-cell *matHeaderCellDef> BSSID </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.bssid}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"encryption\">\n                            <th mat-header-cell *matHeaderCellDef> Encryption </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.encryption}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"hidden\">\n                            <th mat-header-cell *matHeaderCellDef> Hidden </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.hidden}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"wps\">\n                            <th mat-header-cell *matHeaderCellDef> WPS </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.wps}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"channel\">\n                            <th mat-header-cell *matHeaderCellDef> Channel </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.channel}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"signal\">\n                            <th mat-header-cell *matHeaderCellDef> Signal </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.signal}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"data\">\n                            <th mat-header-cell *matHeaderCellDef> Data </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.data}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"last_seen\">\n                            <th mat-header-cell *matHeaderCellDef> Last Seen </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.last_seen}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"probes\">\n                            <th mat-header-cell *matHeaderCellDef> Probes </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.probes}} </td>\n                        </ng-container>\n                        <ng-container matColumnDef=\"clients\">\n                            <th mat-header-cell *matHeaderCellDef> Clients </th>\n                            <td mat-cell *matCellDef=\"let element\"> {{element.clients}} </td>\n                        </ng-container>\n\n                        <tr mat-header-row *matHeaderRowDef=\"wirelessLandscapeHeaders\"></tr>\n                        <tr mat-row *matRowDef=\"let row; columns: wirelessLandscapeHeaders;\"></tr>\n                    </table>\n                </mat-card-content>\n            </mat-card>\n        </p>\n    </mat-tab>\n    <mat-tab label=\"Advanced\" disabled> Advanced </mat-tab>\n    <mat-tab label=\"Handshakes\" disabled> Handshakes </mat-tab>\n    <mat-tab label=\"History\" disabled> History </mat-tab>\n</mat-tab-group>",
+                styles: [".dynamic-card{max-width:33%;margin-bottom:50px;float:left}"]
             })
         ], WarDriverComponent);
         return WarDriverComponent;

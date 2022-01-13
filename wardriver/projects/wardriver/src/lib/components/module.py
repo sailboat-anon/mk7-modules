@@ -1,17 +1,38 @@
 #!/usr/bin/env python3 
 #todo: filter for 'Open' networks
-import logging, subprocess, os, signal
+# pip3 install requests
+import logging, subprocess, os, signal, json
 from pineapple.modules import Module, Request
 from pineapple.helpers import command_helpers as cmd
 
 module = Module('wardriver', logging.DEBUG)
 
+recon_scan_id = None
 scan_pid = None
 scan_toggle = False
 out_file = "/tmp/wd-out.log"
 error_file = "/tmp/wd-err.log"
 berserker_file = "/pineapple/modules/wardriver/m.py"
 berserker_file_grep = "python" # this wont pass review; check_for_process runs pgrep -l and it wont find our script
+
+@module.handles_action('get_recon_scan_details')
+def get_recon_scan_details(request: Request):
+    s = requests.Session()
+    auth = dict()
+    auth["username"] = "root"
+    auth["password"] = "test"
+    authResp = s.post("http://172.16.42.1:1471/api/login", json.dumps(auth)).json()
+    if (authResp["token"] != None):
+        s.headers.update({'Authorization': 'Bearer '+authResp["token"]})
+    else:
+        print('no token')
+        exit -1
+    api_call = "http://172.16.42.1:1471/api/recon/status/"
+    scanResp = s.get(api_call).json()
+    if (scanResp.scanRunning):
+        api_call = "http://172.16.42.1:1471/api/recon/scans/" + str(scanResp.scanID)
+        scanIDResp = s.get(api_call).json()
+        return scanIDResp
 
 @module.handles_action('kill_berserker')
 def kill_berserker(request: Request):

@@ -1,0 +1,26 @@
+###
+@url = http://172.16.42.1:1471/api
+# @name login
+POST {{url}}/login HTTP/1.1
+Content-Type: application/json
+Accept: application/json, text/plain, */*
+
+{
+    "username":"root",
+    "password":"test"
+}
+
+###
+
+# @name get_recon_scan_status
+@auth = eyJVc2VyIjoicm9vdCIsIkV4cGlyeSI6IjIwMjItMDEtMTNUMjI6MTk6NDIuNDE5ODk0MDMzWiJ9.0ovajsBo_ZhmTL8-gQlKAmTzo0SIE_vKpomougK4dpM=
+GET {{url}}/recon/status HTTP/1.1
+Authorization: Bearer {{auth}}
+
+###
+
+# @name get_scan_by_id
+
+@id = 2
+GET {{url}}/recon/scans/{{id}}
+Authorization: Bearer {{auth}}

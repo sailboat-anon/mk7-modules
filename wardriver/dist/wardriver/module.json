@@ -1,8 +1,8 @@
 {
     "name": "wardriver",
-    "title": "War Driver",
-    "description": "Automate your Wifi Pineapple Mk. 7 Workflow in AGRESSIVE Style",
-    "version": "1.0",
+    "title": "Berserker",
+    "description": "Automate Your Workflow in AGRESSIVE Style",
+    "version": "0.1b",
     "author": "sailboat-anon",
     "firmware_required": "1.0.0"
 }
